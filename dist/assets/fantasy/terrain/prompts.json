@@ -1,0 +1,37 @@
+[
+  {
+    "id": "meadow",
+    "alpha": false,
+    "prompt": "Original top-down fantasy RPG GROUND TEXTURE viewed straight down, warm painterly pixel art matching cozy medieval forest villages. Rich but restrained natural color clusters, clearly grouped tufts and patches readable at256px, no gradients or center spotlight, even lighting. Entire square filled with flat ground material, no borders, no text, no objects, no perspective, no shadows, no characters, no technology. Tileable edge-to-edge. Lush varied meadow ground: deep sage base, irregular lighter moss-green patches, tiny short grass tufts of varied directions, occasional small cream pebble and sparse tiny pale clover dots. Organic irregular distributed patchwork, not diagonal pattern, not just flat green noise. Dense coherent ground carpet."
+  },
+  {
+    "id": "forest-floor",
+    "alpha": false,
+    "prompt": "Original top-down fantasy RPG GROUND TEXTURE viewed straight down, warm painterly pixel art matching cozy medieval forest villages. Rich but restrained natural color clusters, clearly grouped tufts and patches readable at256px, no gradients or center spotlight, even lighting. Entire square filled with flat ground material, no borders, no text, no objects, no perspective, no shadows, no characters, no technology. Tileable edge-to-edge. Shaded forest floor: earthy olive brown soil mixed with moss-green patches, a few tiny fallen ochre leaves and small pale pebbles, little dark grass tufts. Soft distinct clumps, not uniform speckle noise, earthy quiet woodland floor."
+  },
+  {
+    "id": "dirt-patch",
+    "alpha": true,
+    "prompt": "Original top-down three-quarter fantasy RPG GROUND DECAL/PROP in warm painterly pixel art, crisp defined clusters and stepped silhouettes, natural muted sage/moss greens, cream, coral accents, dark olive shadows. Match cozy medieval timber villages and oak forests. Isolated on ACTUAL TRANSPARENT background, generous margins, no text/UI, no dark outline box, no ground shadow, no characters or technology. One irregular oval dirt road ground STAMP, warm pale tawny packed earth with a few tiny pebbles and subtle ruts. Center broad and empty, edge broken with tiny crumbling soil pixels and sparse sage grass wisps. Top-down flat ground with ZERO height/thickness, not an island. Wide horizontal oval footprint extending across most of square, feathered natural broken pixel edge on transparent. Designed to overlap itself to make winding footpaths. NO dark outline around dirt, no stone border."
+  },
+  {
+    "id": "dirt-bend",
+    "alpha": true,
+    "prompt": "Original top-down three-quarter fantasy RPG GROUND DECAL/PROP in warm painterly pixel art, crisp defined clusters and stepped silhouettes, natural muted sage/moss greens, cream, coral accents, dark olive shadows. Match cozy medieval timber villages and oak forests. Isolated on ACTUAL TRANSPARENT background, generous margins, no text/UI, no dark outline box, no ground shadow, no characters or technology. One broad irregular quarter-turn dirt road STAMP, L-shaped corner path entering center of LEFT edge and exiting center of TOP edge of its own footprint. Warm pale tawny packed earth same as forest village path, a few pale pebbles. Wide curved bend with organic broken pixel grass fringe on each side, flat ground zero thickness not island. Blank transparent surrounding area. No dark border/stone edging. Keep road complete with margins."
+  },
+  {
+    "id": "flowers",
+    "alpha": true,
+    "prompt": "Original top-down three-quarter fantasy RPG GROUND DECAL/PROP in warm painterly pixel art, crisp defined clusters and stepped silhouettes, natural muted sage/moss greens, cream, coral accents, dark olive shadows. Match cozy medieval timber villages and oak forests. Isolated on ACTUAL TRANSPARENT background, generous margins, no text/UI, no dark outline box, no ground shadow, no characters or technology. A small lush wildflower GROUND CLUSTER: three coral daisies, two tiny cream blossoms, small golden center stamens, layered sage leaves and dark green short grass tuft. Irregular oval footprint, flowers different heights, low growing only, no planter or soil disk."
+  },
+  {
+    "id": "grass-clump",
+    "alpha": true,
+    "prompt": "Original top-down three-quarter fantasy RPG GROUND DECAL/PROP in warm painterly pixel art, crisp defined clusters and stepped silhouettes, natural muted sage/moss greens, cream, coral accents, dark olive shadows. Match cozy medieval timber villages and oak forests. Isolated on ACTUAL TRANSPARENT background, generous margins, no text/UI, no dark outline box, no ground shadow, no characters or technology. One broad low GROUND CLUSTER of thick soft meadow grass blades, mint tips over sage/olive leaves, two tiny cream clover flowers, irregular tuft edges. Short clustered foliage, no plant pot, no dirt disk. Low top-down planting to break empty grass."
+  },
+  {
+    "id": "bush",
+    "alpha": true,
+    "prompt": "Original top-down three-quarter fantasy RPG GROUND DECAL/PROP in warm painterly pixel art, crisp defined clusters and stepped silhouettes, natural muted sage/moss greens, cream, coral accents, dark olive shadows. Match cozy medieval timber villages and oak forests. Isolated on ACTUAL TRANSPARENT background, generous margins, no text/UI, no dark outline box, no ground shadow, no characters or technology. One rounded dense leafy woodland BUSH with irregular scalloped top silhouette, layered sage/moss leaves, deep olive shadows and pale mint sunlit clusters, tiny coral berries scattered sparsely. Low shrub viewed from above-front, no visible tree trunk, no planter, no soil disk."
+  }
+]

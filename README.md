@@ -86,7 +86,7 @@ The shipped runtime dependency advisory check (`npm audit --omit=dev`) returned 
 
 ## Roaming world and duels (0.4.0)
 
-Continue your tale enters a 3200 × 2240 continuous world with camera follow, collision, click-to-walk pathfinding, stamina-based running, wandering monsters, eight treasure caches, three shrines, moonpetal gathering, a village commission and a rune puzzle. The nine campaign encounters live in the world; M opens the chapter atlas. World position and discoveries persist in the local save.
+Continue your tale enters a 3200 × 2240 continuous world with camera follow, collision, click-to-walk pathfinding, unlimited running, wandering monsters, eight treasure caches, three shrines, moonpetal gathering, a village commission and a rune puzzle. The nine campaign encounters live in the world; M opens the chapter atlas. World position and discoveries persist in the local save.
 
 Use WASD/arrows to walk, Shift to run, E/Space to interact, B for the deck, M for the atlas, Escape for the game menu. Touch devices receive directional/run/interaction controls. Pulse has 36 original drawn locomotion frames: six-frame east/south/north walk and run strips, west mirrored. Nova/Echo currently use held roaming poses; their walk/run cycles remain future asset work.
 
@@ -95,3 +95,12 @@ The catalog now has 32 cards/items, including poison, regeneration, delayed colu
 The Duel Garden supports same-keyboard two-player matches and an explicitly labeled practice bot. P1: WASD, Space, 1–5, E. P2: arrows, Enter, 7/8/9/0/minus, Right Shift. Both choose a companion and one of four curated decks; 400 HP and standard equipment. Duels never award, wager or transfer collection/wallet assets. Online matchmaking is not implemented.
 
 Validation: 49 JavaScript tests, 13 Rust tests, rebuilt WASM and actual local NEAR sandbox integration. No live NEAR account is configured or deployed.
+
+
+## World art refresh (0.4.1)
+
+Running has no stamina cost, exhaustion, or recovery delay. The stamina HUD was removed. Wandering encounters start with E/Interact rather than proximity popups.
+
+The overworld uses a cached textured ground layer with irregular road silhouettes, side trails, pond banks and material variation. Dense trees leave collision-tested corridors to every destination. New vegetation clusters, village fences and lamps, leaf drift, proximity labels, and a terrain-based minimap make the map easier to read. Old saved positions covered by the revised forest move to nearby clear ground.
+
+Validation includes unlimited sprint, safe saved positions, and a complete path from the starting village to every landmark.

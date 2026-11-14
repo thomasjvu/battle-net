@@ -1,0 +1,79 @@
+{
+  "checks": [
+    {
+      "id": "meadow",
+      "dimensions": [
+        256,
+        256
+      ],
+      "repeatableEdgesEqual": true,
+      "sha256": "fb90b1177536a25a21869381faa434f69df092579a818128b098c4c5dd11d099"
+    },
+    {
+      "id": "forest-floor",
+      "dimensions": [
+        256,
+        256
+      ],
+      "repeatableEdgesEqual": true,
+      "sha256": "ff2715e8ff3551d8ef9bb3f703639a51008293684e3fb209182532f38f071952"
+    },
+    {
+      "id": "dirt-patch",
+      "dimensions": [
+        128,
+        128
+      ],
+      "repeatableEdgesEqual": false,
+      "sha256": "ba5fa5c692b75a6ebe0fdf9abc68a3ce726fef467a68e447374dbaa0f467c59b"
+    },
+    {
+      "id": "dirt-bend",
+      "dimensions": [
+        128,
+        128
+      ],
+      "repeatableEdgesEqual": false,
+      "sha256": "8a6574844106e2695401094d099e81bb1d18ae2ee5f11fa7b6e7cc3d2588d092"
+    },
+    {
+      "id": "flowers",
+      "dimensions": [
+        128,
+        128
+      ],
+      "repeatableEdgesEqual": false,
+      "sha256": "15d5908b0c704a5edac324aca98b196bec6fe96d8745acf456da1588a0ae531a"
+    },
+    {
+      "id": "bush",
+      "dimensions": [
+        128,
+        128
+      ],
+      "repeatableEdgesEqual": false,
+      "sha256": "ea497c0cee445457a56521e683d897cd29fa09e33475c90d0e94e1ed2c1948c8"
+    },
+    {
+      "id": "grass-clump",
+      "dimensions": [
+        128,
+        128
+      ],
+      "repeatableEdgesEqual": false,
+      "sha256": "6ae357ae2d87bdb54d3d1220ae61191017c29ac080d34dffc34a9f64a8a65874"
+    },
+    {
+      "id": "dirt-material",
+      "dimensions": [
+        256,
+        256
+      ],
+      "repeatableEdgesEqual": true,
+      "sha256": "05877be20ab81e44d852132e7d04b332fd019b91ccddc5dcd4c01b5988dde6e8"
+    }
+  ],
+  "warnings": [],
+  "finish": "2px logical clusters. Material interiors preserved; only opposite8px edge bands blended before palette finishing. No quadrant mirroring.",
+  "reviewStatus": "inspected-native-terrain-preview"
+}

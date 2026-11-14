@@ -49,7 +49,9 @@
   "monster-flare": "assets/fantasy/monsters/thornling.png",
   "monster-guard": "assets/fantasy/monsters/briar-guardian.png",
   "monster-queen": "assets/fantasy/monsters/thorn-queen.png",
-  "world-grass": "assets/fantasy/roam/grass.png",
+  "world-grass": "assets/fantasy/terrain/meadow.png",
+  "world-path": "assets/fantasy/terrain/dirt-material.png",
+  "world-rock": "assets/fantasy/roam/rock.png",
   "world-house": "assets/fantasy/roam/cottage.png",
   "world-tree": "assets/fantasy/roam/oak-tree.png",
   "world-chest": "assets/fantasy/roam/chest.png",
@@ -59,5 +61,11 @@
   "world-shrine": "assets/fantasy/roam/shrine.png",
   "pulse-east-idle": "assets/fantasy/characters/pulse-roam-east.png",
   "pulse-south-idle": "assets/fantasy/characters/pulse-roam-south.png",
-  "pulse-north-idle": "assets/fantasy/characters/pulse-roam-north.png"
+  "pulse-north-idle": "assets/fantasy/characters/pulse-roam-north.png",
+  "world-flowers": "assets/fantasy/terrain/flowers.png",
+  "world-bush": "assets/fantasy/terrain/bush.png",
+  "world-tuft": "assets/fantasy/terrain/grass-clump.png",
+  "world-path-base": "assets/fantasy/roam/path.png",
+  "world-floor": "assets/fantasy/terrain/forest-floor.png",
+  "world-dirt-patch": "assets/fantasy/terrain/dirt-patch.png"
 }

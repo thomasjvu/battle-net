@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.1
+
+- Removed overworld stamina and exhaustion; running is unlimited.
+- Rebuilt world ground rendering, forest density, side trails, shoreline, village planting and ambient details.
+- Added terrain minimap and proximity labels; wandering encounters require interaction.
+- Protected saved positions and path access through the revised forest.
+
 ## 0.4.0
 
 - Added continuous roaming world, camera following, collision/pathfinding, running stamina, quests, treasure, shrines, rune puzzle and roaming encounters.

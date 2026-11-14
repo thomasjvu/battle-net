@@ -99,10 +99,10 @@ function systemButtons(scene) {
 function toast(scene, message, color = C.paper) {
   announce(message);
   if (scene.messageToast) scene.messageToast.destroy();
-  const root = scene.add.container(W / 2, 670).setDepth(2e3);
+  const root = scene.add.container(W / 2, scene.scene.key === 'Overworld' ? 600 : 670).setScrollFactor(0).setDepth(30000);
   const p = scene.add.rectangle(0, 0, Math.min(1e3, message.length * 9 + 50), 46, C.dark, 0.96).setStrokeStyle(1, C.gold, 0.8);
   const t = text(scene, 0, 0, message, 18, color, { align: "center" }).setOrigin(0.5);
-  root.add([p, t]);
+  p.setScrollFactor(0);t.setScrollFactor(0);root.add([p, t]);
   scene.messageToast = root;
   scene.time.delayedCall(3200, () => {
     if (root.active) scene.tweens.add({ targets: root, alpha: 0, duration: 180, onComplete: () => root.destroy() });

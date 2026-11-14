@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "meadow",
+      "path": "assets/fantasy/terrain/meadow.png",
+      "width": 256,
+      "height": 256,
+      "anchor": null,
+      "repeatable": true,
+      "logicalPixelSize": 2
+    },
+    {
+      "id": "forest-floor",
+      "path": "assets/fantasy/terrain/forest-floor.png",
+      "width": 256,
+      "height": 256,
+      "anchor": null,
+      "repeatable": true,
+      "logicalPixelSize": 2
+    },
+    {
+      "id": "dirt-patch",
+      "path": "assets/fantasy/terrain/dirt-patch.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        64
+      ],
+      "repeatable": false,
+      "logicalPixelSize": 2
+    },
+    {
+      "id": "dirt-bend",
+      "path": "assets/fantasy/terrain/dirt-bend.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        64
+      ],
+      "repeatable": false,
+      "logicalPixelSize": 2
+    },
+    {
+      "id": "flowers",
+      "path": "assets/fantasy/terrain/flowers.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        64
+      ],
+      "repeatable": false,
+      "logicalPixelSize": 2
+    },
+    {
+      "id": "bush",
+      "path": "assets/fantasy/terrain/bush.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        64
+      ],
+      "repeatable": false,
+      "logicalPixelSize": 2
+    },
+    {
+      "id": "grass-clump",
+      "path": "assets/fantasy/terrain/grass-clump.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        64
+      ],
+      "repeatable": false,
+      "logicalPixelSize": 2
+    },
+    {
+      "id": "dirt-material",
+      "path": "assets/fantasy/terrain/dirt-material.png",
+      "width": 256,
+      "height": 256,
+      "anchor": null,
+      "repeatable": true,
+      "logicalPixelSize": 2
+    }
+  ],
+  "route": "image_gen built-in",
+  "finish": "2px clusters; opposite edge-band blending guarantees equal edges without mirroring interiors"
+}
