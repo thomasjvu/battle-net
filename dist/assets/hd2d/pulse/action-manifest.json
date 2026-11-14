@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "character": "pulse",
+  "idles": [
+    {
+      "direction": "southeast",
+      "action": "seated",
+      "path": "assets/hd2d/pulse/seated.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 1,
+      "fps": null,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "d5c988d9cad337878ca4d783f263219c3df491cbc54bc576883f2044a3255214",
+      "source": "source/southeast-seated.png",
+      "seatAnchor": [
+        64,
+        85
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "direction": "east",
+      "action": "sprint",
+      "path": "assets/hd2d/pulse/east-sprint.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 14,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "5fd6d602dc1d1a643d1ef499f194d8877f1fb0d0c8344eb75f6579b816ce14f2",
+      "source": "source/east-sprint.png"
+    },
+    {
+      "direction": "north",
+      "action": "sprint",
+      "path": "assets/hd2d/pulse/north-sprint.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 14,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "be72b2d0306e8c9f5ac5d240f29f325b7b25149e625883fcf265581e7c274752",
+      "source": "source/north-sprint.png"
+    },
+    {
+      "direction": "south",
+      "action": "sprint",
+      "path": "assets/hd2d/pulse/south-sprint.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 14,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "5d83407c2ae1082e272d4ca5683042579d818d37469700891acc37d81f4c5502",
+      "source": "source/south-sprint.png"
+    }
+  ],
+  "mirrors": {
+    "west": {
+      "sourceDirection": "east",
+      "flipX": true
+    }
+  },
+  "diagonalSprint": "Use nearest cardinal sprint",
+  "provenance": {
+    "route": "Built-in imagegen drawn poses",
+    "references": [
+      "source/east-idle.png",
+      "source/south-idle.png",
+      "source/north-idle.png"
+    ]
+  }
+}

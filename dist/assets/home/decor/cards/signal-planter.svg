@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="704" viewBox="0 0 512 704">
+  <defs>
+  <linearGradient id="pot" x2="0" y2="1"><stop stop-color="#e3a16f"/><stop offset="1" stop-color="#985444"/></linearGradient>
+  <linearGradient id="night" x2="0" y2="1"><stop stop-color="#173543"/><stop offset="1" stop-color="#10232d"/></linearGradient>
+  <radialGradient id="glow"><stop stop-color="#70d69a" stop-opacity=".30"/><stop offset="1" stop-color="#70d69a" stop-opacity="0"/></radialGradient>
+  <linearGradient id="frame" x2="0" y2="1"><stop stop-color="#172a37"/><stop offset="1" stop-color="#0c1a24"/></linearGradient>
+  <pattern id="grain" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="2" cy="4" r="1" fill="#e4f1dd" opacity=".2"/><circle cx="13" cy="12" r="1" fill="#e4f1dd" opacity=".12"/></pattern>
+  </defs>
+  <rect x="9" y="9" width="494" height="686" rx="28" fill="#050d15" opacity=".46"/>
+  <rect x="9" y="9" width="494" height="686" rx="28" fill="url(#frame)" stroke="#70d69a" stroke-width="4"/>
+  <rect x="19" y="19" width="474" height="666" rx="21" fill="none" stroke="#d6e5dc" stroke-opacity=".13" stroke-width="2"/>
+  <path d="M32 32 H199" stroke="#70d69a" stroke-width="5" stroke-linecap="round"/>
+  <text x="35" y="62" fill="#b3c6c4" font-family="Avenir Next,Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2">POCKET HOME  /  DECOR</text>
+  <text x="477" y="62" text-anchor="end" fill="#70d69a" font-family="Avenir Next,Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="1.4">HOME_PLANTER_SIGNAL</text>
+  <text x="35" y="99" fill="#f0f3e9" font-family="Avenir Next,Arial,sans-serif" font-size="25" font-weight="700">Signal Planter</text>
+  <rect x="423" y="79" width="60" height="27" rx="13.5" fill="#70d69a" fill-opacity=".16" stroke="#70d69a" stroke-opacity=".64"/>
+  <text x="480" y="97" text-anchor="end" fill="#70d69a" font-family="Avenir Next,Arial,sans-serif" font-size="12" font-weight="700" letter-spacing=".5">COMMON</text>
+  <rect x="28" y="113" width="456" height="414" rx="18" fill="url(#night)" stroke="#344753" stroke-width="2"/>
+  <ellipse cx="256" cy="360" rx="205" ry="178" fill="url(#glow)"/>
+  <path d="M36 429 Q156 398 236 427 Q360 467 478 414 L478 518 L36 518Z" fill="#162e38"/>
+  <path d="M36 463 Q190 437 278 469 Q392 498 478 454" fill="none" stroke="#34545a" stroke-width="4" opacity=".7"/>
+  <path d="M36 494 Q157 474 237 493 Q367 521 478 481" fill="none" stroke="#263f47" stroke-width="3"/>
+  <rect x="28" y="113" width="456" height="414" rx="18" fill="url(#grain)" opacity=".34"/>
+  <g transform="translate(86 156) scale(.67)">
+<ellipse cx="256" cy="430" rx="152" ry="30" fill="#071019" opacity=".35"/>
+
+<path d="M238 346 C232 304 217 277 191 249 M259 350 C269 303 292 280 323 255 M249 335 C250 287 248 246 253 212" fill="none" stroke="#416e53" stroke-width="20" stroke-linecap="round"/>
+<path d="M209 298 C174 297 151 275 148 244 C181 236 211 252 224 283Z" fill="#72bc78" stroke="#315d4a" stroke-width="8"/>
+<path d="M290 300 C319 288 342 262 338 231 C309 232 287 250 276 280Z" fill="#8dd68b" stroke="#416e53" stroke-width="8"/>
+<path d="M251 278 C222 257 218 228 234 204 C260 217 270 244 263 271Z" fill="#a2e69b" stroke="#416e53" stroke-width="8"/>
+<path d="M262 268 C277 235 300 222 326 232 C320 258 298 276 270 280Z" fill="#5ead76" stroke="#315d4a" stroke-width="8"/>
+<path d="M228 219 C197 213 184 190 192 164 C217 166 236 184 238 209Z" fill="#ff9c91" stroke="#7d4655" stroke-width="7"/>
+<path d="M244 207 C235 176 249 151 274 143 C287 167 280 194 253 214Z" fill="#ffc16f" stroke="#8d6042" stroke-width="7"/>
+<path d="M258 214 C275 184 303 177 326 191 C316 215 291 228 265 222Z" fill="#eaa3cc" stroke="#744c71" stroke-width="7"/>
+<circle cx="250" cy="207" r="16" fill="#ffe8a0" stroke="#9a7145" stroke-width="6"/>
+<path d="M163 341 Q253 367 350 341 L330 427 Q257 461 184 427Z" fill="#bb6d51" stroke="#643e3c" stroke-width="11" stroke-linejoin="round"/>
+<path d="M172 346 Q253 368 342 346 L337 366 Q255 388 177 365Z" fill="#e49a68" stroke="#643e3c" stroke-width="9"/>
+<path d="M191 389 Q256 407 324 389" fill="none" stroke="#efb27d" stroke-width="7" opacity=".8"/>
+<path d="M205 422 Q255 435 307 421" fill="none" stroke="#874d43" stroke-width="7" opacity=".8"/>
+</g>
+  <path d="M35 546 H477" stroke="#53656b" stroke-opacity=".5"/>
+  <text x="35" y="574" fill="#b6c7c0" font-family="Avenir Next,Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="1.5">A SMALL THING, A PLACE OF YOUR OWN</text>
+  <text x="35" y="602" fill="#eef1e7" font-family="Avenir Next,Arial,sans-serif" font-size="13">A hand-thrown clay pot with a bright little</text><text x="35" y="622" fill="#eef1e7" font-family="Avenir Next,Arial,sans-serif" font-size="13">bloom. A favorite meeting place for tiny</text><text x="35" y="642" fill="#eef1e7" font-family="Avenir Next,Arial,sans-serif" font-size="13">garden sprites.</text>
+  <text x="35" y="666" fill="#9aacac" font-family="Avenir Next,Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="1.1">NEP-245  ·  1 × 1  ·  EDITION SERIES 01</text>
+  <circle cx="380" cy="654" r="5.5" fill="#70d69a"/><circle cx="400" cy="654" r="5.5" fill="#43515c"/><circle cx="420" cy="654" r="5.5" fill="#43515c"/><circle cx="440" cy="654" r="5.5" fill="#43515c"/>
+  <text x="35" y="679" fill="#73858d" font-family="Avenir Next,Arial,sans-serif" font-size="9" font-weight="700" letter-spacing="1">ITEM ART  /  TOKEN MEDIA</text>
+  </svg>

@@ -3,9 +3,42 @@ const make=()=>{const b=new NetworkBattle({mission:MISSIONS[8],deck:freshSave().
 test('Custom Screen freezes battle time and enemies until chips are sent',()=>{const b=make();for(let i=0;i<100;i++)b.update(.05,{fire:true});assert.equal(b.time,0);assert.equal(b.p.hp,300);b.cards.select(0);b.confirmCustom();b.update(.05);assert.ok(b.time>0);});
 test('codes support same-code, same-name and wildcard combinations',()=>{const c=(id,code)=>({id,code});assert.ok(compatibleChips([c('a','A'),c('b','A'),c('c','*')]));assert.ok(compatibleChips([c('a','A'),c('a','B')]));assert.equal(compatibleChips([c('a','A'),c('b','B'),c('c','*')]),false);});
 test('chips are loaded in selection order, spent once and never automatically redraw',()=>{const b=make();b.cards.select(0);const id=b.cards.window[0].id;b.confirmCustom();assert.equal(b.cards.hand[0],id);b.cards.energy=0;assert.ok(b.useCard(0));for(let i=0;i<20;i++)b.cards.update(.1);assert.equal(b.cards.hand[0],null);assert.equal(b.cards.discard.length,1);});
-test('Custom Gauge requires action time and pauses with battle',()=>{const b=make();b.confirmCustom();b.enemies.forEach(e=>{e.attackAt=Infinity;e.moveAt=Infinity;});assert.equal(b.openCustom(),false);for(let i=0;i<161;i++)b.update(.05);assert.ok(b.openCustom());const t=b.time;b.update(.05);assert.equal(b.time,t);});
+test('Custom Gauge requires action time and pauses with battle',()=>{const b=make();b.confirmCustom();b.enemies.forEach(e=>{e.attackAt=Infinity;e.moveAt=Infinity;});assert.equal(b.openCustom(),false);for(let i=0;i<161;i++)b.update(.05);assert.equal(b.phase,"action");assert.ok(b.openCustom());const t=b.time;b.update(.05);assert.equal(b.time,t);});
 test('three Cannon chips combine into an original Program Advance without cloning copies',()=>{const d=new CustomFolder(Array(12).fill('cannon'),()=>.5);d.select(0);d.select(1);d.select(2);d.load();assert.equal(d.queue.length,1);assert.equal(d.queue[0].advance,'TRI CANNON');d.play(0);assert.equal(d.discard.length,3);assert.equal(d.window.length+d.drawPile.length+d.discard.length,12);});
 test('holding and releasing buster produces a stronger charged shot',()=>{const b=make();b.confirmCustom();b.enemies.forEach(e=>{e.attackAt=Infinity;e.moveAt=Infinity;});b.update(.05,{fire:true});b.update(.05,{fire:false});assert.equal(b.shots[0].damage,5);b.shots=[];for(let i=0;i<24;i++)b.update(.05,{fire:true});b.update(.05,{fire:false});assert.equal(b.shots[0].damage,40);});
 import{makeNetworkGeometry}from'../src/game/network-world.js';import{findPath,WORLD_START,LANDMARKS,isWalkable}from'../dist/world.js';
 test('network platforms connect every node and block walking into the void',()=>{const {obstacles}=makeNetworkGeometry();assert.equal(isWalkable(90,150,obstacles),false);for(const p of LANDMARKS)assert.ok(findPath(WORLD_START,p,obstacles).length,p.id);});
 test('unused Program Advance retains all three copies in spent data next turn',()=>{const d=new CustomFolder(Array(12).fill('cannon'),()=>.5);d.select(0);d.select(1);d.select(2);d.load();d.refill();d.load();assert.equal(d.discard.length,3);assert.equal(d.window.length+d.drawPile.length+d.discard.length,12);});
+
+test('opening Custom shows five shuffled chips and the next cycle rotates the offer',()=>{
+ const folder=new CustomFolder(Array.from({length:30},(_,i)=>'chip'+i),()=>.5);
+ const opening=folder.window.map(chip=>chip.id);
+ assert.equal(opening.length,5);
+ assert.equal(folder.drawPile.length,25);
+ folder.load();
+ folder.refreshWindow();
+ assert.equal(folder.window.length,5);
+ assert.ok(folder.window.every(chip=>!opening.includes(chip.id)));
+ assert.equal(folder.window.length+folder.drawPile.length,30);
+});
+
+test('enemy launch identifies its owner before the matching attack hits',()=>{
+ const battle=make();
+ battle.confirmCustom();
+ const owner=battle.enemies[0];
+ owner.attackAt=Infinity;
+ owner.moveAt=Infinity;
+ battle.planAttack(owner);
+ let launch,impact;
+ for(let i=0;i<24&&!impact;i++){
+  battle.update(.05);
+  for(const event of battle.drain()){
+   if(event.owner!==owner.id)continue;
+   if(event.type==='attackLaunch')launch={event,time:battle.time};
+   if(event.type==='attack')impact={event,time:battle.time};
+  }
+ }
+ assert.ok(launch&&impact);
+ assert.ok(launch.time<impact.time);
+ assert.deepEqual(launch.event.cells,impact.event.cells);
+});

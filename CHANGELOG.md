@@ -1,5 +1,30 @@
 # Changelog
 
+## In development
+
+- Upgraded `battlenet.testnet` to NEP-245 contract v0.5.0 with a state-preserving migration, six Pocket Home decor tokens, onchain metadata, and one-time decor for existing players.
+- Added a decoratable personal base and three distinct dungeon routes branching from Relay Town. Future towns are sealed at the ends of the routes.
+- Added eight-direction idle and walking for Pulse and removed pointer movement from exploration.
+
+- Expanded folders to 30 chips with five random chips at battle start. Existing saves receive starter copies to complete their folders.
+- PvP opens Custom automatically every eight seconds; solo battles wait for the player to activate the full gauge.
+- Dungeon movement triggers random virus battles. Story battles use abstract markers and Relay Town is encounter-free.
+- Brought the default camera closer to the character.
+- Duel chip identities stay hidden during combat. Shared-screen Custom selection uses a pass-the-screen prompt.
+
+- Added Relay Town as a safe hub with a dungeon gate, trading, companions and a local duel arena.
+- Added persistent field HP and full recovery in town.
+- Battle wins award gold and XP, with an 8% chip drop chance or 14% at S rank.
+- Reworked chip presentation and added impact and movement particles.
+- Local duels use shared Custom selection, charged busters and ordered chip loadouts.
+
+## 0.6.0
+
+- Rebuilt network exploration in Three.js with raised floors, ramps, floor collision and click navigation.
+- Added a rotating camera, zoom, dynamic lighting, shadows and adjustable visual effects.
+- Added Pulse's directional cyber outfit and walk animation. Sprint uses the same frames at a faster rate.
+- Press J to switch between the network and forest. Grid combat uses Phaser.
+
 ## 0.5.0
 
 - Replaced solo focus/autodraw flow with paused Custom selection, chip codes, ordered single-use chips and an eight-second Custom Gauge.

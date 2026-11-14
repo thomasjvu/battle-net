@@ -3,38 +3,8 @@ import{CHIP_CODES}from"../../dist/network-battle.js";
 import { state, audio, persist, announce, currentMission, operatorAvailable, saveBackup, importBackup, near, events, CARDS, OPERATORS, MISSIONS, specialDesc } from "./state.js";
 import { WORLDS, QUESTS, level, missionUnlocked, questProgress, claimQuest, trade, price, forge, reward, freshSave, equip, simulateMarket } from "../../dist/core.js";
 import { DECK_SIZE, MAX_COPIES, CARD_COST, deckCounts, reconcileDeck, validateDeck } from "../../dist/deck.js";
-import { W, H, C, text, label, panel, button, background, heading, credits, toast, modal, cardView, shortDesc, systemButtons, transition, startFade } from "./ui.js";
-const next = (scene) => {
-  if (state.save.pendingReward?.choices) {
-    scene.scene.start("Rewards");
-    return;
-  }
-  scene.scene.start("Overworld");
-};
-class Title extends Phaser.Scene {
-  constructor() {
-    super("Title");
-  }
-  create() {
-    background(this, { dim: 0.23 });
-    this.add.rectangle(325, H / 2, 650, H, 2169385, 0.72);
-    label(this, 85, 95, "NETBATTLE · CUSTOM · EXECUTE", 15, C.gold);
-    text(this, 79, 143, "BATTLE", 103, C.paper, { fontStyle: "bold", stroke: "#2a2030", strokeThickness: 4 });
-    text(this, 82, 248, "NET", 126, C.gold, { fontStyle: "bold", stroke: "#2a2030", strokeThickness: 4 });
-    text(this, 88, 405, "Jack in. Build your folder. Read the grid.\nSomeone worth fighting beside.", 23, C.paper, { lineSpacing: 8 });
-    const portrait = this.add.image(990, 655, state.save.operator + "-portrait").setOrigin(0.5, 1).setDisplaySize(425, 531);
-    this.tweens.add({ targets: portrait, y: 648, duration: 2600, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
-    label(this, 1030, 650, OPERATORS[state.save.operator].name.toUpperCase(), 18, C.paper).setOrigin(0.5);
-    button(this, 252, 535, 330, 63, "JACK IN", () => next(this), { primary: true, size: 25 });
-    button(this, 252, 613, 330, 51, "Chip folder", () => this.scene.start("Deck"), { size: 21 });
-    button(this, 535, 612, 170, 51, "Options", () => this.scene.start("Settings"), { size: 19 });
-    systemButtons(this);
-    label(this, 86, 682, "" + state.save.completed.length + " / 9 CHAPTERS  ·  LEVEL " + level(state.save) + "  ·  " + state.save.credits + " GOLD", 12, C.muted);
-    this.input.keyboard.once("keydown-ENTER", () => next(this));
-    startFade(this);
-    announce("Battle Net title screen. Begin your tale or open the deck book.");
-  }
-}
+import { DECOR } from "../../dist/home.js";
+import { W, H, C, text, label, panel, button, background, heading, credits, toast, modal, cardView, shortDesc, transition, startFade } from "./ui.js";
 class Journey extends Phaser.Scene {
   constructor() {
     super("Journey");
@@ -83,13 +53,13 @@ class Journey extends Phaser.Scene {
         zone.on("pointerup", () => this.brief(m));
       } else label(this, x, y + 163, "Finish the previous chapter", 11, C.muted).setOrigin(0.5);
     }
-    const menu = [["Chip folder", "Deck"], ["Merchant", "Merchant"], ["The forge", "Forge"], ["Companions", "Party"], ["Journal", "Journal"]];
+    const menu = [["Command Folder", "Deck"], ["Merchant", "Merchant"], ["The forge", "Forge"], ["Companions", "Party"], ["Journal", "Journal"]];
     menu.forEach(([title, key], i) => button(this, 174 + i * 232, 643, 212, 48, title, () => this.scene.start(key), { size: 20 }));
     button(this, 1130, 550, 180, 40, "Endless journey", () => this.brief({ id: "endless", name: "The Endless Road", sector: "∞", world: 2, brief: "How far will your story take you? Every cleared encounter restores 40 health. A fearsome rival awaits every fifth wave. Your completed waves earn gold when the journey ends.", speaker: state.save.operator, enemies: ["hex"], reward: 30, xp: 35, drop: "longsword" }, true), { size: 16, small: true });
   }
   brief(m, endless = false) {
     if (!validateDeck(state.walletDeck?.deck ?? state.save.deck, state.walletDeck?.items ?? state.save.items, CARDS)) {
-      modal(this, { title: "Your deck needs a little love.", body: "Bring exactly 12 cards, with no more than 3 copies of a card. Each copy must be in your collection. The deck book will help you prepare.", yes: "Open deck book", onYes: () => this.scene.start("Deck") });
+      modal(this, { title: "Your deck needs a little love.", body: "Bring exactly 30 commands, with no more than 3 copies of a card. Each copy must be in your collection. The deck book will help you prepare.", yes: "Open deck book", onYes: () => this.scene.start("Deck") });
       return;
     }
     modal(this, { title: m.name, body: m.brief, yes: "Set out", no: "Not yet", portrait: (m.speaker ?? state.save.operator) + "-portrait", onYes: () => {
@@ -107,9 +77,10 @@ class Deck extends Phaser.Scene {
     this.selected = null;
   }
   create(data) {
-    this.source = data?.wallet && state.walletDeck ? state.walletDeck : state.save;
+    this.source = data?.wallet === false ? state.save : state.walletDeck ?? state.save;
     this.page = 0;
     this.selected = null;
+    this.folderPage = 0;
     this.draw();
     startFade(this);
     this.input.keyboard.on("keydown-ESC", () => this.scene.start("Overworld"));
@@ -117,24 +88,27 @@ class Deck extends Phaser.Scene {
   draw() {
     this.children.removeAll(true);
     background(this, { dim: 0.55 });
-    heading(this, "CHIP FOLDER", "12 chips. Choose matching codes in Custom, then send an ordered loadout.", "Overworld");
+    heading(this, "Command Folder", "", "Overworld");
     credits(this);
     const owned = Object.keys(CARDS).filter((id) => this.filter === "all" || this.filter === "owned" && this.source.items[id] > 0 || CARDS[id].type === this.filter);
     const pages = Math.ceil(owned.length / 8);
     this.page = Math.max(0, Math.min(this.page, pages - 1));
-    const filters = [["All chips", "all"], ["Owned", "owned"], ["Attacks", "attack"], ["Support", "support"], ["Equipment", "equipment"]];
+    const filters = [["All commands", "all"], ["Owned", "owned"], ["Attacks", "attack"], ["Support", "support"], ["Equipment", "equipment"]];
     filters.forEach(([name, id], i) => button(this, 113 + i * 163, 132, 151, 35, name, () => {
       this.filter = id;
       this.page = 0;
       this.draw();
     }, { primary: this.filter === id, size: 15, small: true }));
-    panel(this, 885, 115, 350, 535, { fill: 2367018 });
+    panel(this, 885, 115, 350, 535, { fill: 0x0b1a28, edge: 0x36556a });
     const valid = validateDeck(this.source.deck, this.source.items, CARDS);
-    text(this, 912, 140, "Equipped folder", 25, C.paper);
-    label(this, 912, 178, this.source.deck.length + " / 12 CHIPS  ·  " + (valid ? "READY" : "INCOMPLETE"), 13, valid ? C.mint : C.rose);
+    text(this, 912, 140, "Active folder", 25, C.paper);
+    label(this, 912, 178, this.source.deck.length + " / 30 COMMANDS  ·  " + (valid ? "READY" : "INCOMPLETE"), 13, valid ? C.mint : C.rose);
     const counts = deckCounts(this.source.deck);
     let row = 0;
-    for (const [id, n] of Object.entries(counts)) {
+    const entries = Object.entries(counts);
+    const folderPages = Math.max(1, Math.ceil(entries.length / 8));
+    this.folderPage = Math.min(this.folderPage, folderPages - 1);
+    for (const [id, n] of entries.slice(this.folderPage * 8, this.folderPage * 8 + 8)) {
       const y = 222 + row * 28;
       text(this, 913, y, CARDS[id].name, 17, C.paper);
       label(this, 1166, y + 2, "×" + n, 13, C.gold);
@@ -145,12 +119,16 @@ class Deck extends Phaser.Scene {
       }, { small: true, size: 16 });
       row++;
     }
-    label(this, 912, 465, "Chip code mix", 12, C.gold);
+    if (folderPages > 1) {
+      button(this, 930, 466, 40, 24, "‹", () => { this.folderPage--; this.draw(); }, {disabled:this.folderPage===0,small:true});
+      label(this, 1060, 466, (this.folderPage + 1) + " / " + folderPages, 11, C.muted).setOrigin(.5);
+      button(this, 1190, 466, 40, 24, "›", () => { this.folderPage++; this.draw(); }, {disabled:this.folderPage===folderPages-1,small:true});
+    }
     const codes=["A","S","*"],curve=codes.map(code=>this.source.deck.filter(id=>CHIP_CODES[id]===code).length);
     const g = this.add.graphics();
     curve.forEach((n, i) => {
       g.fillStyle(C.mint, 0.7);
-      g.fillRect(916 + i * 90, 525 - n * 4, 55, n * 4);
+      g.fillRect(916 + i * 90, 525 - n, 55, n);
       label(this, 943 + i * 90, 542, "CODE "+codes[i]+" · "+n, 10, C.muted).setOrigin(0.5);
     });
     button(this, 982, 605, 139, 36, "Auto-fill", () => {
@@ -172,18 +150,18 @@ class Deck extends Phaser.Scene {
         this.detail(CARDS[id].name + ": " + CARDS[id].desc + (CARDS[id].type === "equipment" ? "" : ` In deck: ${n}/3.`));
       });
       view.on("pointerout", () => this.tweens.add({ targets: view, y, duration: 100 }));
-      if (n) label(this, x, y + 110, "IN DECK ×" + n, 11, C.gold).setOrigin(0.5);
+      if (n) label(this, x, y + 110, "×" + n, 11, C.gold).setOrigin(0.5);
     });
     button(this, 75, 637, 52, 32, "‹", () => {
       this.page--;
       this.draw();
     }, { disabled: this.page === 0, small: true });
-    label(this, 450, 637, "PAGE " + (this.page + 1) + " / " + Math.max(1, pages) + "   ·   CLICK A CARD TO ADD / EQUIP", 11, C.muted).setOrigin(0.5);
+    label(this, 450, 637, "PAGE " + (this.page + 1) + " / " + Math.max(1, pages), 11, C.muted).setOrigin(0.5);
     button(this, 826, 637, 52, 32, "›", () => {
       this.page++;
       this.draw();
     }, { disabled: this.page >= pages - 1, small: true });
-    this.detailText = text(this, 57, 677, "Choose a code-focused folder. Wildcard chips link with any code. Solo battles use Custom Gauge, not focus.", 16, C.paper, { wordWrap: { width: 1160 } });
+    this.detailText = text(this, 57, 677, "", 16, C.paper, { wordWrap: { width: 1160 } });
   }
   detail(message) {
     this.detailText?.setText(message);
@@ -335,18 +313,18 @@ class Party extends Phaser.Scene {
   draw() {
     this.children.removeAll(true);
     background(this, { dim: 0.5 });
-    heading(this, "The Company You Keep", "Some journeys are too good to walk alone.", "Overworld");
+    heading(this, "Navi Status", "", "Overworld");
     credits(this);
     Object.entries(OPERATORS).forEach(([id, o], i) => {
       const x = 250 + i * 390, can = operatorAvailable(id), selected = state.save.operator === id;
-      panel(this, x - 170, 128, 340, 530, { edge: selected ? C.mint : C.gold, fill: 2169640 });
+      panel(this, x - 170, 128, 340, 530, { edge: selected ? C.mint : C.gold, fill: 0x0c1b29 });
       const portrait = this.add.image(x, 415, id + "-portrait").setOrigin(0.5, 1).setDisplaySize(240, 300).setAlpha(can ? 1 : 0.42);
       text(this, x, 435, o.name, 36, C.paper).setOrigin(0.5);
       label(this, x, 469, o.title.toUpperCase(), 12, C.gold).setOrigin(0.5);
-      text(this, x, 503, o.quote, 17, C.muted, { align: "center", wordWrap: { width: 295 }, fontStyle: "italic" }).setOrigin(0.5, 0);
+      label(this, x, 508, selected ? "ACTIVE  ·  "+(state.save.fieldHp ?? 300)+" / 300 HP" : can ? "AVAILABLE" : "LOCKED", 12, selected ? C.mint : C.muted).setOrigin(.5);
       label(this, x, 555, o.special.toUpperCase(), 12, C.mint).setOrigin(0.5);
       text(this, x, 575, specialDesc[id], 13, C.paper, { align: "center", wordWrap: { width: 285 } }).setOrigin(0.5, 0);
-      button(this, x, 625, 285, 40, selected ? "Traveling together" : can ? "Take her hand" : id === "nova" ? "Complete the Scarlet Duel" : "Complete chapter six", () => {
+      button(this, x, 625, 285, 40, selected ? "Equipped" : can ? "Equip Navi" : id === "nova" ? "Complete the Scarlet Duel" : "Complete chapter six", () => {
         state.save.operator = id;
         persist();
         this.draw();
@@ -390,19 +368,27 @@ class Settings extends Phaser.Scene {
     super("Settings");
   }
   create() {
+    this.back = state.optionsBack ?? "Title";
+    delete state.optionsBack;
     this.draw();
+    announce("Battle Net options. Press Escape to return to the title.");
     startFade(this);
-    this.input.keyboard.on("keydown-ESC", () => this.scene.start("Title"));
+    this.input.keyboard.on("keydown-ESC", () => this.scene.start(this.back));
   }
   draw() {
     this.children.removeAll(true);
-    background(this, { dim: 0.64 });
-    heading(this, "Make Yourself at Home", "Your settings and journey save on this device.", "Title");
-    panel(this, 310, 130, 660, 515);
-    const options = [["Sound effects", "sound"], ["Battle music", "music"], ["Screen shake", "shake"], ["Spell particles", "particles"]];
+    this.cameras.main.setBackgroundColor(0x071321);
+    heading(this, "Settings", "", this.back);
+    panel(this, 310, 130, 660, 515, {fill:0x080f19,edge:C.edge});
+    label(this, 350, 148, "SYSTEM CONFIGURATION  //  USER PREFERENCES", 10, C.mint);
+    const options = [["Sound effects", "sound"], ["Music", "music"], ["Screen shake", "shake"], ["Particles & backdrop", "particles"]];
     options.forEach(([title, key], i) => {
-      text(this, 350, 169 + i * 62, title, 24, C.paper);
-      button(this, 847, 183 + i * 62, 160, 38, state.save.settings[key] ? "On" : "Off", () => {
+      const y=179+i*55;
+      label(this,350,y+5,String(i+1).padStart(2,'0'),9,C.rose);
+      text(this, 380, y, title.toUpperCase(), 20, C.paper,{fontStyle:"bold",letterSpacing:.6});
+      label(this,380,y+27,({sound:"COMBAT AND INTERFACE FEEDBACK",music:"FIELD AND BATTLE SCORE",shake:"IMPACT CAMERA RESPONSE",particles:"AMBIENT FX AND NETWORK MOTION"})[key],8,C.muted);
+      if(i<options.length-1)this.add.graphics().lineStyle(1,C.edge,.16).beginPath().moveTo(350,y+48).lineTo(925,y+48).strokePath();
+      button(this, 863, 193 + i * 55, 125, 33, state.save.settings[key] ? "On" : "Off", () => {
         state.save.settings[key] = !state.save.settings[key];
         persist();
         audio.configure(state.save.settings);
@@ -418,6 +404,9 @@ class Settings extends Phaser.Scene {
       this.draw();
     }, { small: true });
     label(this, 768, 447, Math.round(state.save.settings.volume * 100) + "%", 15, C.paper).setOrigin(0.5);
+    const volumeMeter=this.add.graphics();
+    const activeSegments=Math.round(state.save.settings.volume*10);
+    for(let i=0;i<10;i++)volumeMeter.fillStyle(i<activeSegments ? C.mint : 0x344452,i<activeSegments ? .9 : .72).fillPoints(cutRect(704+i*15,469,11,5,2),true);
     button(this, 875, 447, 50, 35, "+", () => {
       state.save.settings.volume = Math.min(1, state.save.settings.volume + 0.1);
       persist();
@@ -435,19 +424,18 @@ class Settings extends Phaser.Scene {
         toast(this, result.error, C.rose);
         return;
       }
-      modal(this, { title: "Open another story?", body: "Replace your local progress with this save file? Your NEAR inventory is separate and will not change.", yes: "Import save", onYes: () => {
+      modal(this, { title: "Import save?", body: "Replace your local progress with this save file? Your NEAR inventory is separate and will not change.", yes: "Import save", onYes: () => {
         state.save = result;
         persist();
         audio.configure(state.save.settings);
         this.draw();
       } });
     }, { size: 18 });
-    button(this, 640, 588, 500, 40, "Start a new tale", () => modal(this, { title: "Turn back to the first page?", body: "This resets your local journey, gold, and cards. Export a backup if you would like to keep them. Your NEAR inventory will not change.", yes: "New tale", onYes: () => {
+    button(this, 640, 588, 500, 40, "Reset local save", () => modal(this, { title: "Reset local progress?", body: "This resets your local journey, gold, and cards. Export a backup if you would like to keep them. Your NEAR inventory will not change.", yes: "Reset save", onYes: () => {
       state.save = freshSave();
       persist();
       this.scene.start("Title");
     } }), { size: 17, small: true });
-    label(this, 640, 683, "WASD / ARROWS · MOVE     SPACE · WAND     1–5 · CARDS     E · RESOLVE     ESC · PAUSE", 12, C.paper).setOrigin(0.5);
   }
 }
 class Rewards extends Phaser.Scene {
@@ -458,6 +446,36 @@ class Rewards extends Phaser.Scene {
     background(this, { dim: 0.55 });
     const result = state.result;
     const pending = state.save.pendingReward;
+    if (!pending?.choices && result?.gains) {
+      const { credits, xp, card, decor } = result.gains;
+      state.result = null;
+      audio.play(card || decor ? "rare" : "gold");
+      const accent = card || decor ? 0xffd379 : C.mint;
+      text(this, 640, 116, "VIRUS DELETED", 52, C.paper, {fontStyle:"bold"}).setOrigin(.5);
+      label(this, 640, 184, "RANK " + result.rank + "   /   +" + credits + " GOLD   /   +" + xp + " XP", 18, accent).setOrigin(.5);
+      if (card) {
+        const reward = cardView(this, card, 640, 386, 1.6, {catalog:CARDS});
+        reward.setScale(1.25).setAlpha(0);
+        this.tweens.add({targets:reward,alpha:1,scale:1.6,duration:550,ease:"Back.Out"});
+        label(this, 640, 585, "COMMAND ADDED", 12, accent).setOrigin(.5);
+      } else if(decor) text(this,640,276,"+"+credits,74,accent,{fontStyle:"bold"}).setOrigin(.5);
+      else text(this, 640, 355, "+" + credits, 110, accent, {fontStyle:"bold"}).setOrigin(.5);
+      if(decor){
+        const item=DECOR[decor], y=card?619:424, frame=this.add.graphics();
+        frame.fillStyle(0x07111e,.94).fillRoundedRect(407,y-23,466,46,7);
+        frame.lineStyle(1,item.color,.82).strokeRoundedRect(407,y-23,466,46,7);
+        const decorArt=`decor-card-${decor}`;
+        if(this.textures.exists(decorArt))this.add.image(438,y,decorArt).setDisplaySize(31,40);
+        else frame.fillStyle(item.color,.9).fillCircle(438,y,9);
+        text(this,460,y-10,"POCKET DECOR",8,C.muted,{fontFamily:"Menlo, Consolas, monospace",letterSpacing:1}).setOrigin(0,.5);
+        text(this,460,y+2,item.name,15,C.paper,{fontStyle:"bold"}).setOrigin(0,.5);
+        label(this,850,y,"+1",12,item.color).setOrigin(1,.5);
+      }
+      if(card&&!decor)label(this,640,615,"A RARE COMMAND DROP",10,C.muted).setOrigin(.5);
+      button(this, 640, 682, 250, 40, "Return to field", () => transition(this,"Overworld"), {primary:true,size:17});
+      startFade(this);
+      return;
+    }
     if (!pending?.choices) {
       this.scene.start("Overworld");
       return;
@@ -495,5 +513,4 @@ export {
   Party,
   Rewards,
   Settings,
-  Title
 };

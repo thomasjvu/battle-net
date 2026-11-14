@@ -1,0 +1,177 @@
+{
+  "version": 1,
+  "status": "ready",
+  "character": "pulse",
+  "route": "image_gen built-in native drawn frames",
+  "palette": [
+    "#081925",
+    "#102b36",
+    "#15404a",
+    "#1b5660",
+    "#21727d",
+    "#248f9b",
+    "#30b2c0",
+    "#43cad5",
+    "#7adce1",
+    "#a9edf0",
+    "#24343f",
+    "#3d505d",
+    "#637982",
+    "#95a8b5",
+    "#bdccd5",
+    "#dbe5ed",
+    "#f2f6f4",
+    "#ffffff",
+    "#315347",
+    "#57936f",
+    "#8dcf88",
+    "#b5ef9a",
+    "#d9f8c8",
+    "#433236",
+    "#775347",
+    "#b98067",
+    "#e5ac87",
+    "#ffd1ac",
+    "#ffe9cf",
+    "#4c4b58",
+    "#797b8a",
+    "#a6a9b6"
+  ],
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "anchor": [
+    64,
+    120
+  ],
+  "idles": [
+    {
+      "path": "assets/hd2d/pulse/south-idle.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 1,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "f7ec99a7ab3e8c9aac4bec2cb68f0c5fc70ea3f5dfe1c379eee1e75c110bacb6",
+      "direction": "south",
+      "action": "idle"
+    },
+    {
+      "path": "assets/hd2d/pulse/east-idle.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 1,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "08631904d22ca3782313f4b473591e607de23e0a42d22fb92e175ce720921449",
+      "direction": "east",
+      "action": "idle"
+    },
+    {
+      "path": "assets/hd2d/pulse/north-idle.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 1,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "3599adceca85846c293b69886927de6b8e198c10bf3037de2b700b9062e1a967",
+      "direction": "north",
+      "action": "idle"
+    }
+  ],
+  "clips": [
+    {
+      "path": "assets/hd2d/pulse/south-walk.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "1728c44a782d72e57173e3e1f0434360d0eaed127f1c03a5a2a1ca1c0589800a",
+      "direction": "south",
+      "action": "walk",
+      "id": "pulse-south-walk",
+      "character": "pulse",
+      "fps": 10,
+      "repeat": -1,
+      "frames": [
+        "assets/hd2d/pulse/south-walk/00.png",
+        "assets/hd2d/pulse/south-walk/01.png",
+        "assets/hd2d/pulse/south-walk/02.png",
+        "assets/hd2d/pulse/south-walk/03.png",
+        "assets/hd2d/pulse/south-walk/04.png",
+        "assets/hd2d/pulse/south-walk/05.png"
+      ]
+    },
+    {
+      "path": "assets/hd2d/pulse/east-walk.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "73d98f8b9fb2c71b57c35400c95567d45165dccdead3aafc8fc9441c2eaf13cf",
+      "direction": "east",
+      "action": "walk",
+      "id": "pulse-east-walk",
+      "character": "pulse",
+      "fps": 10,
+      "repeat": -1,
+      "frames": [
+        "assets/hd2d/pulse/east-walk/00.png",
+        "assets/hd2d/pulse/east-walk/01.png",
+        "assets/hd2d/pulse/east-walk/02.png",
+        "assets/hd2d/pulse/east-walk/03.png",
+        "assets/hd2d/pulse/east-walk/04.png",
+        "assets/hd2d/pulse/east-walk/05.png"
+      ]
+    },
+    {
+      "path": "assets/hd2d/pulse/north-walk.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "5481b6c2868f165bb04698d56c44bb00148c7f0a56a3ac63001c78eabb88b4e7",
+      "direction": "north",
+      "action": "walk",
+      "id": "pulse-north-walk",
+      "character": "pulse",
+      "fps": 10,
+      "repeat": -1,
+      "frames": [
+        "assets/hd2d/pulse/north-walk/00.png",
+        "assets/hd2d/pulse/north-walk/01.png",
+        "assets/hd2d/pulse/north-walk/02.png",
+        "assets/hd2d/pulse/north-walk/03.png",
+        "assets/hd2d/pulse/north-walk/04.png",
+        "assets/hd2d/pulse/north-walk/05.png"
+      ]
+    }
+  ],
+  "west": {
+    "sourceDirection": "east",
+    "flipX": true
+  },
+  "run": {
+    "reuse": "walk",
+    "fps": 14,
+    "distinctRunFrames": false
+  },
+  "limitations": [
+    "Sprint reuses genuine walk drawings at faster playback; no distinct run cycle.",
+    "Some fine sleeve/cuff and ribbon details vary between generated poses."
+  ]
+}

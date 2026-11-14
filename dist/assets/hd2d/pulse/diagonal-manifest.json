@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "character": "pulse",
+  "idles": [
+    {
+      "direction": "southeast",
+      "action": "idle",
+      "path": "assets/hd2d/pulse/southeast-idle.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 1,
+      "fps": null,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "11a3cfba59ed721c080b541cec6f7a2d573515b067f21352a0b32bd912060ccf"
+    },
+    {
+      "direction": "northeast",
+      "action": "idle",
+      "path": "assets/hd2d/pulse/northeast-idle.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 1,
+      "fps": null,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "1f4ed65d6f77fea49e9714299aabad3385c1b32469a3a304ab7937cc270df6a5"
+    }
+  ],
+  "clips": [
+    {
+      "direction": "southeast",
+      "action": "walk",
+      "path": "assets/hd2d/pulse/southeast-walk.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 10,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "b305b774a37b1f292d4f25aeec1569eb48cb0898fe234a052e4e0b2cab1a9a41"
+    },
+    {
+      "direction": "northeast",
+      "action": "walk",
+      "path": "assets/hd2d/pulse/northeast-walk.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 10,
+      "anchor": [
+        64,
+        120
+      ],
+      "sha256": "2bead03e48a60c6499f00d49ae2478d6c2afb1cac0bc49a6e6db65cb9aa3bdac"
+    }
+  ],
+  "mirrors": {
+    "southwest": {
+      "sourceDirection": "southeast",
+      "flipX": true
+    },
+    "northwest": {
+      "sourceDirection": "northeast",
+      "flipX": true
+    }
+  },
+  "provenance": {
+    "route": "Built-in imagegen drawn sheets",
+    "sources": [
+      "source/southeast-sheet.png",
+      "source/northeast-sheet.png"
+    ],
+    "references": [
+      "source/east-idle.png",
+      "source/south-idle.png",
+      "source/north-idle.png"
+    ]
+  }
+}

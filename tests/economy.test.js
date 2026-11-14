@@ -5,6 +5,32 @@ test('invalid quantities and out of stock cannot mutate save',()=>{const s=fresh
 test('immediate buy-sell arbitrage loses credits and prices respond to supply',()=>{const s=freshSave(),before=s.credits,p=price(s,'thunder');trade(s,'thunder','buy');assert.ok(price(s,'thunder')>=p);trade(s,'thunder','sell');assert.ok(s.credits<before);assert.equal(s.stock.thunder,15);s.stock.thunder=0;assert.ok(price(s,'thunder')>p)});
 test('equipment requires ownership and stays owned when equipped',()=>{const s=freshSave();assert.equal(equip(s,'buster'),false);trade(s,'buster','buy');assert.equal(equip(s,'buster'),true);assert.equal(trade(s,'buster','sell').ok,false);equip(s,'buster');assert.equal(trade(s,'buster','sell').ok,true);assert.ok(validSave(s))});
 test('campaign unlocks sequentially; rewards and quests cannot duplicate first clear bonuses',()=>{const s=freshSave();assert.equal(missionUnlocked(s,1),false);assert.equal(unlocked(s,'nova'),false);let r=reward(s,MISSIONS[0],{rank:'S',time:30,kills:2,combos:1,damage:240});assert.equal(r.first,true);assert.equal(r.credits,56);assert.equal(missionUnlocked(s,1),true);r=reward(s,MISSIONS[0],{rank:'A',time:40,kills:2,combos:0,damage:240});assert.equal(r.first,false);assert.equal(s.completed.length,1);assert.equal(claimQuest(s,'first'),true);assert.equal(claimQuest(s,'first'),false);assert.equal(claimQuest(s,'heart'),false);s.completed.push('m2','m3');assert.equal(unlocked(s,'nova'),true);assert.ok(validSave(s))});
-test('v1 saves migrate without losing inventory, credits or equipment',()=>{const s={...freshSave(),version:1,credits:123};delete s.items.icewave;const n=migrateSave(s);assert.equal(n.credits,123);assert.equal(n.items.longsword,100);assert.equal(n.items.icewave,0);assert.ok(validSave(n));assert.ok(validSave(migrateSave({version:999})))});
+test('v1 saves migrate without losing inventory, credits or equipment',()=>{const s={...freshSave(),version:1,credits:123};delete s.items.icewave;const n=migrateSave(s);assert.equal(n.credits,123);assert.equal(n.items.longsword,100);assert.equal(n.items.icewave,3);assert.ok(validSave(n));assert.ok(validSave(migrateSave({version:999})))});
 test('save validation rejects corrupt states and missing equipped copies',()=>{for(const mutate of [s=>s.items.cannon=-1,s=>s.credits=Infinity,s=>s.settings.volume=8,s=>s.operator='evil',s=>s.completed=['m99'],s=>s.equipment.buster=true,s=>s.folder[0]='armor',s=>s.history=['x'.repeat(201)]]){const s=freshSave();mutate(s);assert.equal(validSave(s),false)}});
 test('market simulation is deterministic, bounded and changes no player holdings',()=>{const a=freshSave(),b=freshSave(),items=JSON.stringify(a.items);simulateMarket(a,42);simulateMarket(b,42);assert.deepEqual(a.stock,b.stock);assert.equal(JSON.stringify(a.items),items);assert.equal(a.credits,240);for(const id of Object.keys(CHIPS))assert.ok(a.stock[id]>=0&&a.stock[id]<=CHIPS[id].stock*2);assert.ok(validSave(a))});
+test('ordinary wins award gold without cards, and S rank raises the rare-drop chance',()=>{
+ const save=freshSave();
+ const mission=MISSIONS[0];
+ const inventory={...save.items};
+ const common=reward(save,mission,{rank:'B',time:30},()=>.30);
+ assert.ok(common.credits>0);
+ assert.equal(common.card,null);
+ assert.deepEqual(save.items,inventory);
+ const rare=reward(save,mission,{rank:'S',time:25},()=>.30);
+ assert.equal(rare.card,mission.drop);
+ assert.equal(save.items[mission.drop],inventory[mission.drop]+1);
+});
+test('old 12-chip saves upgrade once to a playable 30-chip folder',()=>{
+ const old=freshSave();delete old.folderSize;old.deck=old.deck.slice(0,12);old.credits=137;
+ for(const id of Object.keys(old.items))if(id!=='longsword')old.items[id]=0;
+ Object.assign(old.items,{cannon:3,thunder:1,recover:1,barrier:1});
+ const upgraded=migrateSave(old);
+ assert.equal(upgraded.deck.length,30);
+ assert.equal(upgraded.credits,137);
+ assert.equal(upgraded.items.longsword,100);
+ assert.ok(validSave(upgraded));
+ upgraded.items.gust=2;upgraded.deck=upgraded.deck.filter(id=>id!=='gust');
+ const again=migrateSave(upgraded);
+ assert.equal(again.items.gust,2);
+ assert.deepEqual(again.deck,upgraded.deck);
+});

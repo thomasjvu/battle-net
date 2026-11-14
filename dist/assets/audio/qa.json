@@ -1,0 +1,64 @@
+{
+  "status": "complete",
+  "music_count": 4,
+  "sfx_count": 12,
+  "checks": {
+    "manifest_files_present": true,
+    "all_files_decode_in_ffmpeg": true,
+    "opus_roundtrip_sample_counts_match": true,
+    "finite_non_silent_source_audio": true,
+    "decoded_peaks_below_full_scale": true,
+    "music_loop_lengths_and_tempo_checked": true,
+    "music_loop_boundary_checked": true
+  },
+  "music": {
+    "relay-town": {
+      "file": "town.ogg",
+      "seconds": 17.77,
+      "prompt_bpm": 108,
+      "inferred_bpm": 108.05,
+      "decoded_seam_step": 0.026415
+    },
+    "cyber-dungeon": {
+      "file": "dungeon.ogg",
+      "seconds": 20.0,
+      "prompt_bpm": 96,
+      "inferred_bpm": 96.0,
+      "decoded_seam_step": 0.000294
+    },
+    "netbattle": {
+      "file": "battle.ogg",
+      "seconds": 13.4,
+      "prompt_bpm": 144,
+      "inferred_bpm": 143.28,
+      "decoded_seam_step": 0.009266
+    },
+    "pvp": {
+      "file": "pvp.ogg",
+      "seconds": 12.0,
+      "prompt_bpm": 160,
+      "inferred_bpm": 160.0,
+      "decoded_seam_step": 0.005029
+    }
+  },
+  "music_run": {
+    "platform": "Google Colab",
+    "session": "battle-net-music-colab-highram",
+    "runtime_shape": "T4 High-RAM",
+    "gpus": [
+      "Tesla T4"
+    ],
+    "precision": "float32"
+  },
+  "sfx_run": {
+    "platform": "Google Colab",
+    "session": "battle-net-sfx-colab-highram",
+    "runtime_shape": "T4 High-RAM",
+    "gpus": [
+      "Tesla T4"
+    ],
+    "precision": "float32",
+    "peak_vram_bytes": 10533994496
+  },
+  "listening_review": "not performed"
+}

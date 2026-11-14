@@ -1,4 +1,4 @@
-const DECK_SIZE = 12, MAX_COPIES = 3, HAND_SIZE = 5;
+const DECK_SIZE = 30, MAX_COPIES = 3, HAND_SIZE = 5;
 const CARD_COST = { cannon: 1, longsword: 2, thunder: 2, recover: 2, barrier: 1, gold: 2, shotgun: 2, firewall: 3, icewave: 2, areagrab: 2, charge: 2, vampire: 2, prism: 3, repair: 1, gust:2, stonewall:2, poison:2, bloom:2, meteor:3, tidal:2, chainlight:2, cleave:2, dash:1, echo:2, draw:1, focus:0, thorns:2, revive:3, slow:2, storm:3 };
 function deckCounts(deck) {
   const counts = {};

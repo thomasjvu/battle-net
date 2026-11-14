@@ -1,94 +1,110 @@
+import {battleBreak} from './battle-break.js';
+import {impact} from "./impact.js";
 import Phaser from "phaser";
 import { NetworkBattle } from "../../dist/network-battle.js";
 import { chipTile, drawCustom } from "./custom-screen.js";
-import { ENEMIES } from "../../dist/combat.js";
 import { reward, MISSIONS } from "../../dist/core.js";
 import { validateDeck, CARD_COST } from "../../dist/deck.js";
 import { state, audio, persist, announce, near, CARDS, OPERATORS } from "./state.js";
 import { W, H, C, text, label, panel, button, background, modal, toast, cardView, shortDesc, systemButtons, fullscreen, transition, startFade } from "./ui.js";
-const pos = (x, y) => ({ x: 180 + x * 155 + y * 32, y: 268 + y * 66 });
+const pos = (x, y) => ({ x: 328 + x * 96 + y * 18, y: 292 + y * 54 });
+const firstBattleSteps = [
+  { id: "commands", text: "Pick up to 3 commands.", key: "1–5  /  ENTER" },
+  { id: "move", text: "Step away from warning panels.", key: "WASD" },
+  { id: "charge", text: "Hold, then release to charge.", key: "SPACE" },
+  { id: "command", text: "Fire your next command.", key: "Z" },
+  { id: "custom", text: "Full gauge? Press C for a new hand.", key: "C" }
+];
 class Combat extends Phaser.Scene {
   constructor() {
     super("Combat");
   }
-  async create() {
+  async create(data) {
     if (state.walletDeck) {
       await near.refresh();
-      if (!near.player || near.account !== state.walletDeck.account) {
+      if (!near.player || near.account !== state.walletDeck.account || near.config.contractId !== state.walletDeck.contract) {
         state.walletDeck = null;
         this.scene.start("Network");
         return;
       }
-      state.walletDeck.items = Object.fromEntries(Object.keys(CARDS).map((id, i) => [id, near.player.items[i]]));
+      const items = Object.fromEntries(Object.keys(CARDS).map((id, i) => [id, near.player.items[i]]));
+      state.walletDeck.items = items;
+      state.walletDeck.equipment = {
+        buster: state.walletDeck.equipment.buster && items.buster > 0,
+        armor: state.walletDeck.equipment.armor && items.armor > 0
+      };
     }
+    this.customRoot = null;
     this.finished = false;
-    this.pausedDialog = false;
+    this.fleeing = false;
+    this.fleeDuration = 1.6;
+    this.fleeRemaining = 0;
     this.handSignature = "";
     this.heroPose = 0;
     this.enemyPoses = {};
+    this.tutorialActive = !state.save.tutorial;
+    this.tutorialStep = -1;
+    this.tutorialDone = new Set();
     this.mission = state.mission ?? MISSIONS[0];
     const deck = state.walletDeck?.deck ?? state.save.deck;
     if (!validateDeck(deck, state.walletDeck?.items ?? state.save.items, CARDS)) {
-      this.scene.start("Deck");
+      this.scene.start("Deck", { wallet: Boolean(state.walletDeck) });
       return;
     }
     this.battle = new NetworkBattle({ mission: this.mission, deck, equipment: state.walletDeck?.equipment ?? state.save.equipment, operator: state.save.operator, seed: Date.now(), endless: state.endless });
+    this.battle.p.hp = Math.max(1, Math.min(300, state.save.fieldHp ?? 300));
     if(this.textures.exists("network-battle"))this.add.image(640,360,"network-battle").setDisplaySize(1280,720);else this.cameras.main.setBackgroundColor(0x061627);
     const grid=this.add.graphics().setDepth(-1);grid.lineStyle(1,0x1e718a,.35);for(let x=0;x<1280;x+=64)grid.lineBetween(x,160,x,720);for(let y=160;y<720;y+=40)grid.lineBetween(0,y,1280,y);
-    this.add.rectangle(W / 2, 80, W - 58, 120, C.ink, 0.82).setStrokeStyle(1, C.gold, 0.5);
+    const header=this.add.graphics();
+    for(const [x,y,w,h] of [[40,24,310,97],[455,24,370,97],[930,24,310,97]]){
+      header.fillStyle(C.ink,.66).fillRoundedRect(x,y,w,h,8);
+      header.lineStyle(1,C.edge,.32).strokeRoundedRect(x,y,w,h,8);
+    }
+    header.fillStyle(C.rose,.9).fillRect(54,34,34,2).fillRect(469,34,34,2).fillRect(944,34,34,2);
+    const commandRail=this.add.graphics();
+    commandRail.fillStyle(C.ink,.66).fillRoundedRect(20,153,225,477,9);
+    commandRail.lineStyle(1,C.edge,.3).strokeRoundedRect(20,153,225,477,9);
+    commandRail.fillStyle(C.rose,.82).fillRect(34,166,22,2);
+    label(this,34,178,"COMMANDS",8,C.muted);
     this.board = this.add.graphics();
     this.aura = this.add.graphics();
-    this.hero = this.add.sprite(0, 0, state.save.operator + "-idle").setOrigin(0.5, 120 / 128).setDisplaySize(148, 148);
+    this.hero = this.add.sprite(0, 0, state.save.operator + "-idle").setOrigin(0.5, 120 / 128).setDisplaySize(132, 132);
     this.enemies = /* @__PURE__ */ new Map();
     this.shots = /* @__PURE__ */ new Map();
     this.enemyBars = this.add.graphics();
     this.cardLayer = this.add.container(0, 0);
     this.focusGraphics = this.add.graphics();
     this.healthGraphics = this.add.graphics();
-    this.hpText = text(this, 71, 77, "300 / 300", 27, C.paper, { fontStyle: "bold" });
-    label(this, 72, 44, OPERATORS[state.save.operator].name.toUpperCase(), 14, C.gold);
+    this.hpText = text(this, 71, 77, "300", 27, C.paper, { fontStyle: "bold" });
+    label(this, 72, 44, OPERATORS[state.save.operator].name.toUpperCase(), 12, C.mint);
     this.enemyHp = text(this, 1209, 77, "", 27, C.paper, { fontStyle: "bold" }).setOrigin(1, 0);
-    this.enemyName = label(this, 1209, 44, "", 13, C.rose).setOrigin(1, 0);
-    text(this, W / 2, 42, this.mission.name, 29, C.paper).setOrigin(0.5);
-    this.timeText = label(this, W / 2, 81, "00:00", 13, C.muted).setOrigin(0.5);
-    this.add.rectangle(76,589,65,100,0x102b40).setStrokeStyle(2,0x5bbbd3);
-    this.drawText = label(this, 77, 655, "", 11, C.paper, { align: "center" }).setOrigin(0.5);
-    this.add.rectangle(1204,589,65,100,0x102b40).setStrokeStyle(2,0x5bbbd3);
-    this.discardText = label(this, 1203, 655, "", 11, C.paper, { align: "center" }).setOrigin(0.5);
-    this.focusText = label(this, W / 2, 490, "CUSTOM GAUGE", 12, C.paper).setOrigin(0.5);
-    this.resolveText = label(this, 48, 430, "", 11, C.paper);
-    this.resolveBtn = button(this, 155, 469, 220, 34, "Resolve  [E]", () => this.castResolve(), { size: 16, small: true });
-    this.tipText = text(this, W / 2, 701, "Z / 1: next chip   ·   WASD: move   ·   Hold / release Space: buster   ·   C: Custom", 13, C.paper, { align: "center" }).setOrigin(0.5);
+    this.enemyName = label(this, 1209, 44, "", 12, C.rose).setOrigin(1, 0);
+    text(this, W / 2, 39, this.mission.name.toUpperCase(), 23, C.paper,{fontStyle:"bold",letterSpacing:1}).setOrigin(0.5);
+    this.timeText = label(this, W / 2, 80, "00:00", 11, C.muted).setOrigin(0.5);
+    this.focusText = label(this, 622, 501, "CUSTOM", 8, C.muted).setOrigin(1,0.5);
+    this.resolveText = label(this, 1080, 581, "", 8, C.gold).setOrigin(.5);
+    this.resolveBtn = button(this, 1080, 611, 190, 31, "Y   SPECIAL", () => this.castResolve(), { size: 13, small: true });
+    this.customBtn=button(this,1080,535,190,31,"CUSTOM   C",()=>this.openCustom(),{size:13,small:true});
     this.noticeText = text(this, W / 2, 167, "", 23, C.gold, { fontStyle: "bold", stroke: "#251e2f", strokeThickness: 4, align: "center" }).setOrigin(0.5).setDepth(100);
-    button(this, 1187, 691, 118, 29, "Pause Ⅱ", () => this.pauseBattle(), { size: 15, small: true });
-    button(this, 1190, 144, 100, 28, "⛶", () => fullscreen(this), { size: 20, small: true });
-    button(this,1000,469,235,34,"CUSTOM  [C]",()=>this.openCustom(),{size:17,small:true});
+    this.runButton=button(this,1134,145,78,28,"RUN",()=>this.toggleFlee(),{size:11,small:true});
+    this.runButtonText=this.runButton.getAt(1);
+    button(this,1238,145,68,28,"⛶",()=>fullscreen(this),{size:18,small:true});
+    this.fleeGraphics=this.add.graphics().setDepth(101);
+    this.fleeLabel=label(this,1134,171,"",8,C.rose,{align:"center"}).setOrigin(.5);
     this.keys = this.input.keyboard.addKeys({ up: "W", down: "S", left: "A", right: "D", arrowUp: "UP", arrowDown: "DOWN", arrowLeft: "LEFT", arrowRight: "RIGHT", fire: "SPACE" });
     this.input.keyboard.on("keydown", (e) => {
       if (e.repeat && /^[1-5eE]$/.test(e.key)) return;
-      if (/^[1-5]$/.test(e.key)) this.playCard(+e.key - 1);
+      if (/^[1-5]$/.test(e.key) && this.battle.phase === "custom") this.playCard(+e.key - 1);
       if(e.key.toLowerCase()==="z")this.playCard(0);
       if(e.key.toLowerCase()==="c")this.openCustom();
       if(e.key==="Enter"&&this.customRoot)this.sendCustom();
-      if (e.key.toLowerCase() === "e") this.castResolve();
-      if (e.key === "Escape") {
-        if (this.pausedDialog) {
-          this.pauseRoot?.destroy();
-          this.pausedDialog = false;
-          this.battle.pause();
-          audio.setActive(true);
-        } else this.pauseBattle();
-      }
+      if (e.key.toLowerCase() === "y") this.castResolve();
+      if (e.key === "Escape") this.toggleFlee();
     });
     this.input.keyboard.addCapture(["SPACE", "UP", "DOWN", "LEFT", "RIGHT"]);
     this.touch = { dx: 0, dy: 0, fire: false };
     if (this.game.device.input.touch) this.touchControls();
-    const suspend = () => {
-      if (this.battle.status === "running") this.pauseBattle();
-    };
-    this.game.events.on(Phaser.Core.Events.BLUR, suspend);
     this.events.once("shutdown", () => {
-      this.game.events.off(Phaser.Core.Events.BLUR, suspend);
       audio.setActive(false);
     });
     this.input.on("pointerup", () => {
@@ -97,19 +113,69 @@ class Combat extends Phaser.Scene {
       this.touch.fire = false;
     });
     startFade(this);
+    if(data?.shattered)battleBreak(this,true);
     this.refreshHand();
     this.syncView();
     this.begin();
+    if(this.tutorialActive)this.startTutorial();
   }
   begin() {
     state.save.stats.battles++;
     persist();
     this.battle.start();
     drawCustom(this);
+    audio.setTrack("battle");
     audio.unlock();
     audio.configure(state.save.settings);
     audio.setActive(true);
-    announce(this.mission.name + ". Battle begins. Select chips in Custom, send with Enter, use the next chip with Z. Hold Space to charge the buster.");
+    announce(this.mission.name + ". Battle begins.");
+  }
+  startTutorial(){
+    this.tutorialRoot=this.add.container(640,184).setDepth(12000);
+    const frame=this.add.graphics();
+    const shape=[{x:-252,y:-28},{x:239,y:-28},{x:252,y:-15},{x:252,y:17},{x:240,y:28},{x:-252,y:28}];
+    frame.fillStyle(0x030914,.94).fillPoints(shape,true);
+    frame.lineStyle(1,C.edge,.68).strokePoints(shape,true);
+    frame.fillStyle(C.rose,.96).fillPoints([{x:-244,y:-24},{x:-201,y:-24},{x:-207,y:-21},{x:-244,y:-21}],true);
+    frame.lineStyle(1,C.mint,.26).beginPath().moveTo(-244,20).lineTo(-205,20).lineTo(-199,16).strokePath();
+    frame.fillStyle(C.rose,.13).fillPoints([{x:151,y:-12},{x:243,y:-12},{x:243,y:12},{x:151,y:12}],true);
+    frame.lineStyle(1,C.rose,.65).strokePoints([{x:151,y:-12},{x:243,y:-12},{x:243,y:12},{x:151,y:12}],true);
+    this.tutorialCount=label(this,-229,-14,'TUTORIAL  ·  01 / 05',8,C.mint);
+    this.tutorialLine=text(this,-229,1,'',14,C.paper,{fontStyle:'bold'});
+    this.tutorialKey=label(this,197,0,'',9,C.rose,{fontStyle:'bold',align:'center'}).setOrigin(.5);
+    this.tutorialRoot.add([frame,this.tutorialCount,this.tutorialLine,this.tutorialKey]);
+    this.tutorialPips=[];
+    for(let i=0;i<firstBattleSteps.length;i++){
+      const pip=this.add.rectangle(-228+i*10,20,5,2,0x526a7c).setOrigin(0,.5);
+      this.tutorialPips.push(pip);
+      this.tutorialRoot.add(pip);
+    }
+    this.tutorialSkip=button(this,957,184,78,30,'SKIP',()=>this.finishTutorial(),{size:10,small:true});
+    this.setTutorialStep(0);
+  }
+  setTutorialStep(index){
+    this.tutorialStep=index;
+    const step=firstBattleSteps[index];
+    if(!step){this.finishTutorial();return;}
+    this.tutorialCount.setText(`TUTORIAL  ·  ${String(index+1).padStart(2,'0')} / 05`);
+    this.tutorialLine.setText(step.text);
+    this.tutorialKey.setText(step.key);
+    this.tutorialPips?.forEach((pip,i)=>pip.setFillStyle(i===index?C.rose:i<index?C.mint:0x526a7c));
+  }
+  completeTutorialAction(action){
+    if(!this.tutorialActive)return;
+    this.tutorialDone.add(action);
+    while(this.tutorialStep<firstBattleSteps.length&&this.tutorialDone.has(firstBattleSteps[this.tutorialStep].id))this.tutorialStep++;
+    if(this.tutorialStep>=firstBattleSteps.length){this.finishTutorial();return;}
+    this.setTutorialStep(this.tutorialStep);
+  }
+  finishTutorial(){
+    if(!this.tutorialActive)return;
+    this.tutorialActive=false;
+    state.save.tutorial=true;
+    persist();
+    this.tutorialRoot?.destroy();
+    this.tutorialSkip?.destroy();
   }
   touchControls() {
     const controls = [["↑", 92, 349, 0, -1], ["←", 48, 393, -1, 0], ["↓", 92, 437, 0, 1], ["→", 136, 393, 1, 0]];
@@ -134,16 +200,21 @@ class Combat extends Phaser.Scene {
     });
     fire.on("pointerout", () => this.touch.fire = false);
   }
-  selectCustom(index){if(this.battle.cards.select(index))drawCustom(this);else this.notice("Chip codes do not match.");}
-  openCustom(){if(this.battle.openCustom()){drawCustom(this);audio.setActive(false);}else if(this.battle.phase!=="custom")this.notice("Custom Gauge is still charging.");}
-  sendCustom(){if(!this.battle.confirmCustom())return;this.customRoot?.destroy();this.customRoot=null;this.touch.fire=false;this.refreshHand();this.processEvents();audio.setActive(true);}
+  selectCustom(index){if(this.battle.cards.select(index))drawCustom(this);else this.notice("Codes do not match.");}
+  openCustom(){if(this.fleeing)return;if(this.battle.openCustom()){this.completeTutorialAction("custom");drawCustom(this);audio.play("ui");}else if(this.battle.phase!=="custom")this.notice("CUSTOM CHARGING");}
+  sendCustom(){
+    if(this.tutorialActive&&!this.tutorialDone.has("commands")&&!this.battle.cards.selected.length){this.notice("SELECT A COMMAND");return;}
+    if(!this.battle.confirmCustom())return;
+    this.completeTutorialAction("commands");
+    this.customRoot?.destroy();this.customRoot=null;this.cardLayer.setVisible(true);audio.play("chip-load");this.touch.fire=false;this.refreshHand();this.processEvents();audio.setActive(true);
+  }
   playCard(index) {
     if(this.battle.phase==='custom'){this.selectCustom(index);return;}
-    if(this.battle.useCard(index)){audio.play('chip');this.refreshHand();this.processEvents();}
-    else if(this.battle.status==='running')this.notice(index?'Use chips in order with Z.':'No chips loaded. Fill the gauge, then press C.');
+    if(this.battle.useCard(index)){this.cancelFlee();this.completeTutorialAction("command");audio.play('chip');this.refreshHand();this.processEvents();}
+    else if(this.battle.status==='running')this.notice(index?'NEXT COMMAND  ·  Z':'NO COMMANDS');
   }
   castResolve() {
-    this.battle.overdrive();
+    if(this.battle.overdrive())this.cancelFlee();
     this.processEvents();
   }
   notice(message) {
@@ -151,16 +222,30 @@ class Combat extends Phaser.Scene {
     this.noticeClear?.remove();
     this.noticeClear = this.time.delayedCall(1650, () => this.noticeText.setText(""));
   }
-  pauseBattle() {
-    if (this.pausedDialog || this.finished || this.battle.status !== "running") return;
-    this.pausedDialog = true;
-    this.battle.pause();
-    audio.setActive(false);
-    this.pauseRoot = modal(this, { title: "Rest a moment.", body: "The road can wait. Return when you’re ready, or leave this encounter to work on your deck. Your cards and gold stay with you.", yes: "Keep going", no: "Leave encounter", portrait: state.save.operator + "-portrait", onYes: () => {
-      this.pausedDialog = false;
-      this.battle.pause();
-      audio.setActive(true);
-    }, onNo: () => this.scene.start("Overworld") });
+  toggleFlee(){
+    if(this.finished||this.battle.status!=="running")return;
+    if(this.battle.phase!=="action"){this.notice("SEND COMMANDS TO ESCAPE");return;}
+    if(this.fleeing){this.fleeing=false;this.fleeRemaining=0;this.runButtonText.setText("RUN");this.fleeLabel.setText("");this.fleeGraphics.clear();this.notice("ESCAPE CANCELLED");return;}
+    this.fleeing=true;this.fleeRemaining=this.fleeDuration;this.runButtonText.setText("CANCEL");this.fleeLabel.setText("ESCAPING");
+  }
+  cancelFlee(){
+    if(!this.fleeing)return;
+    this.fleeing=false;this.fleeRemaining=0;this.runButtonText.setText("RUN");this.fleeLabel.setText("");this.fleeGraphics.clear();
+    this.notice("ESCAPE INTERRUPTED");
+  }
+  escapeBattle(){
+    if(this.finished)return;
+    this.finished=true;this.fleeing=false;
+    state.save.fieldHp=Math.max(1,this.battle.p.hp);state.wildEncounter=null;persist();audio.setActive(false);
+    this.cameras.main.fadeOut(180,5,14,24);
+    this.time.delayedCall(180,()=>this.scene.start("Overworld"));
+  }
+  updateFlee(dt){
+    if(!this.fleeing)return;
+    this.fleeRemaining=Math.max(0,this.fleeRemaining-dt);
+    const ratio=1-this.fleeRemaining/this.fleeDuration;
+    this.fleeGraphics.clear().fillStyle(0x152534,.9).fillRoundedRect(1086,181,96,4,2).fillStyle(C.rose).fillRoundedRect(1086,181,96*ratio,4,2);
+    if(this.fleeRemaining<=0)this.escapeBattle();
   }
   refreshHand() {
     const cards = this.battle.cards.hand;
@@ -168,26 +253,36 @@ class Combat extends Phaser.Scene {
     this.cardLayer.removeAll(true);
     this.handViews = [];
     for (let i = 0; i < 5; i++) {
-      const id = cards[i], x = 260 + i * 190, y = 602;
+      const id = cards[i], x = 132, y = 220 + i * 82;
       if (!id) {
-        const back = this.add.rectangle(x,y,135,125,0x0b2134).setStrokeStyle(1,0x32617b).setAlpha(.6);
+        const back = this.add.rectangle(x,y,201,68,0x0b2134).setStrokeStyle(1,0x32617b).setAlpha(.28);
         this.handViews[i] = back;
         this.cardLayer.add(back);
-        this.cardLayer.add(label(this, x, y + 2, "NO CHIP", 17, C.paper).setOrigin(0.5));
         continue;
       }
-      const view = chipTile(this, id, x, y, 0.83, { onClick: () => this.playCard(i) });
-      view.setAngle((i - 2) * 1.7);
+      const view=this.add.container(x,y);
+      const accent=id==='gold'?C.gold:C.edge;
+      const shape=this.add.graphics();
+      shape.fillStyle(i===0?0x14293a:0x0b1725,.98).fillRoundedRect(-100,-33,200,66,7);
+      shape.lineStyle(i===0?1.5:1,i===0?accent:0x294455,i===0?.82:.7).strokeRoundedRect(-100,-33,200,66,7);
+      if(i===0)shape.fillStyle(C.rose,.92).fillPoints([{x:-94,y:-28},{x:-70,y:-28},{x:-75,y:-25},{x:-94,y:-25}],true);
+      view.add(shape);
+      const art=this.textures.exists('premium-'+id)?'premium-'+id:'card-'+id;
+      view.add(this.add.image(-68,0,art).setDisplaySize(49,49));
+      view.add(text(this,-33,-8,CARDS[id].name,13,C.paper,{fontStyle:'bold',wordWrap:{width:104},maxLines:1}).setOrigin(0,.5));
+      if(i===0){
+        const keyBg=this.add.graphics();keyBg.fillStyle(C.rose,.95).fillRoundedRect(68,-12,22,24,4);view.add(keyBg);
+        view.add(label(this,79,0,'Z',10,C.paper,{fontStyle:'bold'}).setOrigin(.5));
+      }else view.add(label(this,87,0,String(i+1).padStart(2,'0'),8,C.muted).setOrigin(1,.5));
+      if(i===0){view.setSize(200,66).setInteractive({useHandCursor:true});view.on('pointerup',()=>this.playCard(0));}
       this.handViews[i] = view;
       this.cardLayer.add(view);
       view.on("pointerover", () => {
-        this.tweens.add({ targets: view, y: 579, angle: 0, duration: 100 });
-        this.tipText.setText(CARDS[id].name + " · " + CARDS[id].desc + " · " + (i===0?"Z: USE NEXT":"QUEUED "+(i+1)));
+        if(i===0)this.tweens.add({ targets: view, x: 138, duration: 100 });
         this.cardLayer.bringToTop(view);
       });
       view.on("pointerout", () => {
-        this.tweens.add({ targets: view, y, angle: (i - 2) * 1.7, duration: 100 });
-        this.tipText.setText("Z / 1: next chip   ·   WASD: move   ·   Hold / release Space: buster   ·   C: Custom");
+        if(i===0)this.tweens.add({ targets: view, x, duration: 100 });
       });
     }
   }
@@ -197,8 +292,8 @@ class Combat extends Phaser.Scene {
     this.aura.clear();
     this.enemyBars.clear();
     const time = this.time.now / 1e3;
-    for (let row = 0; row < 3; row++) for (let col = 0; col < 6; col++) {
-      const p2 = pos(col, row), mine = col < 3 || col === 3 && b.p.grab > b.time, h = b.hazards.find((h2) => h2.x === col && h2.y === row), danger = b.attacks.some((a) => a.cells.some((cell) => cell.x === col && cell.y === row));
+    for (let row = 0; row < 4; row++) for (let col = 0; col < 8; col++) {
+      const p2 = pos(col, row), mine = col < 4 || col === 4 && b.p.grab > b.time, h = b.hazards.find((h2) => h2.x === col && h2.y === row), danger = b.attacks.some((a) => a.cells.some((cell) => cell.x === col && cell.y === row));
       let fill = mine ? 0x246db6 : 0xb44859, edge = mine ? 0x78d9ff : 0xff94a6;
       if (h) {
         fill = h.kind === "fire" ? 11820863 : h.kind === "ice" ? 7904428 : 6721433;
@@ -208,7 +303,7 @@ class Combat extends Phaser.Scene {
         fill = Math.sin(time * 18) > 0 ? 13203804 : 10832969;
         edge = 16768433;
       }
-      const pts = [new Phaser.Geom.Point(p2.x - 77, p2.y - 33), new Phaser.Geom.Point(p2.x + 78, p2.y - 33), new Phaser.Geom.Point(p2.x + 110, p2.y + 33), new Phaser.Geom.Point(p2.x - 45, p2.y + 33)];
+      const pts = [new Phaser.Geom.Point(p2.x - 46, p2.y - 26), new Phaser.Geom.Point(p2.x + 46, p2.y - 26), new Phaser.Geom.Point(p2.x + 64, p2.y + 26), new Phaser.Geom.Point(p2.x - 28, p2.y + 26)];
       this.board.fillStyle(2959408, 0.65);
       this.board.fillPoints(pts.map((q) => new Phaser.Geom.Point(q.x, q.y + 7)), true);
       this.board.fillStyle(fill, 0.9);
@@ -235,8 +330,12 @@ class Combat extends Phaser.Scene {
     for (const e of b.enemies) {
       let sprite = this.enemies.get(e.id);
       if (!sprite) {
-        const isHero2 = ["nova", "echo"].includes(e.type), key = isHero2 ? e.type + "-idle" : "monster-" + e.type;
-        sprite = this.add.sprite(0, 0, key).setOrigin(0.5, isHero2 ? 120 / 128 : 0.94).setDisplaySize(e.boss ? 148 : 115, e.boss ? 148 : 115);
+        const isHero2 = ["nova", "echo"].includes(e.type);
+        const chapter = MISSIONS.indexOf(this.mission);
+        const zone = this.mission.region ?? (chapter >= 0 ? ["garden","aqueduct","archive"][Math.floor(chapter/3)] : null);
+        const themed = "virus-" + zone;
+        const key = isHero2 ? e.type + "-idle" : e.boss || !this.textures.exists(themed) ? "monster-" + e.type : themed;
+        sprite = this.add.sprite(0, 0, key).setOrigin(0.5, isHero2 ? 120 / 128 : 0.94).setDisplaySize(e.boss ? 136 : 105, e.boss ? 136 : 105);
         this.enemies.set(e.id, sprite);
       }
       sprite.setVisible(e.hp > 0);
@@ -248,6 +347,8 @@ class Combat extends Phaser.Scene {
       }
       sprite.setPosition(q.x, q.y + 5 + Math.sin(time * 4 + e.id) * 2).setDepth(10 + e.y).setAlpha(e.flash > 0 ? 0.55 : 1);
       if (e.frozen > b.time) sprite.setTint(10802669);
+      else if (sprite.texture.key.startsWith("virus-") && e.type === "flare") sprite.setTint(0xffbba4);
+      else if (sprite.texture.key.startsWith("virus-") && e.type === "frost") sprite.setTint(0xa8daff);
       
       else sprite.clearTint();
       this.enemyBars.fillStyle(C.ink, 0.85);
@@ -269,19 +370,18 @@ class Combat extends Phaser.Scene {
       image.setPosition(q.x, q.y - 70);
     }
     const max = b.enemies.reduce((n, e) => n + e.max, 0), hp = b.enemies.reduce((n, e) => n + e.hp, 0);
-    this.hpText.setText(b.p.hp + " / 300");
+    this.hpText.setText("HP " + b.p.hp);
     this.enemyHp.setText(hp + " / " + max);
     this.enemyName.setText(b.enemies.length === 1 ? b.enemies[0].name.toUpperCase() : b.enemies.filter((e) => e.hp > 0).length + " VIRUSES");
     this.timeText.setText(String(Math.floor(b.time / 60)).padStart(2, "0") + ":" + String(Math.floor(b.time % 60)).padStart(2, "0") + (b.endless ? "  ·  WAVE " + b.wave : ""));
     this.healthGraphics.clear().fillStyle(5654591).fillRoundedRect(70, 113, 275, 6, 3).fillRoundedRect(934, 113, 275, 6, 3).fillStyle(C.mint).fillRoundedRect(70, 113, 275 * b.p.hp / 300, 6, 3).fillStyle(C.rose).fillRoundedRect(934, 113, 275 * hp / max, 6, 3);
     this.focusGraphics.clear();
     const ready=b.customGauge>=b.customDuration;
-    this.focusGraphics.fillStyle(0x102839).fillRect(470,451,340,17).fillStyle(ready?0xffd66e:0x5ee0ed).fillRect(470,451,340*b.customGauge/b.customDuration,17);
-    this.focusText.setText(ready?"CUSTOM READY · PRESS C":"CUSTOM GAUGE · "+Math.floor(b.customGauge/b.customDuration*100)+"%");
+    this.focusGraphics.fillStyle(0x102839).fillRoundedRect(640,495,390,12,5).fillStyle(ready?0xffd66e:0x5ee0ed).fillRoundedRect(640,495,390*b.customGauge/b.customDuration,12,5);
+    this.focusText.setText(ready?"CUSTOM READY":"CUSTOM").setColor(ready?"#ff4766":"#8da5ba");
+    this.customBtn.setAlpha(ready?1:.58);
     if(b.busterCharge>0){this.aura.lineStyle(3,b.busterCharge>=.9?0xffd66e:0x66efff,.9);this.aura.strokeCircle(p.x+12,p.y-70,25+Math.sin(time*18)*4);}
-    this.drawText.setText("FOLDER\n" + cards.drawPile.length + " CARDS");
-    this.discardText.setText("SPENT\n" + cards.discard.length + " CARDS");
-    this.resolveText.setText(OPERATORS[b.operator].special.toUpperCase() + "  " + Math.floor(b.p.charge) + "%");
+    this.resolveText.setText(OPERATORS[b.operator].special.toUpperCase());
     this.resolveBtn.setAlpha(b.p.charge >= 100 ? 1 : 0.55);
     if (cards.hand.join("|") !== this.handSignature) this.refreshHand();
     this.handViews.forEach((child, index) => {
@@ -302,16 +402,21 @@ class Combat extends Phaser.Scene {
   processEvents() {
     for (const event of this.battle.drain()) {
       const p = pos(event.x ?? this.battle.p.x, event.y ?? this.battle.p.y);
-      audio.play(event.type);
+      if(event.type!=="attackLaunch")audio.play(event.type === "shot" && event.charged ? "charged" : event.type);
       if (["shot", "chip", "overdrive"].includes(event.type)) this.heroPose = this.time.now + (event.type === "shot" ? 120 : 350);
       switch (event.type) {
+        case "shot":
+          if(event.charged)this.completeTutorialAction("charge");
+          if(event.charged)impact(this,p.x+28,p.y-67,0x83f3ff,1.4);
+          break;
         case "hit":
-          this.burst(p.x, p.y - 60, C.gold, 11);
+          impact(this,p.x,p.y-60,0x86eaff,event.amount>=60?1.6:1);
           this.float(p.x, p.y - 120, "−" + event.amount, C.paper, 24);
           if (state.save.settings.shake) this.cameras.main.shake(55, 2e-3);
           break;
         case "hurt":
-          this.burst(p.x, p.y - 60, C.rose, 20);
+          this.cancelFlee();
+          impact(this,p.x,p.y-60,0xff637f,1.3);
           this.float(p.x, p.y - 125, "−" + event.amount, C.rose, 28);
           if (state.save.settings.shake) this.cameras.main.shake(110, 6e-3);
           break;
@@ -319,6 +424,7 @@ class Combat extends Phaser.Scene {
           this.float(p.x, p.y - 130, "+" + event.amount, C.mint);
           break;
         case "block":
+          this.cancelFlee();
           this.float(p.x, p.y - 120, "WARDED", C.gold, 20);
           break;
         case "delete":
@@ -338,13 +444,31 @@ class Combat extends Phaser.Scene {
           this.burst(p.x, p.y - 70, C.gold, 25);
           break;
         case "notice":
-          this.notice(event.text.replace("CHIP", "CARD"));
+          this.notice(event.text.replace("CHIP", "COMMAND"));
           break;
-        case "attack":
+        case "attackLaunch": {
           this.enemyPoses[event.owner] = this.time.now + 300;
+          const owner = this.battle.enemies.find(enemy=>enemy.id===event.owner);
+          if(!owner)break;
+          const origin = pos(owner.x,owner.y);
+          const color = typeof event.color==='string' ? Number(event.color.replace('#','0x')) : event.color ?? C.rose;
+          const source = {x:origin.x-27,y:origin.y-63};
+          impact(this,source.x,source.y,color,.83);
+          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
           for (const cell of event.cells) {
-            const q = pos(cell.x, cell.y), line = this.add.rectangle(q.x, q.y - 28, 9, 86, C.rose, 0.8).setDepth(25);
-            this.tweens.add({ targets: line, alpha: 0, scaleX: 3, duration: 220, onComplete: () => line.destroy() });
+            const q = pos(cell.x,cell.y);
+            const streak = this.add.rectangle(source.x,source.y,34,7,color,.88).setDepth(29);
+            streak.setRotation(Math.atan2(q.y-29-source.y,q.x-source.x));
+            this.tweens.add({targets:streak,x:q.x,y:q.y-29,duration:reduced?55:Math.max(55,(event.fireAt-this.battle.time)*1000),ease:'Quad.easeIn',onComplete:()=>{
+              streak.destroy();
+            }});
+          }
+          break;
+        }
+        case "attack":
+          for(const cell of event.cells){
+            const q=pos(cell.x,cell.y);
+            impact(this,q.x,q.y-29,C.rose,.65);
           }
           break;
         case "lightning": {
@@ -410,6 +534,7 @@ class Combat extends Phaser.Scene {
   finish(win) {
     if (this.finished) return;
     this.finished = true;
+    if(win&&this.tutorialActive)this.finishTutorial();
     audio.setActive(false);
     let gains = null, result = this.battle.result ?? {}, mission = this.mission;
     if (win || this.battle.endless && this.battle.wave > 1) {
@@ -421,32 +546,29 @@ class Combat extends Phaser.Scene {
       gains = reward(state.save, mission, result);
       if(state.wildEncounter&&!state.save.world.wildDefeated.includes(state.wildEncounter))state.save.world.wildDefeated.push(state.wildEncounter);
       state.wildEncounter=null;
-      state.save.items[gains.card]--;
-      const pool = Object.keys(CARDS).filter((id) => CARDS[id].type !== "equipment" && id !== "gold");
-      const choices = [gains.card];
-      while (choices.length < 3) {
-        const id = pool[Math.floor(Math.random() * pool.length)];
-        if (!choices.includes(id)) choices.push(id);
-      }
-      state.save.pendingReward = { choices, missionId: mission.id };
+      state.save.fieldHp = win ? this.battle.p.hp : 300;
       state.result = { ...result, gains };
       persist();
       this.time.delayedCall(1100, () => transition(this, "Rewards"));
-      this.notice(win ? "Victory · A new page awaits." : "A journey worth remembering.");
+      this.notice(gains.card ? "COMMAND FOUND" : gains.decor ? "POCKET DECOR FOUND" : "VIRUS DELETED");
     } else {
+      state.save.fieldHp = 300;
       state.save.stats.kills += this.battle.kills;
       state.save.stats.combos += this.battle.combos;
       state.save.stats.damage += this.battle.damage;
       persist();
-      this.time.delayedCall(500, () => modal(this, { title: "Even the best stories have setbacks.", body: "No cards or gold were lost. Refine your deck, read the marked ground, and try another approach.", yes: "Try again", no: "Back to the road", portrait: state.save.operator + "-portrait", onYes: () => this.scene.restart(), onNo: () => this.scene.start("Overworld") }));
+      this.time.delayedCall(500, () => modal(this, { title: "Navi down.", body: "Your deck and gold are safe. Adjust your commands and try again.", yes: "Retry", no: "Leave", portrait: state.save.operator + "-portrait", onYes: () => this.scene.restart(), onNo: () => this.scene.start("Overworld") }));
     }
   }
   update(_time, delta) {
     if (!this.battle) return;
     const dt = Math.min(delta / 1e3, 0.05);
     const k = this.keys;
+    const oldX=this.battle.p.x,oldY=this.battle.p.y;
     this.battle.update(dt, { dx: this.touch.dx + (k.right.isDown || k.arrowRight.isDown ? 1 : 0) - (k.left.isDown || k.arrowLeft.isDown ? 1 : 0), dy: this.touch.dy + (k.down.isDown || k.arrowDown.isDown ? 1 : 0) - (k.up.isDown || k.arrowUp.isDown ? 1 : 0), fire: this.touch.fire || k.fire.isDown });
+    if(this.battle.p.x!==oldX||this.battle.p.y!==oldY)this.completeTutorialAction("move");
     this.processEvents();
+    this.updateFlee(dt);
     this.syncView();
   }
 }

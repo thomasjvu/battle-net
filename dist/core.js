@@ -1,3 +1,5 @@
+import{REGION_IDS}from'./regions.js';
+import{DECOR,freshBase,normalizeBase,validBase}from'./home.js';
 import {freshWorld,validWorld} from "./world.js";
 import { EXTRA_CARDS } from "./extra-cards.js";
 import { validateDeck, reconcileDeck, deckCounts } from "./deck.js";
@@ -39,13 +41,16 @@ const MISSIONS = [
 const WORLDS = [{ name: "The Elderwood", color: "#bbed71", desc: "Follow the forgotten road." }, { name: "Frostfall Reach", color: "#87d7f7", desc: "Where old memories bloom." }, { name: "The Hollow Court", color: "#c6a0ff", desc: "The last page awaits." }];
 const QUESTS = [{ id: "first", name: "First Steps", desc: "Win your first battle.", goal: 1, stat: "wins", reward: 40 }, { id: "trader", name: "Open for business", desc: "Complete 5 merchant trades.", goal: 5, stat: "trades", reward: 60 }, { id: "golden", name: "Stay golden", desc: "Forge a Gold Longsword.", goal: 1, stat: "forged", reward: 100 }, { id: "combo", name: "Chain reaction", desc: "Land 10 elemental combos.", goal: 10, stat: "combos", reward: 90 }, { id: "runner", name: "A Friend in Scarlet", desc: "Clear the Elderwood.", goal: 3, stat: "cleared", reward: 80 }, { id: "collector", name: "Full spectrum", desc: "Own 12 different card types.", goal: 12, stat: "types", reward: 100 }, { id: "heart", name: "A Tale Remembered", desc: "Complete all 9 chapters.", goal: 9, stat: "cleared", reward: 200 }];
 const stats = () => ({ kills: 0, trades: 0, forged: 0, combos: 0, damage: 0, battles: 0, bestEndless: 0 });
-const freshSave = () => ({ version: 2, credits: 240, items: Object.fromEntries(Object.keys(CHIPS).map((id) => [id, { cannon: 3, longsword: 100, thunder: 2, recover: 3, barrier: 2 }[id] ?? 0])), stock: Object.fromEntries(Object.entries(CHIPS).map(([id, c]) => [id, c.stock])), folder: ["cannon", "longsword", "thunder", "recover", "barrier"], deck: ["cannon", "cannon", "cannon", "longsword", "longsword", "longsword", "thunder", "thunder", "recover", "recover", "barrier", "barrier"], equipment: { buster: false, armor: false }, wins: 0, xp: 0, operator: "pulse", completed: [], bests: {}, claimed: [], stats: stats(), history: [], settings: { sound: false, music: false, shake: true, particles: true, volume: 0.3 }, tutorial: false, world:freshWorld() });
+const starterChips = Object.fromEntries(
+  ["cannon", "longsword", "thunder", "recover", "barrier", "shotgun", "icewave", "areagrab", "repair", "gust"].map(id => [id, 3])
+);
+const freshSave = () => ({ version: 2, folderSize: 30, credits: 240, items: Object.fromEntries(Object.keys(CHIPS).map((id) => [id, { ...starterChips, longsword: 100 }[id] ?? 0])), stock: Object.fromEntries(Object.entries(CHIPS).map(([id, c]) => [id, c.stock])), folder: ["cannon", "longsword", "thunder", "recover", "barrier"], deck: reconcileDeck([], starterChips, CHIPS), equipment: { buster: false, armor: false }, wins: 0, xp: 0, operator: "pulse", completed: [], bests: {}, claimed: [], stats: stats(), history: [], settings: { sound: true, music: true, shake: true, particles: true, volume: 0.3 }, tutorial: false, world:freshWorld() });
 const natural = (n) => Number.isSafeInteger(n) && n >= 0 && n <= 1e8;
 function validSave(s) {
-  return Boolean(s?.version === 2 && natural(s.credits) && natural(s.wins) && natural(s.xp) && Object.keys(CHIPS).every((id) => natural(s.items?.[id]) && natural(s.stock?.[id])) && Array.isArray(s.folder) && s.folder.length === 5 && s.folder.every((id) => CHIPS[id] && CHIPS[id].type !== "equipment" && s.items[id] > 0) && s.equipment && ["buster", "armor"].every((id) => typeof s.equipment[id] === "boolean" && (!s.equipment[id] || s.items[id] > 0)) && OPERATORS[s.operator] && Array.isArray(s.completed) && s.completed.every((id) => MISSIONS.some((m) => m.id === id)) && Array.isArray(s.claimed) && s.claimed.every((id) => QUESTS.some((q) => q.id === id)) && s.stats && Object.keys(stats()).every((k) => natural(s.stats[k])) && s.bests && typeof s.bests === "object" && Object.values(s.bests).every((b) => b && Number.isFinite(b.time) && b.time >= 0 && ["S", "A", "B", "C"].includes(b.rank)) && Array.isArray(s.history) && s.history.length <= 40 && s.history.every((h) => typeof h === "string" && h.length <= 200) && s.settings && ["sound", "music", "shake", "particles"].every((k) => typeof s.settings[k] === "boolean") && Number.isFinite(s.settings.volume) && s.settings.volume >= 0 && s.settings.volume <= 1 && typeof s.tutorial === "boolean" && validWorld(s.world) && validateDeck(s.deck, s.items, CHIPS, false) && (!s.pendingReward || Array.isArray(s.pendingReward.choices) && s.pendingReward.choices.length === 3 && s.pendingReward.choices.every((id) => CHIPS[id] && CHIPS[id].type !== "equipment" && id !== "gold")));
+  return Boolean(s?.version === 2 && natural(s.credits) && natural(s.wins) && natural(s.xp) && Object.keys(CHIPS).every((id) => natural(s.items?.[id]) && natural(s.stock?.[id])) && Array.isArray(s.folder) && s.folder.length === 5 && s.folder.every((id) => CHIPS[id] && CHIPS[id].type !== "equipment" && s.items[id] > 0) && s.equipment && ["buster", "armor"].every((id) => typeof s.equipment[id] === "boolean" && (!s.equipment[id] || s.items[id] > 0)) && OPERATORS[s.operator] && Array.isArray(s.completed) && s.completed.every((id) => MISSIONS.some((m) => m.id === id)) && Array.isArray(s.claimed) && s.claimed.every((id) => QUESTS.some((q) => q.id === id)) && s.stats && Object.keys(stats()).every((k) => natural(s.stats[k])) && s.bests && typeof s.bests === "object" && Object.values(s.bests).every((b) => b && Number.isFinite(b.time) && b.time >= 0 && ["S", "A", "B", "C"].includes(b.rank)) && Array.isArray(s.history) && s.history.length <= 40 && s.history.every((h) => typeof h === "string" && h.length <= 200) && s.settings && ["sound", "music", "shake", "particles"].every((k) => typeof s.settings[k] === "boolean") && Number.isFinite(s.settings.volume) && s.settings.volume >= 0 && s.settings.volume <= 1 && typeof s.tutorial === "boolean" && (s.fieldHp === undefined || Number.isInteger(s.fieldHp) && s.fieldHp >= 1 && s.fieldHp <= 300) && (s.fieldZone === undefined || [...REGION_IDS,"dungeon"].includes(s.fieldZone)) && (s.base === undefined || validBase(s.base)) && validWorld(s.world) && validateDeck(s.deck, s.items, CHIPS, false) && (!s.pendingReward || Array.isArray(s.pendingReward.choices) && s.pendingReward.choices.length === 3 && s.pendingReward.choices.every((id) => CHIPS[id] && CHIPS[id].type !== "equipment" && id !== "gold")));
 }
 function migrateSave(s) {
-  if (validSave(s)) return s;
+  if (validSave(s) && s.folderSize === 30) return s;
   if (![1, 2].includes(s?.version)) return freshSave();
   const n = freshSave();
   for (const id of Object.keys(CHIPS)) {
@@ -56,10 +61,17 @@ function migrateSave(s) {
   if (Array.isArray(s.folder) && s.folder.length === 5 && s.folder.every((id) => CHIPS[id] && CHIPS[id].type !== "equipment" && n.items[id] > 0)) n.folder = [...s.folder];
   for (const id of ["buster", "armor"]) n.equipment[id] = Boolean(s.equipment?.[id] && n.items[id]);
   if (s.version === 2) {
-    for (const key of ["completed", "claimed", "bests", "stats", "history", "settings", "tutorial", "operator", "world", "pendingReward", "cardsTutorial"]) if (s[key] !== void 0) n[key] = s[key];
+    for (const key of ["completed", "claimed", "bests", "stats", "history", "settings", "tutorial", "operator", "world", "pendingReward", "cardsTutorial", "fieldHp", "fieldZone", "base", "regionPositions"]) if (s[key] !== void 0) n[key] = s[key];
   }
+  if(!Number.isInteger(n.fieldHp)||n.fieldHp<1||n.fieldHp>300)delete n.fieldHp;
+  if(![...REGION_IDS,"dungeon"].includes(n.fieldZone))delete n.fieldZone;
+  if(n.base !== undefined && !validBase(n.base))delete n.base;
+  if(!n.regionPositions || typeof n.regionPositions !== "object" || Array.isArray(n.regionPositions))delete n.regionPositions;
   if(!validWorld(n.world))n.world=freshWorld();
-  n.deck = reconcileDeck(s.deck ?? n.deck, n.items, CHIPS);
+  if (s.folderSize !== 30) {
+    for (const [id, count] of Object.entries(starterChips)) n.items[id] = Math.max(n.items[id], count);
+  }
+  n.deck = reconcileDeck(Array.isArray(s.deck) ? s.deck : n.deck, n.items, CHIPS);
   return validSave(n) ? n : freshSave();
 }
 function log(s, message) {
@@ -127,23 +139,27 @@ function claimQuest(s, id) {
   log(s, `Commission complete: ${q.name} · +${q.reward} credits`);
   return true;
 }
-function reward(s, mission = MISSIONS[0], result = { rank: "B", time: 60, kills: 1, combos: 0, damage: 0 }) {
+function reward(s, mission = MISSIONS[0], result = { rank: "B", time: 60, kills: 1, combos: 0, damage: 0 }, random = Math.random) {
   const campaign = MISSIONS.some(m => m.id === mission.id);
   const first = campaign && !s.completed.includes(mission.id);
   const bonus = result.rank === "S" ? 1.4 : result.rank === "A" ? 1.2 : 1;
   const credits = Math.round(mission.reward * bonus * (first ? 1 : 0.65));
   s.credits += credits;
   s.xp += Math.round(mission.xp * (first ? 1 : 0.5));
-  s.items.longsword += first ? 10 : 5;
-  s.items[mission.drop]++;
+  const card = CHIPS[mission.drop] && random() < (result.rank === "S" ? .34 : .24) ? mission.drop : null;
+  if (card) s.items[card]++;
+  const base=normalizeBase(s.base??=(freshBase()));
+  const eligible=Object.keys(DECOR).filter(type=>base.storage[type]+base.placements.filter(p=>p.type===type).length+(base.carried?.type===type?1:0)<DECOR[type].limit);
+  const decor=eligible.length&&random()<(mission.boss ? .08 : .045)?eligible[Math.floor(random()*eligible.length)]:null;
+  if(decor)base.storage[decor]++;
   s.wins++;
   if (campaign && first) s.completed.push(mission.id);
   const old = s.bests[mission.id];
   if (!old || result.time < old.time) s.bests[mission.id] = { time: result.time, rank: result.rank };
   for (const k of ["kills", "combos", "damage"]) s.stats[k] += Math.floor(result[k] ?? 0);
   if (mission.id === "endless") s.stats.bestEndless = Math.max(s.stats.bestEndless, result.wave ?? 1);
-  log(s, `${mission.name} · Rank ${result.rank} · +${credits} credits · ${CHIPS[mission.drop].name}`);
-  return { credits, xp: Math.round(mission.xp * (first ? 1 : 0.5)), longswords: first ? 10 : 5, card: mission.drop, first };
+  log(s, `${mission.name} · Rank ${result.rank} · +${credits} credits · ${card ? CHIPS[card].name : "Gold reward"}${decor?` · ${DECOR[decor].name}`:""}`);
+  return { credits, xp: Math.round(mission.xp * (first ? 1 : 0.5)), card, decor, first };
 }
 function simulateMarket(s, seed = 1) {
   let x = seed >>> 0;

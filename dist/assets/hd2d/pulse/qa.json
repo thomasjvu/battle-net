@@ -1,0 +1,51 @@
+{
+  "checks": [
+    {
+      "id": "south-idle",
+      "binaryAlpha": true,
+      "clearMargins": true,
+      "frameCount": 1,
+      "uniqueFrames": 1
+    },
+    {
+      "id": "east-idle",
+      "binaryAlpha": true,
+      "clearMargins": true,
+      "frameCount": 1,
+      "uniqueFrames": 1
+    },
+    {
+      "id": "north-idle",
+      "binaryAlpha": true,
+      "clearMargins": true,
+      "frameCount": 1,
+      "uniqueFrames": 1
+    },
+    {
+      "id": "south-walk",
+      "binaryAlpha": true,
+      "clearMargins": true,
+      "frameCount": 6,
+      "uniqueFrames": 6
+    },
+    {
+      "id": "east-walk",
+      "binaryAlpha": true,
+      "clearMargins": true,
+      "frameCount": 6,
+      "uniqueFrames": 6
+    },
+    {
+      "id": "north-walk",
+      "binaryAlpha": true,
+      "clearMargins": true,
+      "frameCount": 6,
+      "uniqueFrames": 6
+    }
+  ],
+  "warnings": [
+    "Sprint reuses genuine walk drawings at faster playback; no distinct run cycle.",
+    "Some fine sleeve/cuff and ribbon details vary between generated poses."
+  ],
+  "reviewStatus": "reviewed-all21-native-poses"
+}

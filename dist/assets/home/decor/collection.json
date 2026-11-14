@@ -1,0 +1,291 @@
+{
+  "collection": {
+    "name": "Pocket Home",
+    "symbol": "POCKET",
+    "series": "01",
+    "description": "Handmade keepsakes and gentle furniture for a player’s home hub.",
+    "cover": "assets/home/decor/collection-cover.png"
+  },
+  "metadata_standard": "NEP-245 Multi Token Metadata 1.0.0",
+  "mt_metadata_contract": {
+    "spec": "mt-1.0.0",
+    "name": "Battle Net: Pocket Home"
+  },
+  "inventory_model": "semi-fungible placeable decor tokens; quantities can be held and listed as lots",
+  "marketplace": "NEAR multi-token listings, once these token IDs are added to the contract registry",
+  "contract_status": "deployed_testnet_v0.5.0",
+  "contract_note": "These six NEP-245 IDs are enabled on battlenet.testnet. New registrations receive one of each; players registered on v0.4 can claim the set once. Media paths remain project-relative and need public absolute or content-addressed hosting for independent wallet and marketplace display.",
+  "tokens": [
+    {
+      "token_id": "home_planter_signal",
+      "name": "Signal Planter",
+      "description": "A hand-thrown clay pot with a bright little bloom. A favorite meeting place for tiny garden sprites.",
+      "standard": "nep245",
+      "token_type": "semi_fungible",
+      "media": "assets/home/decor/cards/signal-planter.png",
+      "media_source": "assets/home/decor/cards/signal-planter.svg",
+      "sprite": "assets/home/decor/sprites/signal-planter-v2.png",
+      "sprite_source": "assets/home/decor/sprites/signal-planter.svg",
+      "decoration": {
+        "grid_size": "1 × 1",
+        "category": "home_decor",
+        "placeable": true
+      },
+      "rarity": "common",
+      "proposed_max_supply": "8000",
+      "artwork_status": "created_unminted",
+      "tradable_intent": true,
+      "market_status": "enabled_testnet",
+      "mt_metadata_base": {
+        "name": "Signal Planter",
+        "id": "home_planter_signal",
+        "symbol": "POCKET",
+        "icon": null,
+        "decimals": null,
+        "base_uri": null,
+        "reference": null,
+        "copies": null,
+        "reference_hash": null
+      },
+      "mt_metadata_token": {
+        "title": "Signal Planter",
+        "description": "A hand-thrown clay pot with a bright little bloom. A favorite meeting place for tiny garden sprites.",
+        "media": "assets/home/decor/cards/signal-planter.png",
+        "media_hash": "M3Wrsp9bzjfkPQ+Ou5DMlHjpTTZQvj7bP/ZHUZmw/Hc=",
+        "issued_at": null,
+        "expires_at": null,
+        "starts_at": null,
+        "updated_at": null,
+        "extra": "{\"rarity\": \"common\", \"grid_size\": \"1 \\u00d7 1\", \"collection\": \"Pocket Home\", \"series\": \"01\"}",
+        "reference": null,
+        "reference_hash": null
+      }
+    },
+    {
+      "token_id": "home_lamp_moon",
+      "name": "Paper Moon Lamp",
+      "description": "A warm paper lantern, painted by hand with a tiny crescent moon. Its glow makes every late-night duel feel softer.",
+      "standard": "nep245",
+      "token_type": "semi_fungible",
+      "media": "assets/home/decor/cards/paper-moon-lamp.png",
+      "media_source": "assets/home/decor/cards/paper-moon-lamp.svg",
+      "sprite": "assets/home/decor/sprites/paper-moon-lamp-v2.png",
+      "sprite_source": "assets/home/decor/sprites/paper-moon-lamp.svg",
+      "decoration": {
+        "grid_size": "1 × 1",
+        "category": "home_decor",
+        "placeable": true
+      },
+      "rarity": "common",
+      "proposed_max_supply": "8000",
+      "artwork_status": "created_unminted",
+      "tradable_intent": true,
+      "market_status": "enabled_testnet",
+      "mt_metadata_base": {
+        "name": "Paper Moon Lamp",
+        "id": "home_lamp_moon",
+        "symbol": "POCKET",
+        "icon": null,
+        "decimals": null,
+        "base_uri": null,
+        "reference": null,
+        "copies": null,
+        "reference_hash": null
+      },
+      "mt_metadata_token": {
+        "title": "Paper Moon Lamp",
+        "description": "A warm paper lantern, painted by hand with a tiny crescent moon. Its glow makes every late-night duel feel softer.",
+        "media": "assets/home/decor/cards/paper-moon-lamp.png",
+        "media_hash": "BhC6aFLtRioV1BqIwWFSH2EjPZNTy3XTeDxGRR/33N0=",
+        "issued_at": null,
+        "expires_at": null,
+        "starts_at": null,
+        "updated_at": null,
+        "extra": "{\"rarity\": \"common\", \"grid_size\": \"1 \\u00d7 1\", \"collection\": \"Pocket Home\", \"series\": \"01\"}",
+        "reference": null,
+        "reference_hash": null
+      }
+    },
+    {
+      "token_id": "home_bench_cloud",
+      "name": "Cloud Bench",
+      "description": "A smooth little bench with a cloud-soft cushion. Plenty of room to watch your cards shuffle.",
+      "standard": "nep245",
+      "token_type": "semi_fungible",
+      "media": "assets/home/decor/cards/cloud-bench.png",
+      "media_source": "assets/home/decor/cards/cloud-bench.svg",
+      "sprite": "assets/home/decor/sprites/cloud-bench-v2.png",
+      "sprite_source": "assets/home/decor/sprites/cloud-bench.svg",
+      "decoration": {
+        "grid_size": "2 × 1",
+        "category": "home_decor",
+        "placeable": true
+      },
+      "rarity": "uncommon",
+      "proposed_max_supply": "4000",
+      "artwork_status": "created_unminted",
+      "tradable_intent": true,
+      "market_status": "enabled_testnet",
+      "mt_metadata_base": {
+        "name": "Cloud Bench",
+        "id": "home_bench_cloud",
+        "symbol": "POCKET",
+        "icon": null,
+        "decimals": null,
+        "base_uri": null,
+        "reference": null,
+        "copies": null,
+        "reference_hash": null
+      },
+      "mt_metadata_token": {
+        "title": "Cloud Bench",
+        "description": "A smooth little bench with a cloud-soft cushion. Plenty of room to watch your cards shuffle.",
+        "media": "assets/home/decor/cards/cloud-bench.png",
+        "media_hash": "AyxGfABBZW8/r2ffJNjWsGIzUpKcfCFOHpgEsycJMkk=",
+        "issued_at": null,
+        "expires_at": null,
+        "starts_at": null,
+        "updated_at": null,
+        "extra": "{\"rarity\": \"uncommon\", \"grid_size\": \"2 \\u00d7 1\", \"collection\": \"Pocket Home\", \"series\": \"01\"}",
+        "reference": null,
+        "reference_hash": null
+      }
+    },
+    {
+      "token_id": "home_pond_memory",
+      "name": "Memory Pond",
+      "description": "A little bowl of clear water with a koi who never forgets a friendly face.",
+      "standard": "nep245",
+      "token_type": "semi_fungible",
+      "media": "assets/home/decor/cards/memory-pond.png",
+      "media_source": "assets/home/decor/cards/memory-pond.svg",
+      "sprite": "assets/home/decor/sprites/memory-pond-v2.png",
+      "sprite_source": "assets/home/decor/sprites/memory-pond.svg",
+      "decoration": {
+        "grid_size": "2 × 2",
+        "category": "home_decor",
+        "placeable": true
+      },
+      "rarity": "rare",
+      "proposed_max_supply": "1500",
+      "artwork_status": "created_unminted",
+      "tradable_intent": true,
+      "market_status": "enabled_testnet",
+      "mt_metadata_base": {
+        "name": "Memory Pond",
+        "id": "home_pond_memory",
+        "symbol": "POCKET",
+        "icon": null,
+        "decimals": null,
+        "base_uri": null,
+        "reference": null,
+        "copies": null,
+        "reference_hash": null
+      },
+      "mt_metadata_token": {
+        "title": "Memory Pond",
+        "description": "A little bowl of clear water with a koi who never forgets a friendly face.",
+        "media": "assets/home/decor/cards/memory-pond.png",
+        "media_hash": "MhPM3NhvgEL55x/YzqmN4yZfhUGLacC2L0DKxBKupVA=",
+        "issued_at": null,
+        "expires_at": null,
+        "starts_at": null,
+        "updated_at": null,
+        "extra": "{\"rarity\": \"rare\", \"grid_size\": \"2 \\u00d7 2\", \"collection\": \"Pocket Home\", \"series\": \"01\"}",
+        "reference": null,
+        "reference_hash": null
+      }
+    },
+    {
+      "token_id": "home_rug_starweave",
+      "name": "Starweave Rug",
+      "description": "Soft woven cloth stitched with a star and a little path home. A familiar place to land after a long match.",
+      "standard": "nep245",
+      "token_type": "semi_fungible",
+      "media": "assets/home/decor/cards/starweave-rug.png",
+      "media_source": "assets/home/decor/cards/starweave-rug.svg",
+      "sprite": "assets/home/decor/sprites/starweave-rug-v2.png",
+      "sprite_source": "assets/home/decor/sprites/starweave-rug.svg",
+      "decoration": {
+        "grid_size": "2 × 2",
+        "category": "home_decor",
+        "placeable": true
+      },
+      "rarity": "uncommon",
+      "proposed_max_supply": "4000",
+      "artwork_status": "created_unminted",
+      "tradable_intent": true,
+      "market_status": "enabled_testnet",
+      "mt_metadata_base": {
+        "name": "Starweave Rug",
+        "id": "home_rug_starweave",
+        "symbol": "POCKET",
+        "icon": null,
+        "decimals": null,
+        "base_uri": null,
+        "reference": null,
+        "copies": null,
+        "reference_hash": null
+      },
+      "mt_metadata_token": {
+        "title": "Starweave Rug",
+        "description": "Soft woven cloth stitched with a star and a little path home. A familiar place to land after a long match.",
+        "media": "assets/home/decor/cards/starweave-rug.png",
+        "media_hash": "GteXSm9Wo2Agbq9PZJFlaU7hFjErW8pUrAPeqFAt+rY=",
+        "issued_at": null,
+        "expires_at": null,
+        "starts_at": null,
+        "updated_at": null,
+        "extra": "{\"rarity\": \"uncommon\", \"grid_size\": \"2 \\u00d7 2\", \"collection\": \"Pocket Home\", \"series\": \"01\"}",
+        "reference": null,
+        "reference_hash": null
+      }
+    },
+    {
+      "token_id": "home_sculpture_orbit",
+      "name": "Orbit Sculpture",
+      "description": "A hand-carved wooden bead hangs inside a brass ring, a tiny keepsake for the little worlds we carry.",
+      "standard": "nep245",
+      "token_type": "semi_fungible",
+      "media": "assets/home/decor/cards/orbit-sculpture.png",
+      "media_source": "assets/home/decor/cards/orbit-sculpture.svg",
+      "sprite": "assets/home/decor/sprites/orbit-sculpture-v2.png",
+      "sprite_source": "assets/home/decor/sprites/orbit-sculpture.svg",
+      "decoration": {
+        "grid_size": "1 × 1",
+        "category": "home_decor",
+        "placeable": true
+      },
+      "rarity": "epic",
+      "proposed_max_supply": "600",
+      "artwork_status": "created_unminted",
+      "tradable_intent": true,
+      "market_status": "enabled_testnet",
+      "mt_metadata_base": {
+        "name": "Orbit Sculpture",
+        "id": "home_sculpture_orbit",
+        "symbol": "POCKET",
+        "icon": null,
+        "decimals": null,
+        "base_uri": null,
+        "reference": null,
+        "copies": null,
+        "reference_hash": null
+      },
+      "mt_metadata_token": {
+        "title": "Orbit Sculpture",
+        "description": "A hand-carved wooden bead hangs inside a brass ring, a tiny keepsake for the little worlds we carry.",
+        "media": "assets/home/decor/cards/orbit-sculpture.png",
+        "media_hash": "cwENkUQzKSNX8aNduSFeaygLxFgZ+prW0OviJrsG9cU=",
+        "issued_at": null,
+        "expires_at": null,
+        "starts_at": null,
+        "updated_at": null,
+        "extra": "{\"rarity\": \"epic\", \"grid_size\": \"1 \\u00d7 1\", \"collection\": \"Pocket Home\", \"series\": \"01\"}",
+        "reference": null,
+        "reference_hash": null
+      }
+    }
+  ],
+  "art_update": "Generated storybook sprite variants are used in the playable Pocket Home; the original SVG sources and marketplace card-face media remain preserved."
+}

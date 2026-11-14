@@ -1,0 +1,207 @@
+{
+  "characters": {
+    "pulse": {
+      "clips": {
+        "south-idle": {
+          "path": "assets/hd2d/pulse/south-idle.png",
+          "frames": 1,
+          "fps": 1
+        },
+        "south-walk": {
+          "path": "assets/hd2d/pulse/south-walk.png",
+          "frames": 6,
+          "fps": 10
+        },
+        "south-run": {
+          "path": "assets/hd2d/pulse/south-sprint.png",
+          "frames": 6,
+          "fps": 14,
+          "anchor": [
+            64,
+            120
+          ]
+        },
+        "east-idle": {
+          "path": "assets/hd2d/pulse/east-idle.png",
+          "frames": 1,
+          "fps": 1
+        },
+        "east-walk": {
+          "path": "assets/hd2d/pulse/east-walk.png",
+          "frames": 6,
+          "fps": 10
+        },
+        "east-run": {
+          "path": "assets/hd2d/pulse/east-sprint.png",
+          "frames": 6,
+          "fps": 14,
+          "anchor": [
+            64,
+            120
+          ]
+        },
+        "north-idle": {
+          "path": "assets/hd2d/pulse/north-idle.png",
+          "frames": 1,
+          "fps": 1
+        },
+        "north-walk": {
+          "path": "assets/hd2d/pulse/north-walk.png",
+          "frames": 6,
+          "fps": 10
+        },
+        "north-run": {
+          "path": "assets/hd2d/pulse/north-sprint.png",
+          "frames": 6,
+          "fps": 14,
+          "anchor": [
+            64,
+            120
+          ]
+        },
+        "southeast-idle": {
+          "path": "assets/hd2d/pulse/southeast-idle.png",
+          "frames": 1,
+          "fps": 1
+        },
+        "northeast-idle": {
+          "path": "assets/hd2d/pulse/northeast-idle.png",
+          "frames": 1,
+          "fps": 1
+        },
+        "southeast-walk": {
+          "path": "assets/hd2d/pulse/southeast-walk.png",
+          "frames": 6,
+          "fps": 10
+        },
+        "southeast-run": {
+          "path": "assets/hd2d/pulse/southeast-walk.png",
+          "frames": 6,
+          "fps": 14
+        },
+        "northeast-walk": {
+          "path": "assets/hd2d/pulse/northeast-walk.png",
+          "frames": 6,
+          "fps": 10
+        },
+        "northeast-run": {
+          "path": "assets/hd2d/pulse/northeast-walk.png",
+          "frames": 6,
+          "fps": 14
+        },
+        "south-sit": {
+          "path": "assets/hd2d/pulse/seated.png",
+          "frames": 1,
+          "fps": 1,
+          "anchor": [
+            64,
+            85
+          ]
+        }
+      }
+    },
+    "nova": {
+      "clips": {
+        "south-idle": {
+          "path": "assets/fantasy/characters/nova-idle.png",
+          "frames": 1,
+          "fps": 1
+        },
+        "south-walk": {
+          "path": "assets/fantasy/characters/nova-idle.png",
+          "frames": 1,
+          "fps": 10
+        },
+        "south-run": {
+          "path": "assets/fantasy/characters/nova-idle.png",
+          "frames": 1,
+          "fps": 14
+        },
+        "east-idle": {
+          "path": "assets/fantasy/characters/nova-idle.png",
+          "frames": 1,
+          "fps": 1
+        },
+        "east-walk": {
+          "path": "assets/fantasy/characters/nova-idle.png",
+          "frames": 1,
+          "fps": 10
+        },
+        "east-run": {
+          "path": "assets/fantasy/characters/nova-idle.png",
+          "frames": 1,
+          "fps": 14
+        },
+        "north-idle": {
+          "path": "assets/fantasy/characters/nova-idle.png",
+          "frames": 1,
+          "fps": 1
+        },
+        "north-walk": {
+          "path": "assets/fantasy/characters/nova-idle.png",
+          "frames": 1,
+          "fps": 10
+        },
+        "north-run": {
+          "path": "assets/fantasy/characters/nova-idle.png",
+          "frames": 1,
+          "fps": 14
+        }
+      }
+    },
+    "echo": {
+      "clips": {
+        "south-idle": {
+          "path": "assets/fantasy/characters/echo-idle.png",
+          "frames": 1,
+          "fps": 1
+        },
+        "south-walk": {
+          "path": "assets/fantasy/characters/echo-idle.png",
+          "frames": 1,
+          "fps": 10
+        },
+        "south-run": {
+          "path": "assets/fantasy/characters/echo-idle.png",
+          "frames": 1,
+          "fps": 14
+        },
+        "east-idle": {
+          "path": "assets/fantasy/characters/echo-idle.png",
+          "frames": 1,
+          "fps": 1
+        },
+        "east-walk": {
+          "path": "assets/fantasy/characters/echo-idle.png",
+          "frames": 1,
+          "fps": 10
+        },
+        "east-run": {
+          "path": "assets/fantasy/characters/echo-idle.png",
+          "frames": 1,
+          "fps": 14
+        },
+        "north-idle": {
+          "path": "assets/fantasy/characters/echo-idle.png",
+          "frames": 1,
+          "fps": 1
+        },
+        "north-walk": {
+          "path": "assets/fantasy/characters/echo-idle.png",
+          "frames": 1,
+          "fps": 10
+        },
+        "north-run": {
+          "path": "assets/fantasy/characters/echo-idle.png",
+          "frames": 1,
+          "fps": 14
+        }
+      }
+    }
+  },
+  "monsters": {
+    "hex": "assets/fantasy/monsters/thornling.png",
+    "guard": "assets/fantasy/monsters/briar-guardian.png",
+    "queen": "assets/fantasy/monsters/thorn-queen.png"
+  }
+}

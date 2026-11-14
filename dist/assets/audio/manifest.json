@@ -1,0 +1,22 @@
+{
+  "music": {
+    "town": "town.ogg",
+    "dungeon": "dungeon.ogg",
+    "battle": "battle.ogg",
+    "pvp": "pvp.ogg"
+  },
+  "sfx": {
+    "ui": "confirm.ogg",
+    "chip-load": "chip-load.ogg",
+    "chip": "chip-execute.ogg",
+    "shot": "buster.ogg",
+    "charged": "charged-shot.ogg",
+    "hit": "hit.ogg",
+    "block": "shield.ogg",
+    "footstep": "footstep.ogg",
+    "gate": "gate.ogg",
+    "gold": "gold.ogg",
+    "rare": "rare-drop.ogg",
+    "victory": "victory.ogg"
+  }
+}

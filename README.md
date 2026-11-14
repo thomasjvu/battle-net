@@ -29,7 +29,7 @@ Open http://localhost:4173. Use the in-game fullscreen button in a browser that 
 ## The game
 
 - **Journey:** nine chapters across the Elderwood, Frostfall Reach, and Hollow Court. Bosses change attack patterns as their health falls. Nova joins after chapter three; Echo joins after chapter six.
-- **Deck book:** exactly 12 cards, at most three copies of each, and one owned copy per deck copy. Add/remove cards, auto-fill, inspect focus costs, and equip a Focus Wand or Traveler’s Cloak.
+- **Deck book:** exactly 30 chips, at most three copies of each, and one owned copy per deck copy. Add/remove cards, auto-fill, inspect focus costs, and equip a Focus Wand or Traveler’s Cloak.
 - **Combat:** five-card opening hand; cards cost focus, are discarded on use, and are replaced after 0.7 seconds. Focus starts at three, regenerates at 0.85/second, and caps at six. The discard pile reshuffles when the draw pile runs out. Cards do not use the old independent cooldown system.
 - **Combinations:** Frost Tide wets/freezes foes; Thunder doubles against wet/frozen foes, while Flame Wall shatters frozen foes for 1.5× damage. Advance temporarily claims ground; Leech Blade steals health; Quickening doubles wand damage.
 - **Rewards:** victories award gold, experience, Longswords, and a choice of one of three cards. An unclaimed choice survives a reload.
@@ -43,20 +43,20 @@ The source catalog retains its original internal IDs (`cannon`, `buster`, etc.) 
 
 ## NEAR economy
 
-**Live contract deployment is intentionally on hold at the owner’s request.** No account or mainnet funds have been used. The contract is compiled and has passed a real local NEAR sandbox transaction suite.
+**Testnet contract:** `battlenet.testnet` is running NEP-245 contract v0.5.0. It was funded through the testnet faucet. No mainnet account or funds have been used.
 
-The in-game Trading Hall uses NEAR Connect and a **separate testnet inventory**. Once a dedicated contract account is deployed and configured, players can register, create/buy/cancel escrowed card lots, forge gold cards, and withdraw sale proceeds. A wallet deck can use confirmed onchain cards in the same combat engine. The contract also supports card transfers via its public API. Local victory claims never mint onchain assets.
+The in-game Trading Hall uses NEAR Connect and a **separate testnet inventory**. Players can register, create/buy/cancel escrowed card lots, forge gold cards, and withdraw sale proceeds. A wallet deck can use confirmed onchain cards in the same combat engine. Players can send chips and equipment to another registered wallet from the Trading Hall. Local victory claims never mint onchain assets.
 
-The Rust contract is a **custom multi-token ledger**, not a claim of full NEP-245 conformance. It has no external token integrations, admin minting endpoint, or client-controlled reward minting. Starter cards are granted once per registered account. Registration costs 0.05 testnet NEAR; a listing costs 0.005 testnet NEAR for storage. These storage deposits are nonrefundable. All lot prices are total prices, not per-card prices. See [contract deployment and API](docs/near-contract.md).
+The Rust contract uses NEP-245 for 38 stackable card, equipment, currency, and Pocket Home decoration types, with onchain token metadata for decor. New registrations receive the starter decor; existing v0.4 players can claim the set once. The artwork paths are project-relative, so external wallets/markets need a public media host to display it. Battle Net defines lot escrow, native NEAR settlement, and the 100-Longsword forge. A registration costs 0.05 testnet NEAR and a listing costs 0.005 testnet NEAR. Both storage deposits are nonrefundable. Lot prices cover the entire lot. See [contract API and deployment](docs/near-contract.md) and the [hackathon demo walkthrough](docs/near-demo.md).
 
-No online PvP or authoritative battle reward server is implemented. Campaign and local gold saves are browser-owned and editable; they are never accepted as evidence of onchain asset ownership. Native wallet signing and a dedicated deployed account remain the required live integration step.
+No online PvP or authoritative battle reward server is implemented. Campaign and local gold saves are browser-owned and editable; they are never accepted as evidence of onchain asset ownership. Connect a testnet wallet to use the Trading Hall. The owner’s deployment key is stored in this Mac’s keychain.
 
 ## Verification
 
 ```sh
-npm test                  # 30 gameplay, deck, save, economy and NEAR adapter tests
+npm test                  # gameplay, deck, save, economy and NEAR adapter tests
 npm run build             # bundles Phaser + wallet connector, validates every runtime art path
-npm run test:contract      # 13 Rust contract tests
+npm run test:contract      # Rust contract tests
 npm run build:contract     # official cargo-near 0.23 toolchain; produces WASM + ABI
 npm run test:integration   # NEAR 2.14 local sandbox; disposable accounts, no real funds
 ```
@@ -84,18 +84,11 @@ Original source art and previous visual iterations remain preserved in the asset
 The shipped runtime dependency advisory check (`npm audit --omit=dev`) returned zero advisories on 2026-11-14. The full development dependency tree still reports upstream NEAR build/test-tool advisories; the archive-extraction critical advisory was removed through a patched override. These tools are not included in the browser bundle. This is an advisory check, not a full security audit.
 
 
-## Roaming world and duels (0.4.0)
+## Exploring the network
 
-Continue your tale enters a 3200 × 2240 continuous world with camera follow, collision, click-to-walk pathfinding, unlimited running, wandering monsters, eight treasure caches, three shrines, moonpetal gathering, a village commission and a rune puzzle. The nine campaign encounters live in the world; M opens the chapter atlas. World position and discoveries persist in the local save.
+New players start in Your Pocket, a flat personal base with six furniture types. Its gate leads to Relay Town, the main safe hub. Open the Decoration Console with Y to place, rotate, or store items. The layout saves locally. The east, south, and north gates open Verdant Circuit, Tideglass Aqueduct, and Lantern Archive. Enemies appear through random battles while moving through the routes. The gates at the far ends are sealed for future towns.
 
-Use WASD/arrows to walk, Shift to run, E/Space to interact, B for the deck, M for the atlas, Escape for the game menu. Touch devices receive directional/run/interaction controls. Pulse has 36 original drawn locomotion frames: six-frame east/south/north walk and run strips, west mirrored. Nova/Echo currently use held roaming poses; their walk/run cycles remain future asset work.
-
-The catalog now has 32 cards/items, including poison, regeneration, delayed column meteors, chaining lightning, reflection, focus recovery and hand redraw. Original token order is preserved. Cosmetic Gold Longsword has the ordinary sword's combat power.
-
-The Duel Garden supports same-keyboard two-player matches and an explicitly labeled practice bot. P1: WASD, Space, 1–5, E. P2: arrows, Enter, 7/8/9/0/minus, Right Shift. Both choose a companion and one of four curated decks; 400 HP and standard equipment. Duels never award, wager or transfer collection/wallet assets. Online matchmaking is not implemented.
-
-Validation: 49 JavaScript tests, 13 Rust tests, rebuilt WASM and actual local NEAR sandbox integration. No live NEAR account is configured or deployed.
-
+Use WASD or the arrow keys to walk, Shift to run, Y or Space to interact, Q/R to rotate the camera, and H to return to town. Pulse has eight directions of idle and walk sprites, including mirrored west-facing poses. Pulse has separate sprint frames. Press Y near a bench in Your Pocket to sit, and press Y again or move to stand. Press J to visit the legacy forest and B to edit the command folder. The Duel Pavilion offers same-keyboard matches and bot practice.
 
 ## World art refresh (0.4.1)
 
@@ -108,12 +101,16 @@ Validation includes unlimited sprint, safe saved positions, and a complete path 
 
 ## NetBattle protocol (0.5.0)
 
-Solo battles now start in a paused Custom Screen. Choose up to five chips with matching names or matching codes; wildcard chips link with any code. Enter sends the loadout in selection order. Z or 1 executes the next loaded chip. No focus cost, automatic redraw, or discard reshuffle applies to solo NetBattles. Chips are spent once per battle. The compact folder remains 12 chips, max three copies; this is an original small-folder adaptation, not a full Battle Network rules replica.
+Solo battles start with a paused Custom sidebar beside the visible arena. Random encounters enter through a screen fracture effect. Choose up to five chips with matching names or matching codes; wildcard chips link with any code. Enter sends the loadout in selection order. Z or 1 executes the next loaded chip. No focus cost, mid-round redraw, or discard reshuffle applies to solo NetBattles. Chips are spent once per battle. Folders contain 30 chips with up to three copies per chip. Both modes open with five shuffled chips. In solo battles, press C once the eight-second gauge fills. In local PvP, the shared timer opens Custom automatically every eight seconds of active combat.
 
-The Custom Gauge fills over eight seconds of active battle time. C or the on-screen Custom button returns to chip selection when full. Unselected chips remain available; the selection window refills from the remaining folder. Unused loaded chips are spent when a new loadout is sent. Three Cannon chips selected together become the original TRI CANNON Program Advance, consuming all three copies for a triple-power shot. Full Custom fills the gauge; Fast Custom advances it by four seconds. In the existing local duel mode those support chips retain their prior focus/redraw effects.
+The Custom Gauge fills over eight seconds of active battle time. C or the on-screen Custom button returns to chip selection when full. Unselected chips remain available; the selection window refills from the remaining folder. Unused loaded chips are spent when a new loadout is sent. Three Cannon chips selected together become the original TRI CANNON Program Advance, consuming all three copies for a triple-power shot. Full Custom fills the gauge; Fast Custom advances it by four seconds. Local PvP uses a fixed shared timer, independent of individual gauge boosts.
 
-Hold Space (or touch Buster) to charge, release to shoot. Tap shots deal 5 base damage; a fully charged shot deals 40. Movement stays real-time on the connected 6×3 field. E still triggers the character's existing Resolve ability.
+Hold Space (or touch Buster) to charge, release to shoot. Tap shots deal 5 base damage; a fully charged shot deals 40. Movement stays real-time on the connected 6×3 field. Y still triggers the character's existing Resolve ability.
 
-Exploration now defaults to a jack-in network realm with connected platforms, service terminals, mystery data and battle nodes. Walking into the void is blocked. J toggles jack-in/jack-out to the preserved forest world. The game uses original characters and generated network art. Local PvP retains the earlier focus-based rules; online matchmaking and live NEAR deployment remain unconfigured.
+Exploration now defaults to a jack-in network realm with connected platforms, service terminals, mystery data and battle nodes. Walking into the void is blocked. J toggles jack-in/jack-out to the preserved forest world. The game uses original characters and generated network art. Local PvP uses the shared Custom timer and private chip selection.
 
 Verification: 59 JavaScript tests, including chip compatibility, Custom time freezing, single-use conservation, Program Advances, buster charging and network node reachability; browser checked chip selection, execution, Custom Gauge refill and network exploration.
+
+## License
+
+Original Battle Net code and its documentation are available under the [MIT License](LICENSE). Art, audio, fonts, and third-party packages are outside the scope of this grant and retain their applicable terms.

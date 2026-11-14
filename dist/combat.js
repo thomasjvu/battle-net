@@ -49,7 +49,8 @@ class Battle {
     this.enemies = types.map((type, i) => {
       const d = ENEMIES[type];
       const scale = this.endless ? 1 + (this.wave - 1) * 0.15 : 1;
-      return { id: i, type, ...d, hp: Math.round(d.hp * scale), max: Math.round(d.hp * scale), x: types.length === 1 ? 4 : 4 + i % 2, y: types.length === 1 ? 1 : i % 3, attackAt: this.time + 1.8 + i * 0.7, moveAt: this.time + 0.8 + i * 0.4, frozen: 0, wet: 0, flash: 0, phase: 1, pattern: 0 };
+      const maxHp = Math.round(d.hp * scale * 0.75);
+      return { id: i, type, ...d, hp: maxHp, max: maxHp, x: types.length === 1 ? 6 : 5 + i % 2, y: types.length === 1 ? 1 : i % 4, attackAt: this.time + 1.8 + i * 0.7, moveAt: this.time + 0.8 + i * 0.4, frozen: 0, wet: 0, flash: 0, phase: 1, pattern: 0 };
     });
   }
   start() {
@@ -149,7 +150,7 @@ class Battle {
       this.p.boost = this.time + 8;
     } else if (id === "areagrab") {
       this.p.grab = this.time + 6;
-      for (const e of living) if (e.x === 3) e.x = 4;
+      for (const e of living) if (e.x === 4) e.x = 5;
       this.emit("area");
     } else if (id === "thunder") {
       const e = living.sort((a, b) => a.hp - b.hp)[0];
@@ -177,7 +178,7 @@ class Battle {
       }
       if (id === "firewall") this.hazards = this.hazards.filter((h) => h.y !== this.p.y);
     } else {
-      const rows = id === "shotgun" ? [0, 1, 2] : [this.p.y];
+      const rows = id === "shotgun" ? [0, 1, 2, 3] : [this.p.y];
       for (const y of rows) this.shots.push({ x: this.p.x + 0.2, y, speed: id === "prism" ? 14 : 8, damage: c.damage, kind: id, element: c.element, pierce: id === "prism", hit: [] });
     }
     this.checkVictory();
@@ -213,25 +214,25 @@ class Battle {
     e.pattern++;
     let cells = [];
     const p = this.p;
-    const maxX = p.grab > this.time ? 3 : 2;
+    const maxX = p.grab > this.time ? 4 : 3;
     const add = (x, y) => {
       if (!cells.some((c) => c.x === x && c.y === y)) cells.push({ x, y });
     };
     if (e.type === "nova" || e.type === "guard") {
       const col = p.x;
-      for (let y = 0; y < 3; y++) add(col, y);
+      for (let y = 0; y < 4; y++) add(col, y);
       if (e.type === "nova" && phase >= 2) {
-        const extra = (col + 1) % 3;
-        for (let y = 0; y < 3; y++) add(extra, y);
+        const extra = (col + 1) % 4;
+        for (let y = 0; y < 4; y++) add(extra, y);
       }
     } else if (e.type === "echo" || e.type === "queen" && e.pattern % 3 === 0) {
       for (let x = 0; x <= maxX; x++) add(x, p.y);
-      for (let y = 0; y < 3; y++) add(p.x, y);
+      for (let y = 0; y < 4; y++) add(p.x, y);
     } else if (e.type === "queen" && e.pattern % 3 === 1) {
-      for (let x = 0; x <= maxX; x++) for (let y = 0; y < 3; y++) if ((x + y) % 2 === e.pattern % 2) add(x, y);
+      for (let x = 0; x <= maxX; x++) for (let y = 0; y < 4; y++) if ((x + y) % 2 === e.pattern % 2) add(x, y);
     } else if (e.type === "spark") {
       add(p.x, p.y);
-      if (phase >= 2) add(p.x, (p.y + 1) % 3);
+      if (phase >= 2) add(p.x, (p.y + 1) % 4);
     } else {
       for (let x = 0; x <= maxX; x++) add(x, p.y);
     }
@@ -262,7 +263,7 @@ class Battle {
     dx = Math.sign(dx);
     dy = Math.sign(dy);
     if (!dx && !dy) return false;
-    const p = this.p, x = Math.max(0, Math.min(p.grab > this.time ? 3 : 2, p.x + dx)), y = Math.max(0, Math.min(2, p.y + dy));
+    const p = this.p, x = Math.max(0, Math.min(p.grab > this.time ? 4 : 3, p.x + dx)), y = Math.max(0, Math.min(3, p.y + dy));
     if (x === p.x && y === p.y) return false;
     p.x = x;
     p.y = y;
@@ -282,8 +283,8 @@ class Battle {
     const p = this.p;
     p.inv = Math.max(0, p.inv - dt);
     this.cooldowns = this.cooldowns.map((c) => Math.max(0, c - dt));
-    if (p.x === 3 && p.grab <= this.time) {
-      p.x = 2;
+    if (p.x === 4 && p.grab <= this.time) {
+      p.x = 3;
       this.emit("areaEnd");
     }
     this.move(input.dx || 0, input.dy || 0);
@@ -293,13 +294,18 @@ class Battle {
       if (e.hp <= 0 || e.frozen > this.time) continue;
       if (this.time >= e.moveAt) {
         if (e.type === "spark" || e.boss) {
-          e.y = (e.y + 1 + Math.floor(this.random() * 2)) % 3;
-          e.x = 3 + Math.floor(this.random() * 3);
-          if (p.grab > this.time && e.x === 3) e.x = 4;
+          e.y = (e.y + 1 + Math.floor(this.random() * 3)) % 4;
+          e.x = 4 + Math.floor(this.random() * 4);
         }
         e.moveAt = this.time + (e.boss ? 1.2 : 0.85);
       }
       if (this.time >= e.attackAt) this.planAttack(e);
+    }
+    for (const attack of this.attacks) {
+      if (!attack.launched && this.time >= attack.fireAt - .15) {
+        attack.launched = true;
+        this.emit("attackLaunch", {...attack});
+      }
     }
     const fired = this.attacks.filter((a) => this.time >= a.fireAt);
     this.attacks = this.attacks.filter((a) => this.time < a.fireAt);
@@ -331,7 +337,7 @@ class Battle {
         }
       }
     }
-    this.shots = this.shots.filter((s) => s.x < 6.5);
+    this.shots = this.shots.filter((s) => s.x < 8.5);
     this.hazards = this.hazards.filter((h) => h.until > this.time);
     for (const h of this.hazards) {
       if (h.kind === "fire" && h.x === p.x && h.y === p.y && this.time >= h.next) {

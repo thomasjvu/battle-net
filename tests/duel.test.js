@@ -5,3 +5,17 @@ test('both players can damage the rival; enemy AI never attacks in human mode',(
 test('rival wards absorb card damage and freeze/poison statuses transfer',()=>{const d=new Duel();d.start();d.fighters[1].p.shield=50;d.fighters[0].cards.hand[0]='thunder';d.fighters[0].cards.energy=6;d.useCard(0,0);assert.equal(d.fighters[1].p.hp,390);d.fighters[0].cards.hand[0]='slow';d.fighters[0].cards.energy=6;d.useCard(0,0);assert.ok(d.fighters[1].frozenUntil>0);d.fighters[0].cards.hand[0]='poison';d.fighters[0].cards.energy=6;d.useCard(0,0);assert.ok(d.fighters[1].poisonUntil>0)});
 test('duel pause freezes simulation and finish can award no campaign assets',()=>{const s=freshSave(),before=JSON.stringify(s),d=new Duel();d.start();d.pause();advance(d,1,[{fire:true},{fire:true}]);assert.equal(d.time,0);d.pause();d.fighters[1].p.hp=1;d.fighters[0].cards.hand[0]='thunder';d.fighters[0].cards.energy=6;d.useCard(0,0);assert.equal(d.status,'finished');assert.equal(d.winner,0);assert.equal(d.useCard(0,1),false);assert.equal(JSON.stringify(s),before)});
 test('practice mode is labeled and runs a real local opponent simulation',()=>{const d=new Duel({bot:true});d.start();advance(d,3);assert.ok(d.fighters[0].p.hp<400);assert.equal(d.bot,true)});
+test('local Custom duels pause both fighters until both loadouts are sent',()=>{
+ const duel=new Duel({custom:true});
+ duel.start();
+ duel.fighters[0].cards.select(0);
+ duel.send(0);
+ advance(duel,1);
+ assert.equal(duel.time,0);
+ assert.equal(duel.useCard(0,0),false);
+ duel.send(1);
+ assert.equal(duel.selecting,false);
+ assert.ok(duel.useCard(0,0));
+ advance(duel,9);
+ assert.equal(duel.selecting,true);
+});
