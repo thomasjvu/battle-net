@@ -12,7 +12,7 @@
     "name": "Battle Net: Pocket Home"
   },
   "inventory_model": "semi-fungible placeable decor tokens; quantities can be held and listed as lots",
-  "marketplace": "NEAR multi-token listings, once these token IDs are added to the contract registry",
+  "marketplace": "NEAR multi-token transfers and escrow listings enabled on battlenet.testnet",
   "contract_status": "deployed_testnet_v0.5.0",
   "contract_note": "These six NEP-245 IDs are enabled on battlenet.testnet. New registrations receive one of each; players registered on v0.4 can claim the set once. Media paths remain project-relative and need public absolute or content-addressed hosting for independent wallet and marketplace display.",
   "tokens": [

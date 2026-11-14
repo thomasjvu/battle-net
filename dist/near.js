@@ -128,7 +128,7 @@ class NearEconomy {
       const contractIds = Array.isArray(config.item_ids) ? config.item_ids : [...(config.card_ids ?? []), ...(config.decor_ids ?? [])];
       if (config.version !== "0.5.0" || config.standard !== "nep245" || JSON.stringify(contractIds) !== JSON.stringify(TOKEN_IDS) || (config.decor_ids && JSON.stringify(config.decor_ids) !== JSON.stringify(DECOR_IDS)) || !/^\d+$/.test(config.registration_deposit) || !/^\d+$/.test(config.listing_deposit)) throw Error("This account does not host the Battle Net contract");
       if (!Array.isArray(listings) || listings.some((l) => !TOKEN_IDS.includes(l.item_id) || !Number.isSafeInteger(l.quantity) || l.quantity < 1 || typeof l.seller !== "string" || !/^\d+$/.test(l.price) || !/^\d+$/.test(String(l.id)))) throw Error("Invalid listing data returned by contract");
-      if (player && (!Array.isArray(player.items) || player.items.length !== 32 || player.items.some((n) => !Number.isSafeInteger(n) || n < 0) || !/^\d+$/.test(player.proceeds) || !Number.isInteger(player.active_listings) || typeof player.withdrawing !== "boolean")) throw Error("Invalid wallet inventory returned by contract");
+      if (player && (!Array.isArray(player.items) || player.items.length !== 38 || player.items.some((n) => !Number.isSafeInteger(n) || n < 0) || !/^\d+$/.test(player.proceeds) || !Number.isInteger(player.active_listings) || typeof player.withdrawing !== "boolean")) throw Error("Invalid wallet inventory returned by contract");
       let decorItems = {};
       let canClaimStarterDecor = false;
       if (player) {
