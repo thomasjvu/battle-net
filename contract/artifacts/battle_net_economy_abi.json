@@ -2,12 +2,12 @@
   "schema_version": "0.4.0",
   "metadata": {
     "name": "battle-net-economy",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "build": {
       "compiler": "rustc 1.98.0",
       "builder": "cargo-near cargo-near-build 0.11.5"
     },
-    "wasm_hash": "97JxNS8cNv7axsm5o4PQF4ywQKeuYaYSBpLEdr4f5dPk"
+    "wasm_hash": "DDzzYqYEWUtF9WqzHzk7goZ7DZ6m9xrsrydruneFN4GJ"
   },
   "body": {
     "functions": [
@@ -379,8 +379,8 @@
                 "format": "uint64",
                 "minimum": 0.0
               },
-              "maxItems": 16,
-              "minItems": 16
+              "maxItems": 32,
+              "minItems": 32
             },
             "proceeds": {
               "type": "string"

@@ -1,4 +1,6 @@
 import Phaser from "phaser";
+import { Overworld } from "./overworld-scene.js";
+import { DuelLobby, DuelCombat } from "./duel-scene.js";
 import { Title, Journey, Deck, Merchant, Forge, Party, Journal, Settings, Rewards } from "./menus.js";
 import { Combat } from "./combat-scene.js";
 import { Network, Listings } from "./network-scene.js";
@@ -10,6 +12,7 @@ class Boot extends Phaser.Scene {
   }
   preload() {
     this.load.json("art", "art-manifest.json");
+    this.load.json("locomotion", "assets/fantasy/locomotion/locomotion.json");
   }
   create() {
     state.art = this.cache.json.get("art");
@@ -31,10 +34,12 @@ class Load extends Phaser.Scene {
       bar.fillStyle(C.gold).fillRoundedRect(390, 397, 500 * value, 5, 2);
     });
     for (const [key, path] of Object.entries(state.art)) this.load.image(key, path);
+    for (const clip of this.cache.json.get("locomotion").clips) this.load.spritesheet(clip.id, clip.path, { frameWidth: clip.frameWidth, frameHeight: clip.frameHeight });
     this.load.on("loaderror", (file) => console.error("Unable to load game art:", file.key, file.src));
   }
   create() {
     for (const key of Object.keys(state.art)) if (key !== "forest" && key !== "card-frame" && key !== "card-back") this.textures.get(key).setFilter(Phaser.Textures.FilterMode.NEAREST);
+    for (const clip of this.cache.json.get("locomotion").clips) this.textures.get(clip.id).setFilter(Phaser.Textures.FilterMode.NEAREST);
     const g = this.add.graphics();
     g.fillStyle(16777215);
     g.fillCircle(8, 8, 6);
@@ -43,7 +48,7 @@ class Load extends Phaser.Scene {
     this.scene.start("Title");
   }
 }
-new Phaser.Game({ type: Phaser.AUTO, parent: "game-root", width: W, height: H, backgroundColor: C.dark, render: { antialias: true, pixelArt: false, roundPixels: true, powerPreference: "high-performance" }, scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH, fullscreenTarget: "game-root" }, dom: { createContainer: true }, input: { activePointers: 4, keyboard: { capture: ["SPACE", "UP", "DOWN", "LEFT", "RIGHT"] } }, scene: [Boot, Load, Title, Journey, Deck, Merchant, Forge, Party, Journal, Settings, Combat, Rewards, Network, Listings], callbacks: { postBoot: (game) => {
+new Phaser.Game({ type: Phaser.AUTO, parent: "game-root", width: W, height: H, backgroundColor: C.dark, render: { antialias: true, pixelArt: false, roundPixels: true, powerPreference: "high-performance" }, scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH, fullscreenTarget: "game-root" }, dom: { createContainer: true }, input: { activePointers: 4, keyboard: { capture: ["SPACE", "UP", "DOWN", "LEFT", "RIGHT"] } }, scene: [Boot, Load, Title, Overworld, DuelLobby, DuelCombat, Journey, Deck, Merchant, Forge, Party, Journal, Settings, Combat, Rewards, Network, Listings], callbacks: { postBoot: (game) => {
   game.canvas.setAttribute("aria-label", "Battle Net, a full-screen card tactics game. Press Enter to begin. During battle use WASD or arrows, Space to attack, 1 to 5 for cards, E for Resolve, Escape to pause.");
   game.canvas.setAttribute("tabindex", "0");
   game.scale.on("fullscreenfailed", () => announce("Fullscreen was blocked by this browser. The game fills its available window."));

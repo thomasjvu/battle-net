@@ -24,10 +24,10 @@ for name,file in json.loads((ROOT/'source-map.json').read_text()).items():
  else:
   scale=56/max(im.size);im=finish(im,(round(im.width*scale),round(im.height*scale)));canvas=Image.new('RGBA',(64,64));canvas.alpha_composite(im,((64-im.width)//2,(64-im.height)//2))
  path=ROOT/(name+'.png');canvas.save(path);bb=canvas.getbbox();assert bb[0]>0 and bb[1]>0 and bb[2]<canvas.width and bb[3]<canvas.height;assert np.unique(np.array(canvas)[:,:,3]).tolist()==[0,255]
- assets.append(dict(id=name,path='assets/fantasy/'+name+'.png',width=canvas.width,height=canvas.height,anchor=[64,120] if actor else None,facing=('left' if 'nova' in name or name.startswith('monsters/') else 'right') if actor else None,contentBounds=list(bb),sha256=hashlib.sha256(path.read_bytes()).hexdigest()))
+ assets.append(dict(id=name,path='assets/fantasy/'+name+'.png',width=canvas.width,height=canvas.height,anchor=[64,120] if actor else None,facing=('back' if name.endswith('roam-north') else 'front' if name.endswith('roam-south') else 'left' if 'nova' in name or name.startswith('monsters/') else 'right') if actor else None,contentBounds=list(bb),sha256=hashlib.sha256(path.read_bytes()).hexdigest()))
 (ROOT/'manifest.json').write_text(json.dumps(dict(version=1,artSource='host_image',route='image_gen built-in',palette=colors,assets=assets),indent=2)+'\n')
 (ROOT/'qa.json').write_text(json.dumps(dict(runtimeFiles=len(assets),binaryAlpha=True,transparentMargins=True,warnings=[],limitations=['Single held idle and attack poses, no animation strips.','Reduced-palette pixel finish from generated cel artwork.']),indent=2)+'\n')
-preview=Image.new('RGB',(960,1000),'#f1e4c7');draw=ImageDraw.Draw(preview)
+preview=Image.new('RGB',(960,((len(assets)+5)//6)*250),'#f1e4c7');draw=ImageDraw.Draw(preview)
 for i,m in enumerate(assets):
  col=i%6;row=i//6;x=col*160;y=row*250
  im=Image.open(ROOT/m['id']).convert('RGBA') if False else Image.open(ROOT/(m['id']+'.png'))

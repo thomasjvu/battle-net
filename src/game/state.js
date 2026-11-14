@@ -8,7 +8,7 @@ try {
   if (raw) initial = migrateSave(JSON.parse(raw));
 } catch {
 }
-const state = { save: initial, art: {}, mission: null, endless: false, result: null, walletDeck: null };
+const state = { save: initial, art: {}, mission: null, endless: false, result: null, walletDeck: null, overworld: true };
 const audio = new AudioEngine();
 audio.configure(state.save.settings);
 const near = new NearEconomy(() => events.dispatchEvent(new Event("network")));

@@ -39,7 +39,7 @@ function button(scene, x, y, w, h, value, action, { primary = false, disabled = 
   const t = text(scene, 0, 0, value, size, primary ? C.ink : disabled ? 9207928 : C.paper, { align: "center", fontStyle: primary ? "bold" : "normal" }).setOrigin(0.5);
   root.add([bg, t]);
   if (!disabled) {
-    root.setSize(w, h).setInteractive({ useHandCursor: true });
+    root.setData("ui",true);root.setSize(w, h).setInteractive({ useHandCursor: true });
     root.on("pointerover", () => {
       draw(true);
       scene.tweens.add({ targets: root, scale: 1.025, duration: 100 });
@@ -154,7 +154,7 @@ function cardView(scene, id, x, y, scale = 1, { catalog, showCount = false, coun
   const title = text(scene, 0, 37, card.name, 16, C.ink, { align: "center", fontStyle: "bold", wordWrap: { width: 145 } }).setOrigin(0.5, 0);
   root.add(title);
   root.add(text(scene, 0, 70, card.type === "equipment" ? id === "buster" ? "Wand attacks deal 16." : "Take 5 less damage." : shortDesc(id), 11, 5718584, { align: "center", wordWrap: { width: 140 }, lineSpacing: 3 }).setOrigin(0.5, 0));
-  root.add(label(scene, 0, 96, card.type === "equipment" ? "EQUIPMENT" : `${card.damage ? card.damage + (card.type === "attack" ? " POWER" : " RESTORE") : "CONTROL"}`, 8, 7426622, { align: "center" }).setOrigin(0.5));
+  root.add(label(scene, 0, 96, card.type === "equipment" ? "EQUIPMENT" : card.stat ?? `${card.damage ? card.damage + (card.type === "attack" ? " POWER" : " RESTORE") : "CONTROL"}`, 8, 7426622, { align: "center" }).setOrigin(0.5));
   if (card.type !== "equipment") {
     const circle = scene.add.circle(-62, -89, 18, C.ink).setStrokeStyle(2, C.gold);
     root.add([circle, text(scene, -62, -90, String(CARD_COST[id] ?? 1), 20, C.paper, { fontStyle: "bold" }).setOrigin(0.5)]);
@@ -169,7 +169,7 @@ function cardView(scene, id, x, y, scale = 1, { catalog, showCount = false, coun
   return root;
 }
 function shortDesc(id) {
-  return { cannon: "A straight magic bolt.", longsword: "Strike 2 panels ahead.", gold: "Same blade. Gold finish.", thunder: "Homing. Doubles on wet foes.", recover: "Restore 60 health.", barrier: "Absorb 50 damage.", shotgun: "A bolt for every row.", firewall: "Burn a row. Shatter ice.", icewave: "Freeze a row. Leave it wet.", areagrab: "Claim a column for 6s.", charge: "Double your wand for 8s.", vampire: "Strike close. Steal life.", prism: "Pierce every foe in a row.", repair: "Mend panels. Heal 30." }[id] ?? "";
+  return { cannon: "A straight magic bolt.", longsword: "Strike 2 panels ahead.", gold: "Same blade. Gold finish.", thunder: "Homing. Doubles on wet foes.", recover: "Restore 60 health.", barrier: "Absorb 50 damage.", shotgun: "A bolt for every row.", firewall: "Burn a row. Shatter ice.", icewave: "Freeze a row. Leave it wet.", areagrab: "Claim a column for 6s.", charge: "Double your wand for 8s.", vampire: "Strike close. Steal life.", prism: "Pierce every foe in a row.", repair: "Mend panels. Heal 30.", gust:"Pierce a row. Push back.", stonewall:"Raise an 80-point ward.", poison:"A homing poisonous thorn.", bloom:"Heal now and over time.", meteor:"A delayed column blast.", tidal:"Soak a row for 10s.", chainlight:"Lightning for every foe.", cleave:"Strike a wide front arc.", dash:"Step ahead. Dodge a hit.", echo:"Repeat your last attack.", draw:"Replace the rest of your hand.", focus:"Free. Restore 3 focus.", thorns:"Reflect the next 3 hits.", revive:"Heal 100. Cleanse poison.", slow:"Freeze one foe for 3s.", storm:"A storm strikes every foe." }[id] ?? "";
 }
 function transition(scene, target, data) {
   scene.cameras.main.fadeOut(180, 15, 12, 20);

@@ -20,7 +20,7 @@ The integration suite starts NEAR Sandbox 2.14 through `near-sandbox`, then uses
 
 1. Create and fund a dedicated testnet account using a wallet or the NEAR CLI.
 2. From the contract directory, use the official CLI's interactive deployment flow to deploy `artifacts/battle_net_economy.wasm` and call `new` with `{}`. Keep signing in the owner's wallet or CLI; never put private keys in the repository or browser configuration.
-3. Verify `get_config` reports version `0.2.0`, standard `battle_net_custom_multi_token`, and the expected ordered item IDs.
+3. Verify `get_config` reports version `0.3.0`, standard `battle_net_custom_multi_token`, and the expected ordered item IDs.
 4. Enter that account in the in-game Trading Hall, or set only the public `contractId` in `dist/near-config.json` and rebuild/publish.
 5. Sign in with two testnet wallets, register both, list a small lot, buy it, withdraw proceeds, and verify the final balances. Wallet confirmations remain per transaction.
 
@@ -52,3 +52,5 @@ Item order: `cannon`, `longsword`, `thunder`, `recover`, `barrier`, `gold`, `bus
 Registration grants 3 Arc Bolts, 100 Longswords, 2 Thunder, 3 Mend, 2 Ward, no gold finish, and one of each other standard card/equipment. Every account registers once. There is no scarce-supply claim or battle minting. Registration and listing storage deposits are nonrefundable; cancelled listings return items, not the storage fee. An account may have at most 20 active lots. Lot prices are capped at 1,000 NEAR. There is no trading commission.
 
 Seller proceeds use a pull-payment model. Buying a lot makes no external transfer. Withdrawal zeros the claim and locks a pending withdrawal before scheduling a transfer; its private callback either clears the lock or restores the claim. New sales that arrive while the withdrawal is pending remain intact. Cancelled or sold lots cannot be consumed twice. Every mutation emits a `battle_net` event.
+
+The 0.3.0 contract catalog contains 32 item IDs. It requires a fresh deployment; no existing onchain ledger migration is provided. The frontend rejects older catalogs. Live deployment remains on hold.

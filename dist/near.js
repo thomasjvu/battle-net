@@ -1,4 +1,4 @@
-const ITEM_IDS = ["cannon", "longsword", "thunder", "recover", "barrier", "gold", "buster", "armor", "shotgun", "firewall", "icewave", "areagrab", "charge", "vampire", "prism", "repair"];
+const ITEM_IDS = ["cannon", "longsword", "thunder", "recover", "barrier", "gold", "buster", "armor", "shotgun", "firewall", "icewave", "areagrab", "charge", "vampire", "prism", "repair", "gust", "stonewall", "poison", "bloom", "meteor", "tidal", "chainlight", "cleave", "dash", "echo", "draw", "focus", "thorns", "revive", "slow", "storm"];
 function parseNear(text) {
   const value = String(text).trim();
   if (!/^(0|[1-9]\d{0,3})(\.\d{1,24})?$/.test(value)) throw Error("Enter a NEAR amount with at most 24 decimal places");
@@ -112,9 +112,9 @@ class NearEconomy {
     try {
       const [config, listings, player] = await Promise.all([this.view("get_config"), this.view("get_listings", { from_index: 0, limit: 100 }), account ? this.view("get_player", { account_id: account }) : null]);
       if (request !== this.requestId) return;
-      if (config.version !== "0.2.0" || config.standard !== "battle_net_custom_multi_token" || JSON.stringify(config.item_ids) !== JSON.stringify(ITEM_IDS) || !/^\d+$/.test(config.registration_deposit) || !/^\d+$/.test(config.listing_deposit)) throw Error("This account does not host the Battle Net contract");
+      if (config.version !== "0.3.0" || config.standard !== "battle_net_custom_multi_token" || JSON.stringify(config.item_ids) !== JSON.stringify(ITEM_IDS) || !/^\d+$/.test(config.registration_deposit) || !/^\d+$/.test(config.listing_deposit)) throw Error("This account does not host the Battle Net contract");
       if (!Array.isArray(listings) || listings.some((l) => !ITEM_IDS.includes(l.item_id) || !Number.isSafeInteger(l.quantity) || l.quantity < 1 || typeof l.seller !== "string" || !/^\d+$/.test(l.price) || !/^\d+$/.test(String(l.id)))) throw Error("Invalid listing data returned by contract");
-      if (player && (!Array.isArray(player.items) || player.items.length !== 16 || player.items.some((n) => !Number.isSafeInteger(n) || n < 0) || !/^\d+$/.test(player.proceeds) || !Number.isInteger(player.active_listings) || typeof player.withdrawing !== "boolean")) throw Error("Invalid wallet inventory returned by contract");
+      if (player && (!Array.isArray(player.items) || player.items.length !== 32 || player.items.some((n) => !Number.isSafeInteger(n) || n < 0) || !/^\d+$/.test(player.proceeds) || !Number.isInteger(player.active_listings) || typeof player.withdrawing !== "boolean")) throw Error("Invalid wallet inventory returned by contract");
       this.contractConfig = config;
       this.listings = listings;
       this.player = player;

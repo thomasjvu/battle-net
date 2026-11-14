@@ -157,7 +157,7 @@ class Combat extends Phaser.Scene {
       this.pausedDialog = false;
       this.battle.pause();
       audio.setActive(true);
-    }, onNo: () => this.scene.start("Journey") });
+    }, onNo: () => this.scene.start("Overworld") });
   }
   refreshHand() {
     const cards = this.battle.cards.hand;
@@ -327,6 +327,11 @@ class Combat extends Phaser.Scene {
           this.notice(CARDS[event.id].name);
           this.cardFly(event.id);
           break;
+        case "venom": this.burst(p.x,p.y-65,0xa9cf6a,24);break;
+        case "reflect":this.float(p.x,p.y-110,"REFLECT",C.mint,19);this.burst(p.x,p.y-60,0xc6b0de,12);break;
+        case "focus":this.float(p.x,p.y-120,"+3 FOCUS",C.gold,24);break;
+        case "meteorTell":{const marker=this.add.ellipse(p.x,p.y,110,45,0xe48b65,.3).setStrokeStyle(3,0xffd5a4).setDepth(25);this.tweens.add({targets:marker,alpha:.8,scale:1.12,duration:220,yoyo:true,repeat:3,onComplete:()=>marker.destroy()});break;}
+        case "meteor":{const star=this.add.image(p.x+40,100,"mote").setTint(0xffb06e).setDisplaySize(45,45).setDepth(40);this.tweens.add({targets:star,x:p.x,y:p.y-30,duration:220,onComplete:()=>{star.destroy();this.burst(p.x,p.y-30,0xffb875,50);if(state.save.settings.shake)this.cameras.main.shake(140,.007);}});break;}
         case "combo":
           this.notice(event.text.replace("OVERLOAD", "TEMPEST"));
           this.burst(p.x, p.y - 70, C.gold, 25);
@@ -413,6 +418,8 @@ class Combat extends Phaser.Scene {
         result = { ...result, rank: "B", time: this.battle.time, wave: cleared };
       }
       gains = reward(state.save, mission, result);
+      if(state.wildEncounter&&!state.save.world.wildDefeated.includes(state.wildEncounter))state.save.world.wildDefeated.push(state.wildEncounter);
+      state.wildEncounter=null;
       state.save.items[gains.card]--;
       const pool = Object.keys(CARDS).filter((id) => CARDS[id].type !== "equipment" && id !== "gold");
       const choices = [gains.card];
@@ -430,7 +437,7 @@ class Combat extends Phaser.Scene {
       state.save.stats.combos += this.battle.combos;
       state.save.stats.damage += this.battle.damage;
       persist();
-      this.time.delayedCall(500, () => modal(this, { title: "Even the best stories have setbacks.", body: "No cards or gold were lost. Refine your deck, read the marked ground, and try another approach.", yes: "Try again", no: "Back to the road", portrait: state.save.operator + "-portrait", onYes: () => this.scene.restart(), onNo: () => this.scene.start("Journey") }));
+      this.time.delayedCall(500, () => modal(this, { title: "Even the best stories have setbacks.", body: "No cards or gold were lost. Refine your deck, read the marked ground, and try another approach.", yes: "Try again", no: "Back to the road", portrait: state.save.operator + "-portrait", onYes: () => this.scene.restart(), onNo: () => this.scene.start("Overworld") }));
     }
   }
   update(_time, delta) {

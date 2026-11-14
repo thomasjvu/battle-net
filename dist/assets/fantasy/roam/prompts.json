@@ -1,0 +1,26 @@
+[
+  [
+    "grass",
+    "A seamless repeatable square texture of soft sage green meadow grass viewed from directly above, tiny sparse short grass tufts, muted warm storybook anime RPG flat cel-painted finish. Uniform even lighting with no center focus, no flowers, rocks, shadows, objects, text or UI. All four edges perfectly tileable. Flat ground material, not an island or scene."
+  ],
+  [
+    "path",
+    "A seamless repeatable square texture of warm pale ochre packed-earth village path viewed directly from above, sparse small cream pebbles and faint soil patches. Muted warm storybook anime RPG flat cel-painted finish. Uniform even lighting no center focus, no grass border, no objects or shadows, text or UI. All four edges perfectly tileable. Flat ground material, not an island or scene."
+  ],
+  [
+    "oak-tree",
+    "Single full leafy oak tree prop with broad sage green canopy, sturdy brown trunk and exposed roots. Top-down three-quarter RPG camera seen from elevated angle, see canopy top and trunk front. Warm storybook anime cel-painted colors, dark aubergine soft contours. Entire tree isolated on actual transparent background with generous margin, no ground disk, no cast shadow, no characters/UI/text."
+  ],
+  [
+    "cottage",
+    "Single cozy small medieval timber cottage prop with cream plaster walls, warm coral terracotta shingle roof, wooden door centered on front and two shuttered windows, mint ivy on one corner. Top-down three-quarter RPG camera, see roof and front wall, orthographic not strongly isometric. Warm storybook anime cel-painted finish. Entire building isolated on actual transparent background, no ground disk or shadow, no characters/UI/text."
+  ],
+  [
+    "rock",
+    "Single small cluster of three rounded warm gray mossy boulders, top-down three-quarter RPG camera. Warm storybook anime cel-painted finish with dark aubergine contours, soft mint moss. Entire cluster isolated on actual transparent background generous margin, no ground disk or shadow, no characters/UI/text."
+  ],
+  [
+    "chest",
+    "Single closed wooden treasure chest, warm oak boards with antique brass bands and central clasp, top-down three-quarter RPG camera see lid and front. Warm storybook anime cel-painted finish dark aubergine contours. Entire chest isolated on actual transparent background generous margin, no ground disk or shadow, no characters/UI/text."
+  ]
+]

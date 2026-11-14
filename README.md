@@ -82,3 +82,16 @@ The sandbox suite deploys the actual WASM and checks registration, escrow, payme
 Original source art and previous visual iterations remain preserved in the asset tree for provenance. The build loads only the new fantasy set. No hackathon entry has been submitted.
 
 The shipped runtime dependency advisory check (`npm audit --omit=dev`) returned zero advisories on 2026-11-14. The full development dependency tree still reports upstream NEAR build/test-tool advisories; the archive-extraction critical advisory was removed through a patched override. These tools are not included in the browser bundle. This is an advisory check, not a full security audit.
+
+
+## Roaming world and duels (0.4.0)
+
+Continue your tale enters a 3200 × 2240 continuous world with camera follow, collision, click-to-walk pathfinding, stamina-based running, wandering monsters, eight treasure caches, three shrines, moonpetal gathering, a village commission and a rune puzzle. The nine campaign encounters live in the world; M opens the chapter atlas. World position and discoveries persist in the local save.
+
+Use WASD/arrows to walk, Shift to run, E/Space to interact, B for the deck, M for the atlas, Escape for the game menu. Touch devices receive directional/run/interaction controls. Pulse has 36 original drawn locomotion frames: six-frame east/south/north walk and run strips, west mirrored. Nova/Echo currently use held roaming poses; their walk/run cycles remain future asset work.
+
+The catalog now has 32 cards/items, including poison, regeneration, delayed column meteors, chaining lightning, reflection, focus recovery and hand redraw. Original token order is preserved. Cosmetic Gold Longsword has the ordinary sword's combat power.
+
+The Duel Garden supports same-keyboard two-player matches and an explicitly labeled practice bot. P1: WASD, Space, 1–5, E. P2: arrows, Enter, 7/8/9/0/minus, Right Shift. Both choose a companion and one of four curated decks; 400 HP and standard equipment. Duels never award, wager or transfer collection/wallet assets. Online matchmaking is not implemented.
+
+Validation: 49 JavaScript tests, 13 Rust tests, rebuilt WASM and actual local NEAR sandbox integration. No live NEAR account is configured or deployed.

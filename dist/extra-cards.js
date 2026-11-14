@@ -1,0 +1,18 @@
+export const EXTRA_CARDS={
+ gust:{name:'Gale Arrow',icon:'➶',damage:45,type:'attack',label:'WIND',desc:'Pierce your row for 45 damage and push foes one panel back.',price:42,stock:18,cooldown:7,element:'wind',art:'gust',stat:'45 · PUSH'},
+ stonewall:{name:'Stone Aegis',icon:'▰',damage:80,type:'support',label:'EARTH',desc:'Gain 80 ward, up to a maximum of 140.',price:62,stock:12,cooldown:10,element:'earth',art:'stonewall',stat:'80 WARD'},
+ poison:{name:'Venom Bloom',icon:'❀',damage:25,type:'attack',label:'POISON',desc:'A homing thorn deals 25 damage, then poisons for 6 damage each second for 6 seconds.',price:58,stock:14,cooldown:10,element:'nature',art:'poison',stat:'25 · POISON'},
+ bloom:{name:'Spring Blessing',icon:'❃',damage:30,type:'support',label:'REGENERATION',desc:'Restore 30 health now, then 6 each second for 6 seconds.',price:46,stock:18,cooldown:11,element:'nature',art:'bloom',stat:'30 + REGEN'},
+ meteor:{name:'Falling Star',icon:'✦',damage:110,type:'attack',label:'METEOR',desc:'Mark the weakest foe’s column. After 1.1 seconds, blast all foes still in that column.',price:95,stock:8,cooldown:13,element:'fire',art:'meteor',stat:'110 · DELAY'},
+ tidal:{name:'River’s Embrace',icon:'≈',damage:60,type:'attack',label:'TIDAL',desc:'Flood your row for 60 damage and soak targets for 10 seconds.',price:67,stock:12,cooldown:10,element:'water',art:'tidal',stat:'60 · SOAK'},
+ chainlight:{name:'Chain Spark',icon:'ϟ',damage:35,type:'attack',label:'CHAIN',desc:'Lightning arcs through every foe. Double damage against wet or frozen targets.',price:78,stock:10,cooldown:11,element:'electric',art:'chainlight',stat:'35 · ALL FOES'},
+ cleave:{name:'Crescent Cleave',icon:'☽',damage:60,type:'attack',label:'CLEAVE',desc:'Strike all rows up to two panels ahead. Great against crowded front lines.',price:74,stock:12,cooldown:10,element:'neutral',art:'cleave',stat:'60 · WIDE BLADE'},
+ dash:{name:'Featherstep',icon:'»',damage:0,type:'support',label:'EVASION',desc:'Step one panel forward and become invulnerable for 1 second. Gain 10 Resolve.',price:38,stock:20,cooldown:9,element:'wind',art:'dash',stat:'DODGE · +10 RESOLVE'},
+ echo:{name:'Echoing Sigil',icon:'◎',damage:0,type:'support',label:'REPEAT',desc:'Repeat your last attack card without spending its focus cost again.',price:88,stock:8,cooldown:12,element:'arcane',art:'echo',stat:'REPEAT LAST ATTACK'},
+ draw:{name:'Second Wind',icon:'♧',damage:0,type:'support',label:'REDRAW',desc:'Discard your other hand cards and replace them. Keep your deck moving.',price:48,stock:18,cooldown:8,element:'wind',art:'draw',stat:'REFRESH HAND'},
+ focus:{name:'Focus Tonic',icon:'◒',damage:3,type:'support',label:'FOCUS',desc:'Costs no focus. Restore 3 focus, up to the maximum of 6.',price:56,stock:16,cooldown:10,element:'arcane',art:'focus',stat:'+3 FOCUS'},
+ thorns:{name:'Briar Mantle',icon:'♜',damage:18,type:'support',label:'REFLECT',desc:'For 8 seconds, reflect 18 damage after each of the next 3 hits that hurt you.',price:63,stock:12,cooldown:11,element:'nature',art:'thorns',stat:'18 × 3 REFLECT'},
+ revive:{name:'Dawn’s Grace',icon:'☀',damage:100,type:'support',label:'GREATER HEAL',desc:'Restore 100 health and cleanse poison.',price:92,stock:9,cooldown:14,element:'nature',art:'revive',stat:'100 HEALTH'},
+ slow:{name:'Winter’s Kiss',icon:'❅',damage:20,type:'attack',label:'FREEZE',desc:'A homing frost spell deals 20 damage and freezes the target for 3 seconds.',price:59,stock:14,cooldown:10,element:'water',art:'slow',stat:'20 · FREEZE 3s'},
+ storm:{name:'Tempest Crown',icon:'♛',damage:45,type:'attack',label:'TEMPEST',desc:'A storm strikes every foe. Double damage against wet or frozen targets.',price:115,stock:6,cooldown:14,element:'electric',art:'storm',stat:'45 · ALL FOES'}
+};

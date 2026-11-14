@@ -398,6 +398,300 @@
         120
       ],
       "sha256": "7301678e28d0de85bbb74dd93d8402f6ffdfcf26300014f4c3dce655d46bbc0f"
+    },
+    {
+      "id": "cards/gust",
+      "path": "assets/fantasy/cards/gust.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        4,
+        14,
+        60,
+        50
+      ],
+      "sha256": "f907bb0e63532d56a40f232305853cf8f1331e57018841aed2f13446fb6784e1"
+    },
+    {
+      "id": "cards/stonewall",
+      "path": "assets/fantasy/cards/stonewall.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        5,
+        15,
+        59,
+        51
+      ],
+      "sha256": "957934e51f47d0f78d9881cc235a6a06b72cfe5d8c66f8dc1804d6366259dfaa"
+    },
+    {
+      "id": "cards/poison",
+      "path": "assets/fantasy/cards/poison.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        15,
+        4,
+        48,
+        60
+      ],
+      "sha256": "c30eff80bbb239a4c34f0d13cded47ac164fd95dc378e0eb60c96ce04e79b33b"
+    },
+    {
+      "id": "cards/bloom",
+      "path": "assets/fantasy/cards/bloom.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        4,
+        10,
+        60,
+        55
+      ],
+      "sha256": "d7acca96b92ec88d0229e71203103a663455425a59e2215accd2a7dd435c1162"
+    },
+    {
+      "id": "cards/meteor",
+      "path": "assets/fantasy/cards/meteor.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        4,
+        8,
+        58,
+        55
+      ],
+      "sha256": "d62629c55aef403bd8e2bf03d4527ea0ce49b48a347041e52e2e07c677092045"
+    },
+    {
+      "id": "cards/tidal",
+      "path": "assets/fantasy/cards/tidal.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        5,
+        8,
+        60,
+        56
+      ],
+      "sha256": "d1329a9b89801dd86bfd0091e9589d530b003b79479875775823282496ac24e9"
+    },
+    {
+      "id": "cards/chainlight",
+      "path": "assets/fantasy/cards/chainlight.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        5,
+        14,
+        57,
+        48
+      ],
+      "sha256": "456e20ccc4c25fb1c08a0f959ba3a709081c342bdaf818ed44907528a1f354a6"
+    },
+    {
+      "id": "cards/cleave",
+      "path": "assets/fantasy/cards/cleave.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        6,
+        4,
+        57,
+        60
+      ],
+      "sha256": "682e7d114ae68e9c364668ee6c0a96dcb6aa0099ef4d39760dab4aa9646c005d"
+    },
+    {
+      "id": "characters/pulse-roam-east",
+      "path": "assets/fantasy/characters/pulse-roam-east.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "facing": "right",
+      "contentBounds": [
+        34,
+        8,
+        86,
+        120
+      ],
+      "sha256": "4ab4f6aa4b456d1f9d80e0633a6a846e6bb428c4dbf92d1d218e60bc507f6642"
+    },
+    {
+      "id": "characters/pulse-roam-south",
+      "path": "assets/fantasy/characters/pulse-roam-south.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "facing": "front",
+      "contentBounds": [
+        37,
+        8,
+        92,
+        120
+      ],
+      "sha256": "4d67a7cb1181bbee30a52ebbd00f83edcbe8f10865ba2a5b9cff09e724ab6869"
+    },
+    {
+      "id": "characters/pulse-roam-north",
+      "path": "assets/fantasy/characters/pulse-roam-north.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "facing": "back",
+      "contentBounds": [
+        40,
+        8,
+        91,
+        120
+      ],
+      "sha256": "89a15b6ac5e4f4675a9a3e4bf65710f1a142426c75aa10a6d36de1938ae3eeb0"
+    },
+    {
+      "id": "cards/dash",
+      "path": "assets/fantasy/cards/dash.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        4,
+        11,
+        60,
+        52
+      ],
+      "sha256": "350d86ff2c31e4ad0c38299f2272350248a6bd1a830a82e79c6a29018a5081bc"
+    },
+    {
+      "id": "cards/draw",
+      "path": "assets/fantasy/cards/draw.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        4,
+        14,
+        60,
+        50
+      ],
+      "sha256": "e01f865dadf174dec9210b128f80e4fa8d0c1177639a2352455a61a0b16fdf48"
+    },
+    {
+      "id": "cards/echo",
+      "path": "assets/fantasy/cards/echo.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        5,
+        13,
+        59,
+        51
+      ],
+      "sha256": "0f987b5f53f3ba6ffb139a5d607dc41035d5cd0784566e67f5f5c63caf5a9458"
+    },
+    {
+      "id": "cards/focus",
+      "path": "assets/fantasy/cards/focus.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        9,
+        4,
+        55,
+        60
+      ],
+      "sha256": "fa66c6477fa20e667e39a727f2945cc9e8d8eae7c2c8b9287a9b4bbe8d42d92d"
+    },
+    {
+      "id": "cards/revive",
+      "path": "assets/fantasy/cards/revive.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        16,
+        4,
+        47,
+        60
+      ],
+      "sha256": "bf19a38cd077bc998773a822ffde4963f7918f1489d78f273b43bd2f07773521"
+    },
+    {
+      "id": "cards/storm",
+      "path": "assets/fantasy/cards/storm.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        4,
+        9,
+        60,
+        54
+      ],
+      "sha256": "35df019dc703c960d309358da92c1d6e82991a8dc223837aafdf22373ce14c27"
+    },
+    {
+      "id": "cards/thorns",
+      "path": "assets/fantasy/cards/thorns.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        5,
+        10,
+        59,
+        53
+      ],
+      "sha256": "70d66ee6b318eb8b52c486c6ecb2ea6100d608b425fe0549f8fb903ab285f4ef"
+    },
+    {
+      "id": "cards/slow",
+      "path": "assets/fantasy/cards/slow.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        15,
+        4,
+        49,
+        60
+      ],
+      "sha256": "d79a19dd4399f5c37b923df7142d84b4c4f7c8570b2714edeb90b5a290085fb3"
     }
   ]
 }

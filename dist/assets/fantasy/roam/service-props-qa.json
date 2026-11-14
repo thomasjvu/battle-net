@@ -1,0 +1,89 @@
+{
+  "checks": [
+    {
+      "id": "noticeboard",
+      "size": [
+        128,
+        128
+      ],
+      "anchor": [
+        64,
+        120
+      ],
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        4,
+        19,
+        124,
+        120
+      ]
+    },
+    {
+      "id": "campfire",
+      "size": [
+        128,
+        128
+      ],
+      "anchor": [
+        64,
+        120
+      ],
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        9,
+        8,
+        119,
+        120
+      ]
+    },
+    {
+      "id": "banner",
+      "size": [
+        128,
+        128
+      ],
+      "anchor": [
+        64,
+        120
+      ],
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        38,
+        8,
+        90,
+        120
+      ]
+    },
+    {
+      "id": "shrine",
+      "size": [
+        128,
+        128
+      ],
+      "anchor": [
+        64,
+        120
+      ],
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        14,
+        8,
+        113,
+        120
+      ]
+    }
+  ],
+  "warnings": []
+}

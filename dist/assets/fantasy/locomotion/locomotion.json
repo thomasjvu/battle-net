@@ -1,0 +1,228 @@
+{
+  "version": 2,
+  "status": "ready",
+  "character": "pulse",
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "anchor": [
+    64,
+    120
+  ],
+  "west": {
+    "sourceDirection": "east",
+    "flipX": true
+  },
+  "artSource": "host_image",
+  "route": "image_gen built-in native drawn pose sheets",
+  "clips": [
+    {
+      "id": "pulse-east-walk",
+      "character": "pulse",
+      "direction": "east",
+      "action": "walk",
+      "path": "assets/fantasy/locomotion/pulse/east-walk.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 10,
+      "repeat": -1,
+      "anchor": [
+        64,
+        120
+      ],
+      "frames": [
+        "assets/fantasy/locomotion/pulse/east-walk/00.png",
+        "assets/fantasy/locomotion/pulse/east-walk/01.png",
+        "assets/fantasy/locomotion/pulse/east-walk/02.png",
+        "assets/fantasy/locomotion/pulse/east-walk/03.png",
+        "assets/fantasy/locomotion/pulse/east-walk/04.png",
+        "assets/fantasy/locomotion/pulse/east-walk/05.png"
+      ],
+      "artSource": "host_image",
+      "route": "image_gen built-in drawn-frame sheet",
+      "frameOrder": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "pulse-east-run",
+      "character": "pulse",
+      "direction": "east",
+      "action": "run",
+      "path": "assets/fantasy/locomotion/pulse/east-run.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 14,
+      "repeat": -1,
+      "anchor": [
+        64,
+        120
+      ],
+      "frames": [
+        "assets/fantasy/locomotion/pulse/east-run/00.png",
+        "assets/fantasy/locomotion/pulse/east-run/01.png",
+        "assets/fantasy/locomotion/pulse/east-run/02.png",
+        "assets/fantasy/locomotion/pulse/east-run/03.png",
+        "assets/fantasy/locomotion/pulse/east-run/04.png",
+        "assets/fantasy/locomotion/pulse/east-run/05.png"
+      ],
+      "artSource": "host_image",
+      "route": "image_gen built-in drawn-frame sheet",
+      "frameOrder": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "pulse-south-walk",
+      "character": "pulse",
+      "direction": "south",
+      "action": "walk",
+      "path": "assets/fantasy/locomotion/pulse/south-walk.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 10,
+      "repeat": -1,
+      "anchor": [
+        64,
+        120
+      ],
+      "frames": [
+        "assets/fantasy/locomotion/pulse/south-walk/00.png",
+        "assets/fantasy/locomotion/pulse/south-walk/01.png",
+        "assets/fantasy/locomotion/pulse/south-walk/02.png",
+        "assets/fantasy/locomotion/pulse/south-walk/03.png",
+        "assets/fantasy/locomotion/pulse/south-walk/04.png",
+        "assets/fantasy/locomotion/pulse/south-walk/05.png"
+      ],
+      "artSource": "host_image",
+      "route": "image_gen built-in drawn-frame sheet",
+      "frameOrder": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "pulse-south-run",
+      "character": "pulse",
+      "direction": "south",
+      "action": "run",
+      "path": "assets/fantasy/locomotion/pulse/south-run.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 14,
+      "repeat": -1,
+      "anchor": [
+        64,
+        120
+      ],
+      "frames": [
+        "assets/fantasy/locomotion/pulse/south-run/00.png",
+        "assets/fantasy/locomotion/pulse/south-run/01.png",
+        "assets/fantasy/locomotion/pulse/south-run/02.png",
+        "assets/fantasy/locomotion/pulse/south-run/03.png",
+        "assets/fantasy/locomotion/pulse/south-run/04.png",
+        "assets/fantasy/locomotion/pulse/south-run/05.png"
+      ],
+      "artSource": "host_image",
+      "route": "image_gen built-in drawn-frame sheet",
+      "frameOrder": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "pulse-north-walk",
+      "character": "pulse",
+      "direction": "north",
+      "action": "walk",
+      "path": "assets/fantasy/locomotion/pulse/north-walk.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 10,
+      "repeat": -1,
+      "anchor": [
+        64,
+        120
+      ],
+      "frames": [
+        "assets/fantasy/locomotion/pulse/north-walk/00.png",
+        "assets/fantasy/locomotion/pulse/north-walk/01.png",
+        "assets/fantasy/locomotion/pulse/north-walk/02.png",
+        "assets/fantasy/locomotion/pulse/north-walk/03.png",
+        "assets/fantasy/locomotion/pulse/north-walk/04.png",
+        "assets/fantasy/locomotion/pulse/north-walk/05.png"
+      ],
+      "artSource": "host_image",
+      "route": "image_gen built-in drawn-frame sheet",
+      "frameOrder": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "pulse-north-run",
+      "character": "pulse",
+      "direction": "north",
+      "action": "run",
+      "path": "assets/fantasy/locomotion/pulse/north-run.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 6,
+      "fps": 14,
+      "repeat": -1,
+      "anchor": [
+        64,
+        120
+      ],
+      "frames": [
+        "assets/fantasy/locomotion/pulse/north-run/00.png",
+        "assets/fantasy/locomotion/pulse/north-run/01.png",
+        "assets/fantasy/locomotion/pulse/north-run/02.png",
+        "assets/fantasy/locomotion/pulse/north-run/03.png",
+        "assets/fantasy/locomotion/pulse/north-run/04.png",
+        "assets/fantasy/locomotion/pulse/north-run/05.png"
+      ],
+      "artSource": "host_image",
+      "route": "image_gen built-in drawn-frame sheet",
+      "frameOrder": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  ],
+  "limitations": [
+    "Drawn held-frame animation, not image-to-video.",
+    "Small wand/hand details vary between some generated poses.",
+    "Nova and Echo locomotion not included in this first bundle."
+  ]
+}

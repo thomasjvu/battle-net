@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "artSource": "host_image",
+  "route": "image_gen built-in",
+  "assets": [
+    {
+      "id": "grass",
+      "path": "assets/fantasy/roam/grass.png",
+      "width": 128,
+      "height": 128,
+      "anchor": null,
+      "seamless": true,
+      "sha256": "9c245e93e4b0e7419d3b4986f9d0e78c669a224e6de7de054052280409145604"
+    },
+    {
+      "id": "path",
+      "path": "assets/fantasy/roam/path.png",
+      "width": 128,
+      "height": 128,
+      "anchor": null,
+      "seamless": true,
+      "sha256": "d7b5d30c59c8e2ab9da61463abef6c4085946fbdbc4a4d195283b0598f51d692"
+    },
+    {
+      "id": "oak-tree",
+      "path": "assets/fantasy/roam/oak-tree.png",
+      "width": 256,
+      "height": 256,
+      "anchor": [
+        128,
+        252
+      ],
+      "seamless": false,
+      "sha256": "a69ce2ab0287d88712f48469aa26771ac437b21d301e8a7058ff12211dc7145a"
+    },
+    {
+      "id": "rock",
+      "path": "assets/fantasy/roam/rock.png",
+      "width": 96,
+      "height": 96,
+      "anchor": [
+        48,
+        92
+      ],
+      "seamless": false,
+      "sha256": "f1e1879c421a8f1ecdebcefbe9b3c11314abffbfd74976426505e4a561d0d9b3"
+    },
+    {
+      "id": "chest",
+      "path": "assets/fantasy/roam/chest.png",
+      "width": 64,
+      "height": 64,
+      "anchor": [
+        32,
+        60
+      ],
+      "seamless": false,
+      "sha256": "f04355473de7cfecf74e0e2efe4052b03df56247b5c2866a48cfc35b2575bae3"
+    },
+    {
+      "id": "cottage",
+      "path": "assets/fantasy/roam/cottage.png",
+      "width": 256,
+      "height": 256,
+      "anchor": [
+        128,
+        252
+      ],
+      "seamless": false,
+      "sha256": "0a7c7ba1e80d73a417d4c6e10a9e3cdb380a1877982613450387cad4279dd06b"
+    },
+    {
+      "id": "noticeboard",
+      "path": "assets/fantasy/roam/noticeboard.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "seamless": false,
+      "sha256": "1e6134ecfb158cf750fbdbf509b51bd6f4d54e502d3260f0edce3524afc2f400"
+    },
+    {
+      "id": "campfire",
+      "path": "assets/fantasy/roam/campfire.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "seamless": false,
+      "sha256": "fb308808762a3eaa5bd504a6ed3ec2daa46b4f9db8f5fd63835ec13477d96dda"
+    },
+    {
+      "id": "banner",
+      "path": "assets/fantasy/roam/banner.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "seamless": false,
+      "sha256": "cffafc2c8bb52630e27254e0d94000b7e98bd8d07a3db11cb1f1f535837dc02e"
+    },
+    {
+      "id": "shrine",
+      "path": "assets/fantasy/roam/shrine.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "seamless": false,
+      "sha256": "effab96339d0a74e3abaccff48afccd39730eea1b5faa129afd9d0e776c1fecd"
+    }
+  ]
+}

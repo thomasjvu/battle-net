@@ -8,7 +8,7 @@ const next = (scene) => {
     scene.scene.start("Rewards");
     return;
   }
-  scene.scene.start("Journey");
+  scene.scene.start("Overworld");
 };
 class Title extends Phaser.Scene {
   constructor() {
@@ -48,7 +48,7 @@ class Journey extends Phaser.Scene {
   draw() {
     this.children.removeAll(true);
     background(this, { dim: 0.27 });
-    heading(this, "The Wandering Road", "Choose a chapter. Every victory adds a new page.");
+    heading(this, "The Chapter Atlas", "Your path through the Elderwood and beyond.", "Overworld");
     credits(this);
     for (let i = 0; i < 3; i++) button(this, 260 + i * 340, 130, 310, 44, WORLDS[i].name, () => {
       this.world = i;
@@ -111,12 +111,12 @@ class Deck extends Phaser.Scene {
     this.selected = null;
     this.draw();
     startFade(this);
-    this.input.keyboard.on("keydown-ESC", () => this.scene.start("Journey"));
+    this.input.keyboard.on("keydown-ESC", () => this.scene.start("Overworld"));
   }
   draw() {
     this.children.removeAll(true);
     background(this, { dim: 0.55 });
-    heading(this, "The Deck Book", "12 cards. Up to 3 copies each. Every draw tells a different story.", "Journey");
+    heading(this, "The Deck Book", "12 cards. Up to 3 copies each. Every draw tells a different story.", "Overworld");
     credits(this);
     const owned = Object.keys(CARDS).filter((id) => this.filter === "all" || this.filter === "owned" && this.source.items[id] > 0 || CARDS[id].type === this.filter);
     const pages = Math.ceil(owned.length / 8);
@@ -182,7 +182,7 @@ class Deck extends Phaser.Scene {
       this.page++;
       this.draw();
     }, { disabled: this.page >= pages - 1, small: true });
-    this.detailText = text(this, 57, 677, "Choose cards that work together. Frost Tide → Thunder doubles lightning damage.", 16, C.paper, { wordWrap: { width: 1160 } });
+    this.detailText = text(this, 57, 677, "32 cards to discover. Freeze into lightning, poison into patience, or build a fast focus engine.", 16, C.paper, { wordWrap: { width: 1160 } });
   }
   detail(message) {
     this.detailText?.setText(message);
@@ -230,12 +230,12 @@ class Merchant extends Phaser.Scene {
     this.page = 0;
     this.draw();
     startFade(this);
-    this.input.keyboard.on("keydown-ESC", () => this.scene.start("Journey"));
+    this.input.keyboard.on("keydown-ESC", () => this.scene.start("Overworld"));
   }
   draw() {
     this.children.removeAll(true);
     background(this, { dim: 0.45 });
-    heading(this, "The Wandering Merchant", "“A good card always finds its way to the right hand.”", "Journey");
+    heading(this, "The Wandering Merchant", "“A good card always finds its way to the right hand.”", "Overworld");
     credits(this);
     button(this, 130, 134, 170, 39, "Buy cards", () => {
       this.mode = "buy";
@@ -295,12 +295,12 @@ class Forge extends Phaser.Scene {
   create() {
     this.draw();
     startFade(this);
-    this.input.keyboard.on("keydown-ESC", () => this.scene.start("Journey"));
+    this.input.keyboard.on("keydown-ESC", () => this.scene.start("Overworld"));
   }
   draw() {
     this.children.removeAll(true);
     background(this, { dim: 0.48 });
-    heading(this, "The Gilded Forge", "A hundred ordinary blades. One extraordinary keepsake.", "Journey");
+    heading(this, "The Gilded Forge", "A hundred ordinary blades. One extraordinary keepsake.", "Overworld");
     credits(this);
     cardView(this, "longsword", 350, 337, 1.33, { catalog: CARDS });
     const golden = cardView(this, "gold", 930, 337, 1.33, { catalog: CARDS });
@@ -329,12 +329,12 @@ class Party extends Phaser.Scene {
   create() {
     this.draw();
     startFade(this);
-    this.input.keyboard.on("keydown-ESC", () => this.scene.start("Journey"));
+    this.input.keyboard.on("keydown-ESC", () => this.scene.start("Overworld"));
   }
   draw() {
     this.children.removeAll(true);
     background(this, { dim: 0.5 });
-    heading(this, "The Company You Keep", "Some journeys are too good to walk alone.", "Journey");
+    heading(this, "The Company You Keep", "Some journeys are too good to walk alone.", "Overworld");
     credits(this);
     Object.entries(OPERATORS).forEach(([id, o], i) => {
       const x = 250 + i * 390, can = operatorAvailable(id), selected = state.save.operator === id;
@@ -361,12 +361,12 @@ class Journal extends Phaser.Scene {
   create() {
     this.draw();
     startFade(this);
-    this.input.keyboard.on("keydown-ESC", () => this.scene.start("Journey"));
+    this.input.keyboard.on("keydown-ESC", () => this.scene.start("Overworld"));
   }
   draw() {
     this.children.removeAll(true);
     background(this, { dim: 0.55 });
-    heading(this, "Pages Worth Keeping", "Milestones, memories, and a little pocket money.", "Journey");
+    heading(this, "Pages Worth Keeping", "Milestones, memories, and a little pocket money.", "Overworld");
     credits(this);
     QUESTS.forEach((q, i) => {
       const col = i % 2, row = Math.floor(i / 2), x = 55 + col * 595, y = 130 + row * 132, progress = Math.min(q.goal, questProgress(state.save, q)), claimed = state.save.claimed.includes(q.id), ready = progress >= q.goal;
@@ -458,7 +458,7 @@ class Rewards extends Phaser.Scene {
     const result = state.result;
     const pending = state.save.pendingReward;
     if (!pending?.choices) {
-      this.scene.start("Journey");
+      this.scene.start("Overworld");
       return;
     }
     text(this, 640, 58, "A new page for your deck.", 46, C.paper, { align: "center" }).setOrigin(0.5);
@@ -482,7 +482,7 @@ class Rewards extends Phaser.Scene {
     delete state.save.pendingReward;
     persist();
     audio.play("heal");
-    transition(this, "Journey");
+    transition(this, "Overworld");
   }
 }
 export {

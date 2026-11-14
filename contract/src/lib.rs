@@ -2,7 +2,7 @@ use near_sdk::collections::{LookupMap, UnorderedMap};
 use near_sdk::json_types::{U128, U64};
 use near_sdk::{env, near, require, AccountId, Gas, NearToken, PanicOnDefault, Promise};
 
-const IDS: [&str; 16] = [
+const IDS: [&str; 32] = [
     "cannon",
     "longsword",
     "thunder",
@@ -19,6 +19,22 @@ const IDS: [&str; 16] = [
     "vampire",
     "prism",
     "repair",
+    "gust",
+    "stonewall",
+    "poison",
+    "bloom",
+    "meteor",
+    "tidal",
+    "chainlight",
+    "cleave",
+    "dash",
+    "echo",
+    "draw",
+    "focus",
+    "thorns",
+    "revive",
+    "slow",
+    "storm",
 ];
 const REGISTER: u128 = 50_000_000_000_000_000_000_000;
 const LISTING_STORAGE: u128 = 5_000_000_000_000_000_000_000;
@@ -27,7 +43,7 @@ const MAX_PRICE: u128 = 1_000_000_000_000_000_000_000_000_000;
 #[near(serializers=[borsh, json])]
 #[derive(Clone)]
 pub struct Player {
-    pub items: [u64; 16],
+    pub items: [u64; 32],
     pub proceeds: U128,
     pub active_listings: u32,
     pub withdrawing: bool,
@@ -77,7 +93,7 @@ impl Contract {
     }
 
     pub fn get_config(&self) -> near_sdk::serde_json::Value {
-        near_sdk::serde_json::json!({"version":"0.2.0","registration_deposit":REGISTER.to_string(),"listing_deposit":LISTING_STORAGE.to_string(),"item_ids":IDS,"forge_cost":100,"max_active_listings":20,"battle_rewards":"offline_only","standard":"battle_net_custom_multi_token"})
+        near_sdk::serde_json::json!({"version":"0.3.0","registration_deposit":REGISTER.to_string(),"listing_deposit":LISTING_STORAGE.to_string(),"item_ids":IDS,"forge_cost":100,"max_active_listings":20,"battle_rewards":"offline_only","standard":"battle_net_custom_multi_token"})
     }
     pub fn get_player(&self, account_id: AccountId) -> Option<Player> {
         self.players.get(&account_id)
@@ -111,7 +127,7 @@ impl Contract {
         );
         let who = env::predecessor_account_id();
         require!(self.players.get(&who).is_none(), "Already registered");
-        let mut items = [1u64; 16];
+        let mut items = [1u64; 32];
         items[0] = 3;
         items[1] = 100;
         items[2] = 2;

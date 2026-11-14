@@ -198,7 +198,7 @@ class Battle {
       this.p.shield = Math.min(100, this.p.shield + 40);
     } else {
       for (const e of this.enemies) if (e.hp > 0) this.damageEnemy(e, this.operator === "nova" ? 110 : 90, "neutral");
-      if (this.operator === "nova") this.p.hp = Math.min(300, this.p.hp + 30);
+      if (this.operator === "nova") this.p.hp = Math.min(this.p.max, this.p.hp + 30);
       else this.p.inv = 2;
     }
     this.checkVictory();

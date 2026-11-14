@@ -1,9 +1,11 @@
+import {freshWorld,validWorld} from "./world.js";
+import { EXTRA_CARDS } from "./extra-cards.js";
 import { validateDeck, reconcileDeck, deckCounts } from "./deck.js";
 const CHIPS = {
   cannon: { name: "Arc Bolt", icon: "⌁", damage: 40, type: "attack", label: "BALLISTIC", desc: "Loose a bolt of magic along your row.", price: 12, stock: 35, cooldown: 6, element: "neutral", art: "cannon" },
   longsword: { name: "Longsword", icon: "⚔", damage: 80, type: "attack", label: "BLADE", desc: "Cuts two panels ahead in your row. Move to the front!", price: 5, stock: 100, cooldown: 6, element: "neutral", art: "longsword" },
-  thunder: { name: "Thunder", icon: "ϟ", damage: 60, type: "attack", label: "ELECTRIC", desc: "Homing lightning strikes the weakest virus. Double damage on wet panels.", price: 24, stock: 15, cooldown: 9, element: "electric", art: "thunder" },
-  recover: { name: "Mend", icon: "✚", damage: 60, type: "support", label: "RECOVERY", desc: "Restore 60 HP. Keep your connection alive.", price: 18, stock: 25, cooldown: 12, element: "neutral", art: "recover" },
+  thunder: { name: "Thunder", icon: "ϟ", damage: 60, type: "attack", label: "ELECTRIC", desc: "Homing lightning strikes the weakest creature. Double damage on wet panels.", price: 24, stock: 15, cooldown: 9, element: "electric", art: "thunder" },
+  recover: { name: "Mend", icon: "✚", damage: 60, type: "support", label: "RECOVERY", desc: "Restore 60 HP. Keep your companions safe.", price: 18, stock: 25, cooldown: 12, element: "neutral", art: "recover" },
   barrier: { name: "Ward", icon: "⬡", damage: 50, type: "support", label: "DEFENSE", desc: "Absorb 50 incoming damage. Stacks up to 100 shield.", price: 20, stock: 20, cooldown: 12, element: "neutral", art: "barrier" },
   gold: { name: "Gold Longsword", icon: "⚔", damage: 80, type: "attack", label: "GOLD FINISH", desc: "100 blades. One statement. Identical combat stats to Longsword.", price: 420, stock: 2, cooldown: 6, element: "neutral", art: "gold-longsword" },
   buster: { name: "Focus Wand", icon: "⌁", damage: 16, type: "equipment", label: "BUSTER", desc: "Equip to raise basic shot damage from 12 to 16.", price: 90, stock: 8, element: "neutral", art: "buster" },
@@ -17,6 +19,7 @@ const CHIPS = {
   prism: { name: "Prism Ray", icon: "◇", damage: 90, type: "attack", label: "PIERCING", desc: "A piercing beam hits every target in your row.", price: 85, stock: 6, cooldown: 11, element: "electric", art: "cannon" },
   repair: { name: "Sanctuary", icon: "⊞", damage: 30, type: "support", label: "RESTORE", desc: "Clear hazardous panels on your side and restore 30 HP.", price: 35, stock: 16, cooldown: 12, element: "water", art: "recover" }
 };
+Object.assign(CHIPS, EXTRA_CARDS);
 const OPERATORS = {
   pulse: { name: "Pulse", title: "The Wayfarer", role: "WANDERER", color: "#bbed71", special: "Heart’s Resolve", desc: "A kind-hearted wanderer who carries a worn deck and an unreasonable amount of hope.", quote: "There’s a story waiting just beyond those trees.", unlock: null },
   nova: { name: "Nova", title: "The Scarlet Blade", role: "DUELIST", color: "#ff8da9", special: "Crimson Waltz", desc: "A traveling duelist with a wicked grin. She has never met a challenge she could resist.", quote: "Keep up, darling. The road won’t walk itself.", unlock: "m3" },
@@ -36,10 +39,10 @@ const MISSIONS = [
 const WORLDS = [{ name: "The Elderwood", color: "#bbed71", desc: "Follow the forgotten road." }, { name: "Frostfall Reach", color: "#87d7f7", desc: "Where old memories bloom." }, { name: "The Hollow Court", color: "#c6a0ff", desc: "The last page awaits." }];
 const QUESTS = [{ id: "first", name: "First Steps", desc: "Win your first battle.", goal: 1, stat: "wins", reward: 40 }, { id: "trader", name: "Open for business", desc: "Complete 5 merchant trades.", goal: 5, stat: "trades", reward: 60 }, { id: "golden", name: "Stay golden", desc: "Forge a Gold Longsword.", goal: 1, stat: "forged", reward: 100 }, { id: "combo", name: "Chain reaction", desc: "Land 10 elemental combos.", goal: 10, stat: "combos", reward: 90 }, { id: "runner", name: "A Friend in Scarlet", desc: "Clear the Elderwood.", goal: 3, stat: "cleared", reward: 80 }, { id: "collector", name: "Full spectrum", desc: "Own 12 different card types.", goal: 12, stat: "types", reward: 100 }, { id: "heart", name: "A Tale Remembered", desc: "Complete all 9 chapters.", goal: 9, stat: "cleared", reward: 200 }];
 const stats = () => ({ kills: 0, trades: 0, forged: 0, combos: 0, damage: 0, battles: 0, bestEndless: 0 });
-const freshSave = () => ({ version: 2, credits: 240, items: Object.fromEntries(Object.keys(CHIPS).map((id) => [id, { cannon: 3, longsword: 100, thunder: 2, recover: 3, barrier: 2 }[id] ?? 0])), stock: Object.fromEntries(Object.entries(CHIPS).map(([id, c]) => [id, c.stock])), folder: ["cannon", "longsword", "thunder", "recover", "barrier"], deck: ["cannon", "cannon", "cannon", "longsword", "longsword", "longsword", "thunder", "thunder", "recover", "recover", "barrier", "barrier"], equipment: { buster: false, armor: false }, wins: 0, xp: 0, operator: "pulse", completed: [], bests: {}, claimed: [], stats: stats(), history: [], settings: { sound: false, music: false, shake: true, particles: true, volume: 0.3 }, tutorial: false });
+const freshSave = () => ({ version: 2, credits: 240, items: Object.fromEntries(Object.keys(CHIPS).map((id) => [id, { cannon: 3, longsword: 100, thunder: 2, recover: 3, barrier: 2 }[id] ?? 0])), stock: Object.fromEntries(Object.entries(CHIPS).map(([id, c]) => [id, c.stock])), folder: ["cannon", "longsword", "thunder", "recover", "barrier"], deck: ["cannon", "cannon", "cannon", "longsword", "longsword", "longsword", "thunder", "thunder", "recover", "recover", "barrier", "barrier"], equipment: { buster: false, armor: false }, wins: 0, xp: 0, operator: "pulse", completed: [], bests: {}, claimed: [], stats: stats(), history: [], settings: { sound: false, music: false, shake: true, particles: true, volume: 0.3 }, tutorial: false, world:freshWorld() });
 const natural = (n) => Number.isSafeInteger(n) && n >= 0 && n <= 1e8;
 function validSave(s) {
-  return Boolean(s?.version === 2 && natural(s.credits) && natural(s.wins) && natural(s.xp) && Object.keys(CHIPS).every((id) => natural(s.items?.[id]) && natural(s.stock?.[id])) && Array.isArray(s.folder) && s.folder.length === 5 && s.folder.every((id) => CHIPS[id] && CHIPS[id].type !== "equipment" && s.items[id] > 0) && s.equipment && ["buster", "armor"].every((id) => typeof s.equipment[id] === "boolean" && (!s.equipment[id] || s.items[id] > 0)) && OPERATORS[s.operator] && Array.isArray(s.completed) && s.completed.every((id) => MISSIONS.some((m) => m.id === id)) && Array.isArray(s.claimed) && s.claimed.every((id) => QUESTS.some((q) => q.id === id)) && s.stats && Object.keys(stats()).every((k) => natural(s.stats[k])) && s.bests && typeof s.bests === "object" && Object.values(s.bests).every((b) => b && Number.isFinite(b.time) && b.time >= 0 && ["S", "A", "B", "C"].includes(b.rank)) && Array.isArray(s.history) && s.history.length <= 40 && s.history.every((h) => typeof h === "string" && h.length <= 200) && s.settings && ["sound", "music", "shake", "particles"].every((k) => typeof s.settings[k] === "boolean") && Number.isFinite(s.settings.volume) && s.settings.volume >= 0 && s.settings.volume <= 1 && typeof s.tutorial === "boolean" && validateDeck(s.deck, s.items, CHIPS, false) && (!s.pendingReward || Array.isArray(s.pendingReward.choices) && s.pendingReward.choices.length === 3 && s.pendingReward.choices.every((id) => CHIPS[id] && CHIPS[id].type !== "equipment" && id !== "gold")));
+  return Boolean(s?.version === 2 && natural(s.credits) && natural(s.wins) && natural(s.xp) && Object.keys(CHIPS).every((id) => natural(s.items?.[id]) && natural(s.stock?.[id])) && Array.isArray(s.folder) && s.folder.length === 5 && s.folder.every((id) => CHIPS[id] && CHIPS[id].type !== "equipment" && s.items[id] > 0) && s.equipment && ["buster", "armor"].every((id) => typeof s.equipment[id] === "boolean" && (!s.equipment[id] || s.items[id] > 0)) && OPERATORS[s.operator] && Array.isArray(s.completed) && s.completed.every((id) => MISSIONS.some((m) => m.id === id)) && Array.isArray(s.claimed) && s.claimed.every((id) => QUESTS.some((q) => q.id === id)) && s.stats && Object.keys(stats()).every((k) => natural(s.stats[k])) && s.bests && typeof s.bests === "object" && Object.values(s.bests).every((b) => b && Number.isFinite(b.time) && b.time >= 0 && ["S", "A", "B", "C"].includes(b.rank)) && Array.isArray(s.history) && s.history.length <= 40 && s.history.every((h) => typeof h === "string" && h.length <= 200) && s.settings && ["sound", "music", "shake", "particles"].every((k) => typeof s.settings[k] === "boolean") && Number.isFinite(s.settings.volume) && s.settings.volume >= 0 && s.settings.volume <= 1 && typeof s.tutorial === "boolean" && validWorld(s.world) && validateDeck(s.deck, s.items, CHIPS, false) && (!s.pendingReward || Array.isArray(s.pendingReward.choices) && s.pendingReward.choices.length === 3 && s.pendingReward.choices.every((id) => CHIPS[id] && CHIPS[id].type !== "equipment" && id !== "gold")));
 }
 function migrateSave(s) {
   if (validSave(s)) return s;
@@ -53,8 +56,9 @@ function migrateSave(s) {
   if (Array.isArray(s.folder) && s.folder.length === 5 && s.folder.every((id) => CHIPS[id] && CHIPS[id].type !== "equipment" && n.items[id] > 0)) n.folder = [...s.folder];
   for (const id of ["buster", "armor"]) n.equipment[id] = Boolean(s.equipment?.[id] && n.items[id]);
   if (s.version === 2) {
-    for (const key of ["completed", "claimed", "bests", "stats", "history", "settings", "tutorial", "operator"]) if (s[key] !== void 0) n[key] = s[key];
+    for (const key of ["completed", "claimed", "bests", "stats", "history", "settings", "tutorial", "operator", "world", "pendingReward", "cardsTutorial"]) if (s[key] !== void 0) n[key] = s[key];
   }
+  if(!validWorld(n.world))n.world=freshWorld();
   n.deck = reconcileDeck(s.deck ?? n.deck, n.items, CHIPS);
   return validSave(n) ? n : freshSave();
 }
@@ -124,7 +128,8 @@ function claimQuest(s, id) {
   return true;
 }
 function reward(s, mission = MISSIONS[0], result = { rank: "B", time: 60, kills: 1, combos: 0, damage: 0 }) {
-  const first = !s.completed.includes(mission.id);
+  const campaign = MISSIONS.some(m => m.id === mission.id);
+  const first = campaign && !s.completed.includes(mission.id);
   const bonus = result.rank === "S" ? 1.4 : result.rank === "A" ? 1.2 : 1;
   const credits = Math.round(mission.reward * bonus * (first ? 1 : 0.65));
   s.credits += credits;
@@ -132,7 +137,7 @@ function reward(s, mission = MISSIONS[0], result = { rank: "B", time: 60, kills:
   s.items.longsword += first ? 10 : 5;
   s.items[mission.drop]++;
   s.wins++;
-  if (mission.id !== "endless" && first) s.completed.push(mission.id);
+  if (campaign && first) s.completed.push(mission.id);
   const old = s.bests[mission.id];
   if (!old || result.time < old.time) s.bests[mission.id] = { time: result.time, rank: result.rank };
   for (const k of ["kills", "combos", "damage"]) s.stats[k] += Math.floor(result[k] ?? 0);

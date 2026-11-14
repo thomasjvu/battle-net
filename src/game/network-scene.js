@@ -22,7 +22,7 @@ class Network extends Phaser.Scene {
     } catch (e) {
       toast(this, e.message, C.rose);
     }
-    this.input.keyboard.on("keydown-ESC", () => this.scene.start("Journey"));
+    this.input.keyboard.on("keydown-ESC", () => this.scene.start("Overworld"));
   }
   async task(fn) {
     try {
@@ -36,7 +36,7 @@ class Network extends Phaser.Scene {
   draw() {
     this.children.removeAll(true);
     background(this, { dim: 0.64 });
-    heading(this, "The Trading Hall", "Player-owned cards and equipment · NEAR testnet only", "Journey");
+    heading(this, "The Trading Hall", "Player-owned cards and equipment · NEAR testnet only", "Overworld");
     button(this, 1055, 60, 260, 42, near.account ? "Disconnect wallet" : "Connect wallet", () => this.task(() => near.account ? near.disconnect() : near.connect()), { size: 18, primary: true });
     label(this, 60, 123, near.account ?? "Your local collection stays separate from your wallet cards.", 14, C.gold);
     const config = near.config, player = near.player, c = near.contractConfig;
@@ -52,7 +52,9 @@ class Network extends Phaser.Scene {
       else if (player) {
         text(this, 77, 210, "Wallet inventory", 24, C.paper);
         const owned = ITEM_IDS.filter((id, i) => player.items[i] > 0);
-        owned.slice(0, 16).forEach((id, i) => {
+        const page = this.inventoryPage ?? 0;
+        button(this, 900, 213, 220, 28, page ? "Previous cards" : "More cards →", () => { this.inventoryPage = page ? 0 : 1; this.draw(); }, {size:14,small:true,disabled:owned.length<=16});
+        owned.slice(page*16, page*16+16).forEach((id, i) => {
           const col = i % 8, row = Math.floor(i / 8), x = 130 + col * 143, y = 280 + row * 108;
           this.add.image(x, y, "card-" + id).setDisplaySize(58, 58);
           label(this, x, y + 38, CARDS[id].name + " ×" + player.items[ITEM_IDS.indexOf(id)], 9, C.paper, { align: "center", wordWrap: { width: 135 } }).setOrigin(0.5);

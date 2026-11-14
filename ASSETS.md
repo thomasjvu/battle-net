@@ -101,3 +101,33 @@ QA: all 19 native transparent sprites/icons validate dimensions, binary alpha {0
 ### Distinct final boss: Thorn Queen
 
 Stable final sprite: `assets/fantasy/monsters/thorn-queen.png`, 128×128 RGBA, left-facing, anchor [64,120]. An original adult regal forest witch with rose/thorn crown, long dark aubergine hair, plum/moss cloth robes and crooked rosebud staff; distinct from Echo. Add this path for the final boss instead of using a heroine sprite. Same existing fantasy palette and pixel finish. Source: `assets/fantasy/source/monsters-thorn-queen.png`; prompt: `assets/fantasy/thorn-queen-prompt.txt`. Built-in image_gen. Inspected actual native sprite. Native validation passes binary alpha, dimensions and transparent margins. Manifest and QA now cover 20 runtime PNGs. All fantasy outputs are stable for final packaging.
+
+## Free-roaming world extension
+
+Stable roam environment bundle: `assets/fantasy/roam/manifest.json` with six assets. `grass.png` and `path.png` are opaque128×128 repeatable ground materials. Opposite edge pixels are exactly equal on both axes; source art is downsampled, quantized and assembled in mirrored quadrants to guarantee seams. A mirrored repeat can show periodic shapes; inspected in a3×3 tiled preview, not claimed to be an authored terrain autotile/transition set. Use grass as base and path rectangles/stamps for paths.
+
+Transparent props: `oak-tree.png` and `cottage.png`256×256 anchor[128,252]; `rock.png`96×96 anchor[48,92]; `chest.png`64×64 anchor[32,60]. Soft hand-painted pixel finish with binary alpha; no baked ground/shadow. Depth sort by ground anchor and give tree trunk/cottage base colliders, not entire image bounds. Preview: `assets/fantasy/roam/preview.png`. Prompt/source/finishing script are in the same directory. Generated with built-in image_gen; model/cost not reported.
+
+Pulse has distinct directional STOPPED stills: `assets/fantasy/characters/pulse-roam-east.png`, `pulse-roam-south.png`, `pulse-roam-north.png`,128×128 foot anchor[64,120]. East can mirror for west. They show relaxed hands and wand held down, with actual front/back/profile artwork. They are NOT locomotion animation frames.
+
+### Locomotion capability status
+
+Requested real walk/run cycles remain pending external-provider approval. Only route discovered: `local:grok-acp` (Grok/xAI via installed CLI). Initial video generation failed with `Permission denied`. Escalation was automatically rejected because the character reference/prompt would be uploaded to Grok/xAI without explicit approval for that destination. User has been asked for specific upload approval; do not bypass this denial or portray held-still bobbing as real walk/run. No generated walk/run clips or animation strips exist yet. Directional masters and prepared east-walk job/prompt are saved in `assets/fantasy/locomotion/` for resumption after approval.
+
+### Native drawn-frame locomotion — current status supersedes video blocker
+
+The user selected "Keep artwork within current tools" and explicitly requested built-in drawn pose frames. No external Grok/xAI upload was retried. Using the native image tool, we generated actual six-pose sheets from the three directional Pulse masters, corrected east stride/tights drawings, ownership-sliced the six separate silhouettes, registered them at one scale per clip, and applied the existing shared pixel palette. This is drawn-frame sprite animation, not video and not bobbed/warped held artwork.
+
+Stable manifest: `assets/fantasy/locomotion/locomotion.json` (version2,status ready, clips array). Six horizontal strips under `assets/fantasy/locomotion/pulse/`: `east-walk.png`, `east-run.png`, `south-walk.png`, `south-run.png`, `north-walk.png`, `north-run.png`. Each is768×128 with six128×128 cells, ground anchor[64,120]. West mirrors east with `flipX`. Walk10FPS (600ms/cycle); run14FPS (~429ms/cycle). Individual PNGs: `pulse/DIRECTION-ACTION/00.png` through `05.png`. Play in order0,1,2,3,4,5 then wrap; do not ping-pong. Run retains drawn flight poses and cape changes; game owns translation.
+
+Reviewed all36 actual final poses in `locomotion/review.png`. QA: six unique frame hashes per action; binary alpha; clear source ownership and native output margins; one fixed source scale and vertical transform per clip, head-centered horizontal registration. Six figures are separated by full-sheet connected-component ownership, not a rigid cell crop, because capes may extend beyond nominal column boundaries. No anatomy was clipped at those boundaries. Adjacent changed-pixel fractions range7.94%–21.75% across the native128px canvas (details in `locomotion/qa.json`).
+
+Known art warning: "Small wand/hand detail consistency varies in generated sheets." These are stylized held-frame loops with some costume-detail flicker, not perfectly traced animation. Nova/Echo locomotion is not included in this first bundle. All drawing sources and corrections are preserved in `locomotion/source/`; `sheet-sources.json` selects current sheets; `export_native.py` reproduces native strips. Route: built-in image_gen native edit, no external video provider. Do not run the unused prepared video jobs without new explicit user direction.
+
+### Sixteen-card expansion — stable
+
+All16 new illustrations are64×64 transparent PNGs under `assets/fantasy/cards/`: `gust`, `stonewall`, `poison`, `bloom`, `meteor`, `tidal`, `chainlight`, `cleave`, `dash`, `echo`, `draw`, `focus`, `thorns`, `revive`, `slow`, `storm` (append `.png`). Shared existing67-color fantasy palette, binary alpha, clear margins. Each is distinct original generated fantasy spell/item artwork. All39 static bundle files are listed in `assets/fantasy/manifest.json`; sources, exact expansion prompts and QA preserved. Earlier all-asset preview now sizes dynamically to include every file.
+
+## Roam service props — stable
+
+Four distinct service props replace generic rock markers. Paths: `assets/fantasy/roam/noticeboard.png`, `campfire.png`, `banner.png`, `shrine.png`. Each is128×128 transparent RGBA with anchor[64,120]. Noticeboard has pinned parchment under a shingled roof; campfire has logs/flames and stone ring; duel banner has crossed-sword pennant; shrine has mossy carved stone and a mint crystal. Native built-in image_gen original drawings, reduced to restrained48-color pixel finish, binary alpha. Source files and prompts preserved under `roam/source/` and `roam/service-prop-prompts.json`. All four validate128×128, alpha{0,255}, transparent margins and content groundline120 with no warnings (`roam/service-props-qa.json`). Inspected actual final outputs enlarged in `roam/service-props-preview.png`. `roam/manifest.json` now lists all10 environment assets. No application/hosting edits.
