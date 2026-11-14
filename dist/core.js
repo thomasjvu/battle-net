@@ -1,0 +1,17 @@
+export const CHIPS={
+ cannon:{name:'Cannon',icon:'⌁',damage:40,type:'attack',label:'BALLISTIC',desc:'A straight shot down your current row.',price:12},
+ longsword:{name:'Longsword',icon:'⚔',damage:80,type:'attack',label:'BLADE',desc:'Cuts two panels ahead. Close the gap first.',price:5},
+ thunder:{name:'Thunder',icon:'ϟ',damage:60,type:'attack',label:'ELECTRIC',desc:'Homing lightning. Hits from any row.',price:24},
+ recover:{name:'Recover',icon:'✚',damage:60,type:'support',label:'RECOVERY',desc:'Restore 60 HP. Keep your connection alive.',price:18},
+ barrier:{name:'Barrier',icon:'⬡',damage:50,type:'support',label:'DEFENSE',desc:'Absorb the next 50 points of incoming damage.',price:20},
+ gold:{name:'Gold Longsword',icon:'⚔',damage:80,type:'attack',label:'GOLD FINISH',desc:'A forged gold finish. Same range and power as Longsword.',price:420},
+ buster:{name:'Burst Buster',icon:'⌁',damage:16,type:'equipment',label:'BUSTER',desc:'Equip to raise basic shot damage from 12 to 16.',price:90},
+ armor:{name:'Guard Frame',icon:'◈',damage:5,type:'equipment',label:'ARMOR',desc:'Equip to reduce each incoming hit by 5.',price:80}
+};
+export const freshSave=()=>({version:1,credits:240,items:{cannon:3,longsword:100,thunder:2,recover:3,barrier:2,gold:0,buster:0,armor:0},stock:{cannon:35,longsword:100,thunder:15,recover:25,barrier:20,gold:2,buster:8,armor:8},folder:['cannon','longsword','thunder','recover','barrier'],equipment:{buster:false,armor:false},wins:0});
+export function validSave(s){return s?.version===1&&Number.isSafeInteger(s.credits)&&s.credits>=0&&Number.isSafeInteger(s.wins)&&s.wins>=0&&Object.keys(CHIPS).every(id=>Number.isSafeInteger(s.items?.[id])&&s.items[id]>=0&&Number.isSafeInteger(s.stock?.[id])&&s.stock[id]>=0)&&Array.isArray(s.folder)&&s.folder.length===5&&s.folder.every(id=>CHIPS[id]&&CHIPS[id].type!=='equipment'&&s.items[id]>0)&&s.equipment&&typeof s.equipment.buster==='boolean'&&typeof s.equipment.armor==='boolean';}
+export function price(s,id,mode='buy'){const base=CHIPS[id].price;const initial=freshSave().stock[id];const dynamic=Math.max(.65,Math.min(1.8,1+(initial-s.stock[id])/initial*.4));return Math.max(1,Math.round(base*dynamic*(mode==='sell'?.65:1)));}
+export function trade(s,id,mode){if(!CHIPS[id]||!['buy','sell'].includes(mode))return {ok:false,message:'Invalid trade'};const cost=price(s,id,mode);if(mode==='buy'){if(s.stock[id]<1)return {ok:false,message:'Merchant is out of stock'};if(s.credits<cost)return {ok:false,message:'Not enough demo credits'};s.credits-=cost;s.items[id]++;s.stock[id]--;}else{const keep=s.folder.includes(id)||s.equipment[id]?1:0;if(s.items[id]<=keep)return {ok:false,message:keep?'Keep one copy for your active loadout':'No copies to sell'};s.items[id]--;s.stock[id]++;s.credits+=cost;}return {ok:true,message:`${mode==='buy'?'Bought':'Sold'} ${CHIPS[id].name} for ${cost} credits`};}
+export function forge(s){if(s.items.longsword<100)return {ok:false,message:'You need 100 Longswords'};s.items.longsword-=100;s.items.gold++;s.folder=s.folder.map(id=>id==='longsword'&&s.items.longsword===0?'gold':id);return {ok:true,message:'Gold Longsword forged. Same power. Legendary finish.'};}
+export function equip(s,id,slot){if(!CHIPS[id]||s.items[id]<1)return false;if(CHIPS[id].type==='equipment'){s.equipment[id]=!s.equipment[id];return true;}if(!Number.isInteger(slot)||slot<0||slot>4)return false;s.folder[slot]=id;return true;}
+export function reward(s){s.credits+=30;s.items.longsword+=5;s.wins++;}

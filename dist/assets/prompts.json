@@ -1,0 +1,51 @@
+{
+  "route": "host_image: image_gen built-in",
+  "model": "Tool did not report model name",
+  "estimateUsd": "not reported; host tool route",
+  "icons": [
+    {
+      "id": "cannon",
+      "prompt": "Use case: stylized-concept. One isolated game inventory icon, centered with generous transparent margin, actual transparent background, no card frame, no letters, no numbers, no watermark. Original cyber tactical game. Crisp chunky flat shapes with dark charcoal #101814 outlines, faceted beveled retro game illustration, very few large readable details, readable at 48 pixels. A compact cyan and teal heavy pulse cannon weapon, thick rectangular barrel aimed diagonally toward upper right, single mint luminous square muzzle and mint energy cell. Cyan #34cbd3 teal #155c62 mint #b5ef71."
+    },
+    {
+      "id": "longsword",
+      "prompt": "Use case: stylized-concept. One isolated game inventory icon, centered with generous transparent margin, actual transparent background, no card frame, no letters, no numbers, no watermark. Original cyber tactical game. Crisp chunky flat shapes with dark charcoal #101814 outlines, faceted beveled retro game illustration, very few large readable details, readable at 48 pixels. A long straight cyan energy blade, diagonally rising from bottom left to top right, dark teal angular hilt with mint diamond core, broad pale mint cutting edge. Entire sword visible. Cyan teal mint palette."
+    },
+    {
+      "id": "gold-longsword",
+      "prompt": "Use case: stylized-concept. One isolated game inventory icon, centered with generous transparent margin, actual transparent background, no card frame, no letters, no numbers, no watermark. Original cyber tactical game. Crisp chunky flat shapes with dark charcoal #101814 outlines, faceted beveled retro game illustration, very few large readable details, readable at 48 pixels. A long straight warm GOLD energy blade, diagonally rising from bottom left to top right, dark bronze angular hilt with amber diamond core, broad pale cream cutting edge. Premium cosmetic sword. Entire sword visible. Gold #e9b85b bronze #8f5a2b pale #fff0b0 palette."
+    },
+    {
+      "id": "thunder",
+      "prompt": "Use case: stylized-concept. One isolated game inventory icon, centered with generous transparent margin, actual transparent background, no card frame, no letters, no numbers, no watermark. Original cyber tactical game. Crisp chunky flat shapes with dark charcoal #101814 outlines, faceted beveled retro game illustration, very few large readable details, readable at 48 pixels. A single angular electric lightning bolt zigzagging down, bright lemon yellow core with amber bevels, two tiny cyan electric shards beside it. Very bold unmistakable lightning silhouette. Yellow #f8d66d cyan #34cbd3 charcoal."
+    },
+    {
+      "id": "recover",
+      "prompt": "Use case: stylized-concept. One isolated game inventory icon, centered with generous transparent margin, actual transparent background, no card frame, no letters, no numbers, no watermark. Original cyber tactical game. Crisp chunky flat shapes with dark charcoal #101814 outlines, faceted beveled retro game illustration, very few large readable details, readable at 48 pixels. A mint green medical energy cross centered inside a cyan beveled hexagonal capsule, plus symbol large and unmistakable. Mint #b5ef71 cyan #34cbd3 teal #155c62."
+    },
+    {
+      "id": "barrier",
+      "prompt": "Use case: stylized-concept. One isolated game inventory icon, centered with generous transparent margin, actual transparent background, no card frame, no letters, no numbers, no watermark. Original cyber tactical game. Crisp chunky flat shapes with dark charcoal #101814 outlines, faceted beveled retro game illustration, very few large readable details, readable at 48 pixels. A large translucent-looking cyan hexagonal energy shield with solid flat teal interior, mint edge, central small mint diamond, simple concentric hexagonal line, no other objects. Cyan #34cbd3 mint #b5ef71 teal #155c62."
+    },
+    {
+      "id": "buster",
+      "prompt": "Use case: stylized-concept. One isolated game inventory icon, centered with generous transparent margin, actual transparent background, no card frame, no letters, no numbers, no watermark. Original cyber tactical game. Crisp chunky flat shapes with dark charcoal #101814 outlines, faceted beveled retro game illustration, very few large readable details, readable at 48 pixels. A compact futuristic wearable arm buster, charcoal and teal cuff on left, chunky cyan barrel pointing right, mint luminous square opening on right, three mint indicator rectangles. Side view, no hand. Cyan #34cbd3 mint #b5ef71 teal #155c62."
+    },
+    {
+      "id": "armor",
+      "prompt": "Use case: stylized-concept. One isolated game inventory icon, centered with generous transparent margin, actual transparent background, no card frame, no letters, no numbers, no watermark. Original cyber tactical game. Crisp chunky flat shapes with dark charcoal #101814 outlines, faceted beveled retro game illustration, very few large readable details, readable at 48 pixels. An original cyan armored torso breastplate with large angular shoulder pauldrons, charcoal undersuit, large inverted triangular mint chest power core and teal bevel shadows, no head arms or legs. Cyan #34cbd3 mint #b5ef71 teal #155c62."
+    }
+  ],
+  "characters": [
+    {
+      "id": "pulse-idle",
+      "identity": "Original cyan/mint armored network operator; angular hood helmet, opaque black visor, off-center mint antenna tab, triangular mint chest core, dark teal boots, right-facing mint arm cannon.",
+      "composition": "single full body three-quarter side-facing right master, transparent, grounded, dark outlines, retro flat-color clusters"
+    },
+    {
+      "id": "hex-guard-idle",
+      "identity": "Original nonhumanoid coral/crimson cyber virus, faceted hexagonal fortress beetle torso, mint eye slit, orange diamond core, asymmetric claws, piston legs and wedge feet.",
+      "composition": "single full body three-quarter side-facing left master, transparent, grounded, dark outlines, retro flat-color clusters"
+    }
+  ]
+}

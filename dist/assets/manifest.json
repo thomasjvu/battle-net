@@ -1,0 +1,264 @@
+{
+  "version": 1,
+  "artSource": "host_image",
+  "route": "image_gen built-in",
+  "model": "not reported by tool",
+  "finish": "area-downsampled shared-palette pixel finish",
+  "palette": [
+    "#101814",
+    "#26343d",
+    "#454954",
+    "#155c62",
+    "#16878d",
+    "#1ca9b3",
+    "#34cbd3",
+    "#6ee4de",
+    "#b5ef71",
+    "#defbd0",
+    "#4c2235",
+    "#7b2d44",
+    "#b93752",
+    "#d95165",
+    "#f16f74",
+    "#ffb184",
+    "#553b29",
+    "#8f5a2b",
+    "#b97b32",
+    "#e9b85b",
+    "#f8d66d",
+    "#fff0b0"
+  ],
+  "animations": "Still masters only; game can apply translation/recoil and hurt flashes.",
+  "assets": [
+    {
+      "id": "pulse-idle",
+      "path": "assets/sprites/pulse-idle.png",
+      "width": 96,
+      "height": 96,
+      "anchor": [
+        48,
+        90
+      ],
+      "facing": "right",
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        7,
+        6,
+        89,
+        90
+      ],
+      "colorCount": 14,
+      "sha256": "b34112f096beffeedcd64eff76799032df6dbd0e9f56fcd1cf44f552d35bde7c"
+    },
+    {
+      "id": "hex-guard-idle",
+      "path": "assets/sprites/hex-guard-idle.png",
+      "width": 96,
+      "height": 96,
+      "anchor": [
+        48,
+        90
+      ],
+      "facing": "left",
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        6,
+        26,
+        90,
+        90
+      ],
+      "colorCount": 17,
+      "sha256": "bdd1ed58ce80540bb37c3c376ef8b9da4b28739cf6684d0ee43ecab9590a4f51"
+    },
+    {
+      "id": "cannon",
+      "path": "assets/chips/cannon.png",
+      "width": 64,
+      "height": 64,
+      "anchor": [
+        32,
+        32
+      ],
+      "facing": null,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        4,
+        12,
+        60,
+        52
+      ],
+      "colorCount": 13,
+      "sha256": "0ba8a68d856ff12c463b144fc4c686abbb03760d1dd3d2339a8b026b78e943ae"
+    },
+    {
+      "id": "longsword",
+      "path": "assets/chips/longsword.png",
+      "width": 64,
+      "height": 64,
+      "anchor": [
+        32,
+        32
+      ],
+      "facing": null,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        4,
+        10,
+        60,
+        53
+      ],
+      "colorCount": 10,
+      "sha256": "082d405309a624e2fca0b47b5eb26fe9850e1b685a22a3d4cf08689edcf22481"
+    },
+    {
+      "id": "gold-longsword",
+      "path": "assets/chips/gold-longsword.png",
+      "width": 64,
+      "height": 64,
+      "anchor": [
+        32,
+        32
+      ],
+      "facing": null,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        4,
+        11,
+        60,
+        53
+      ],
+      "colorCount": 14,
+      "sha256": "4e31b90fbc819306538ed11b03e8816d103f9d2e283c1ae44afc7bb4d5a306af"
+    },
+    {
+      "id": "thunder",
+      "path": "assets/chips/thunder.png",
+      "width": 64,
+      "height": 64,
+      "anchor": [
+        32,
+        32
+      ],
+      "facing": null,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        12,
+        4,
+        52,
+        59
+      ],
+      "colorCount": 16,
+      "sha256": "b84e6f415a9d7e4cb946af8e54015a1ee82db567e89cc7269e88e47ef4021b08"
+    },
+    {
+      "id": "barrier",
+      "path": "assets/chips/barrier.png",
+      "width": 64,
+      "height": 64,
+      "anchor": [
+        32,
+        32
+      ],
+      "facing": null,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        7,
+        4,
+        56,
+        60
+      ],
+      "colorCount": 13,
+      "sha256": "3cbc2df688abda5dde386bb9f6748fdf6fd4b4705b53e45e9681485a428405c6"
+    },
+    {
+      "id": "armor",
+      "path": "assets/equipment/armor.png",
+      "width": 64,
+      "height": 64,
+      "anchor": [
+        32,
+        32
+      ],
+      "facing": null,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        4,
+        7,
+        60,
+        56
+      ],
+      "colorCount": 14,
+      "sha256": "d2e0fadf2bf381c4f95d235948300ff244298d390af4ff66472e756a04871eea"
+    },
+    {
+      "id": "recover",
+      "path": "assets/chips/recover.png",
+      "width": 64,
+      "height": 64,
+      "anchor": [
+        32,
+        32
+      ],
+      "facing": null,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        5,
+        4,
+        59,
+        60
+      ],
+      "colorCount": 14,
+      "sha256": "eb851fd60ad1ba5ffafd30f737831a28a99d6b9e515736e6649a8cc95dcc4d46"
+    },
+    {
+      "id": "buster",
+      "path": "assets/equipment/buster.png",
+      "width": 64,
+      "height": 64,
+      "anchor": [
+        32,
+        32
+      ],
+      "facing": null,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "contentBounds": [
+        4,
+        19,
+        60,
+        44
+      ],
+      "colorCount": 10,
+      "sha256": "0094f19de516c8949a6bdf4c0488481a2b2d6afaed4afa8292b3e34c5b29bed8"
+    }
+  ]
+}

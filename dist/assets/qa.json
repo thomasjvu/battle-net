@@ -1,0 +1,11 @@
+{
+  "runtimeFiles": 10,
+  "binaryAlpha": true,
+  "edgeClipping": false,
+  "paletteColors": 22,
+  "warnings": [],
+  "limitations": [
+    "Still poses only: no generated shoot/hurt animation frames.",
+    "Original masters are high-resolution illustration; runtime files are palette-reduced pixel finish."
+  ]
+}
