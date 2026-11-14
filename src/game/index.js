@@ -49,7 +49,7 @@ class Load extends Phaser.Scene {
   }
 }
 new Phaser.Game({ type: Phaser.AUTO, parent: "game-root", width: W, height: H, backgroundColor: C.dark, render: { antialias: true, pixelArt: false, roundPixels: true, powerPreference: "high-performance" }, scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH, fullscreenTarget: "game-root" }, dom: { createContainer: true }, input: { activePointers: 4, keyboard: { capture: ["SPACE", "UP", "DOWN", "LEFT", "RIGHT"] } }, scene: [Boot, Load, Title, Overworld, DuelLobby, DuelCombat, Journey, Deck, Merchant, Forge, Party, Journal, Settings, Combat, Rewards, Network, Listings], callbacks: { postBoot: (game) => {
-  game.canvas.setAttribute("aria-label", "Battle Net, a full-screen card tactics game. Press Enter to begin. During battle use WASD or arrows, Space to attack, 1 to 5 for cards, E for Resolve, Escape to pause.");
+  game.canvas.setAttribute("aria-label", "Battle Net, a full-screen card tactics game. Press Enter to begin. During battle use WASD or arrows, hold and release Space for the buster, Z for the next chip, C for Custom, and Enter to send selected chips.");
   game.canvas.setAttribute("tabindex", "0");
   game.scale.on("fullscreenfailed", () => announce("Fullscreen was blocked by this browser. The game fills its available window."));
 } } });

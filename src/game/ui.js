@@ -1,15 +1,16 @@
 import Phaser from "phaser";
 import { state, audio, announce } from "./state.js";
+import{CHIP_CODES}from"../../dist/network-battle.js";
 import { CARD_COST } from "../../dist/deck.js";
-const W = 1280, H = 720, C = { ink: 2432559, dark: 1775652, paper: 15916982, pale: 16773581, gold: 13477224, mint: 11192714, muted: 11510413, rose: 13204618, edge: 7756101 };
-const hex = (n) => "#" + n.toString(16).padStart(6, "0");
+const W = 1280, H = 720, C = { ink:0x071d30, dark:0x040f1e, paper:0xe8f6ff, pale:0xf4fcff, gold:0x55d9f1, mint:0x94f5cb, muted:0x8daec4, rose:0xff879e, edge:0x2e7d9c };
+const hex = (n) => typeof n === "string" ? n : "#" + n.toString(16).padStart(6, "0");
 function text(scene, x, y, value, size = 20, color = C.paper, extra = {}) {
-  return scene.add.text(x, y, value, { fontFamily: "Georgia, serif", fontSize: size, color: hex(color), ...extra });
+  return scene.add.text(x, y, value, { fontFamily: "Trebuchet MS, Verdana, sans-serif", fontSize: size, color: hex(color), ...extra });
 }
 function label(scene, x, y, value, size = 12, color = C.muted, extra = {}) {
   return text(scene, x, y, value, size, color, { fontFamily: "Verdana, sans-serif", letterSpacing: 1, ...extra });
 }
-function panel(scene, x, y, w, h, { fill = C.ink, alpha = 0.94, edge = C.gold, radius = 12 } = {}) {
+function panel(scene, x, y, w, h, { fill = C.ink, alpha = 0.94, edge = C.gold, radius = 4 } = {}) {
   const g = scene.add.graphics();
   g.fillStyle(0, 0.25);
   g.fillRoundedRect(x + 5, y + 7, w, h, radius);
@@ -57,6 +58,7 @@ function button(scene, x, y, w, h, value, action, { primary = false, disabled = 
   return root;
 }
 function background(scene, { dim = 0.25, key = "forest" } = {}) {
+  if(key==="forest"&&state.networkWorld!==false&&scene.textures.exists("network-battle"))key="network-battle";
   const image = scene.add.image(W / 2, H / 2, key);
   if (scene.textures.exists(key)) {
     const scale = Math.max(W / image.width, H / image.height);
@@ -157,7 +159,7 @@ function cardView(scene, id, x, y, scale = 1, { catalog, showCount = false, coun
   root.add(label(scene, 0, 96, card.type === "equipment" ? "EQUIPMENT" : card.stat ?? `${card.damage ? card.damage + (card.type === "attack" ? " POWER" : " RESTORE") : "CONTROL"}`, 8, 7426622, { align: "center" }).setOrigin(0.5));
   if (card.type !== "equipment") {
     const circle = scene.add.circle(-62, -89, 18, C.ink).setStrokeStyle(2, C.gold);
-    root.add([circle, text(scene, -62, -90, String(CARD_COST[id] ?? 1), 20, C.paper, { fontStyle: "bold" }).setOrigin(0.5)]);
+    root.add([circle, text(scene, -62, -90, String(CHIP_CODES[id] ?? "*"), 20, C.paper, { fontStyle: "bold" }).setOrigin(0.5)]);
   }
   if (showCount) root.add(label(scene, 58, -89, "×" + count, 12, C.paper).setOrigin(1, 0.5));
   if (handKey) root.add(label(scene, 60, 88, handKey, 11, 6769723).setOrigin(0.5));
@@ -169,7 +171,7 @@ function cardView(scene, id, x, y, scale = 1, { catalog, showCount = false, coun
   return root;
 }
 function shortDesc(id) {
-  return { cannon: "A straight magic bolt.", longsword: "Strike 2 panels ahead.", gold: "Same blade. Gold finish.", thunder: "Homing. Doubles on wet foes.", recover: "Restore 60 health.", barrier: "Absorb 50 damage.", shotgun: "A bolt for every row.", firewall: "Burn a row. Shatter ice.", icewave: "Freeze a row. Leave it wet.", areagrab: "Claim a column for 6s.", charge: "Double your wand for 8s.", vampire: "Strike close. Steal life.", prism: "Pierce every foe in a row.", repair: "Mend panels. Heal 30.", gust:"Pierce a row. Push back.", stonewall:"Raise an 80-point ward.", poison:"A homing poisonous thorn.", bloom:"Heal now and over time.", meteor:"A delayed column blast.", tidal:"Soak a row for 10s.", chainlight:"Lightning for every foe.", cleave:"Strike a wide front arc.", dash:"Step ahead. Dodge a hit.", echo:"Repeat your last attack.", draw:"Replace the rest of your hand.", focus:"Free. Restore 3 focus.", thorns:"Reflect the next 3 hits.", revive:"Heal 100. Cleanse poison.", slow:"Freeze one foe for 3s.", storm:"A storm strikes every foe." }[id] ?? "";
+  return { cannon: "Straight-line cannon shot.", longsword: "Strike 2 panels ahead.", gold: "Same blade. Gold finish.", thunder: "Homing. Doubles on wet foes.", recover: "Restore 60 health.", barrier: "Absorb 50 damage.", shotgun: "A bolt for every row.", firewall: "Burn a row. Shatter ice.", icewave: "Freeze a row. Leave it wet.", areagrab: "Claim a column for 6s.", charge: "Double your buster for 8s.", vampire: "Strike close. Steal life.", prism: "Pierce every foe in a row.", repair: "Mend panels. Heal 30.", gust:"Pierce a row. Push back.", stonewall:"Raise an 80-point ward.", poison:"A homing poisonous thorn.", bloom:"Heal now and over time.", meteor:"A delayed column blast.", tidal:"Soak a row for 10s.", chainlight:"Lightning for every foe.", cleave:"Strike a wide front arc.", dash:"Step ahead. Dodge a hit.", echo:"Repeat your last attack.", draw:"Advance Custom Gauge by 4s.", focus:"Fill the Custom Gauge.", thorns:"Reflect the next 3 hits.", revive:"Heal 100. Cleanse poison.", slow:"Freeze one foe for 3s.", storm:"A storm strikes every foe." }[id] ?? "";
 }
 function transition(scene, target, data) {
   scene.cameras.main.fadeOut(180, 15, 12, 20);

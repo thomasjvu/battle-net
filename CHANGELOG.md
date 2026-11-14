@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0
+
+- Replaced solo focus/autodraw flow with paused Custom selection, chip codes, ordered single-use chips and an eight-second Custom Gauge.
+- Added charge/release buster and original three-Cannon Program Advance.
+- Added jack-in network exploration, void collision, terminals, mystery data and jack-out forest access.
+- Added original network battle art, cyan interface and connected red/blue panel field.
+- Preserved local collection, compact 12-chip folders, local duel rules and paused live NEAR deployment.
+
 ## 0.4.1
 
 - Removed overworld stamina and exhaustion; running is unlimited.

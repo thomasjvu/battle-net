@@ -1,6 +1,6 @@
 import{build}from'esbuild';import{readFile,writeFile,access}from'node:fs/promises';import{CHIPS}from'../dist/core.js';
 const exists=async path=>{try{await access('dist/'+path);return true;}catch{return false;}};
-const art={'forest':'assets/environment/forest-clearing.png','card-back':'assets/cards/card-back.png','card-frame':'assets/cards/card-front.png'};
+const art={'network-battle':'assets/network/battle-background.png','forest':'assets/environment/forest-clearing.png','card-back':'assets/cards/card-back.png','card-frame':'assets/cards/card-front.png'};
 for(const id of ['pulse','nova','echo'])for(const part of ['idle','attack','portrait']){const fantasy=`assets/fantasy/characters/${id}-${part}.png`;art[`${id}-${part}`]=fantasy;}
 for(const[id,c]of Object.entries(CHIPS)){const group=['buster','armor'].includes(c.art)?'equipment':'cards',fantasy=`assets/fantasy/${group}/${c.art}.png`;art['card-'+id]=fantasy;}
 for(const id of ['hex','spark','frost','flare','guard'])art['monster-'+id]=`assets/fantasy/monsters/${id==='guard'?'briar-guardian':'thornling'}.png`;

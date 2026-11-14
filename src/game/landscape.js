@@ -69,6 +69,6 @@ export function updateLandscape(scene,time,dt){
   scene.nearGlow.setVisible(!!nearby);if(nearby)scene.nearGlow.setPosition(nearby.x,nearby.y+4).setAlpha(.65+Math.sin(time/300)*.2);
   scene.leafClock+=dt;if(!state.save.settings.particles||scene.leafClock<.5)return;scene.leafClock=0;
   const camera=scene.cameras.main;const x=camera.scrollX+Math.random()*1280,y=camera.scrollY+100+Math.random()*500;
-  const leaf=scene.add.ellipse(x,y,5,2,Math.random()>.5?0xc6ba70:0x93aa66,.6).setDepth(4000).setAngle(25);
+  const leaf=(scene.network?scene.add.rectangle(x,y,3,3,0x70dbe8,.5):scene.add.ellipse(x,y,5,2,Math.random()>.5?0xc6ba70:0x93aa66,.6)).setDepth(4000).setAngle(25);
   scene.tweens.add({targets:leaf,x:x+70,y:y+80,angle:180,alpha:0,duration:3800,onComplete:()=>leaf.destroy()});
 }

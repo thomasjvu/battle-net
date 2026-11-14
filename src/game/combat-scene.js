@@ -1,11 +1,12 @@
 import Phaser from "phaser";
-import { CardBattle } from "../../dist/card-battle.js";
+import { NetworkBattle } from "../../dist/network-battle.js";
+import { chipTile, drawCustom } from "./custom-screen.js";
 import { ENEMIES } from "../../dist/combat.js";
 import { reward, MISSIONS } from "../../dist/core.js";
 import { validateDeck, CARD_COST } from "../../dist/deck.js";
 import { state, audio, persist, announce, near, CARDS, OPERATORS } from "./state.js";
 import { W, H, C, text, label, panel, button, background, modal, toast, cardView, shortDesc, systemButtons, fullscreen, transition, startFade } from "./ui.js";
-const pos = (x, y) => ({ x: 180 + x * 155 + y * 32, y: 290 + y * 66 });
+const pos = (x, y) => ({ x: 180 + x * 155 + y * 32, y: 268 + y * 66 });
 class Combat extends Phaser.Scene {
   constructor() {
     super("Combat");
@@ -31,8 +32,9 @@ class Combat extends Phaser.Scene {
       this.scene.start("Deck");
       return;
     }
-    this.battle = new CardBattle({ mission: this.mission, deck, equipment: state.walletDeck?.equipment ?? state.save.equipment, operator: state.save.operator, seed: Date.now(), endless: state.endless });
-    background(this, { dim: 0.22 });
+    this.battle = new NetworkBattle({ mission: this.mission, deck, equipment: state.walletDeck?.equipment ?? state.save.equipment, operator: state.save.operator, seed: Date.now(), endless: state.endless });
+    if(this.textures.exists("network-battle"))this.add.image(640,360,"network-battle").setDisplaySize(1280,720);else this.cameras.main.setBackgroundColor(0x061627);
+    const grid=this.add.graphics().setDepth(-1);grid.lineStyle(1,0x1e718a,.35);for(let x=0;x<1280;x+=64)grid.lineBetween(x,160,x,720);for(let y=160;y<720;y+=40)grid.lineBetween(0,y,1280,y);
     this.add.rectangle(W / 2, 80, W - 58, 120, C.ink, 0.82).setStrokeStyle(1, C.gold, 0.5);
     this.board = this.add.graphics();
     this.aura = this.add.graphics();
@@ -49,21 +51,25 @@ class Combat extends Phaser.Scene {
     this.enemyName = label(this, 1209, 44, "", 13, C.rose).setOrigin(1, 0);
     text(this, W / 2, 42, this.mission.name, 29, C.paper).setOrigin(0.5);
     this.timeText = label(this, W / 2, 81, "00:00", 13, C.muted).setOrigin(0.5);
-    this.add.image(76, 589, "card-back").setDisplaySize(67, 101).setAngle(-5);
+    this.add.rectangle(76,589,65,100,0x102b40).setStrokeStyle(2,0x5bbbd3);
     this.drawText = label(this, 77, 655, "", 11, C.paper, { align: "center" }).setOrigin(0.5);
-    this.add.image(1204, 589, "card-back").setDisplaySize(67, 101).setAngle(7).setTint(10061979);
+    this.add.rectangle(1204,589,65,100,0x102b40).setStrokeStyle(2,0x5bbbd3);
     this.discardText = label(this, 1203, 655, "", 11, C.paper, { align: "center" }).setOrigin(0.5);
-    this.focusText = label(this, W / 2, 490, "FOCUS", 12, C.paper).setOrigin(0.5);
+    this.focusText = label(this, W / 2, 490, "CUSTOM GAUGE", 12, C.paper).setOrigin(0.5);
     this.resolveText = label(this, 48, 430, "", 11, C.paper);
     this.resolveBtn = button(this, 155, 469, 220, 34, "Resolve  [E]", () => this.castResolve(), { size: 16, small: true });
-    this.tipText = text(this, W / 2, 701, "1–5: play cards   ·   WASD: move   ·   Space: wand   ·   E: resolve", 13, C.paper, { align: "center" }).setOrigin(0.5);
+    this.tipText = text(this, W / 2, 701, "Z / 1: next chip   ·   WASD: move   ·   Hold / release Space: buster   ·   C: Custom", 13, C.paper, { align: "center" }).setOrigin(0.5);
     this.noticeText = text(this, W / 2, 167, "", 23, C.gold, { fontStyle: "bold", stroke: "#251e2f", strokeThickness: 4, align: "center" }).setOrigin(0.5).setDepth(100);
     button(this, 1187, 691, 118, 29, "Pause Ⅱ", () => this.pauseBattle(), { size: 15, small: true });
     button(this, 1190, 144, 100, 28, "⛶", () => fullscreen(this), { size: 20, small: true });
+    button(this,1000,469,235,34,"CUSTOM  [C]",()=>this.openCustom(),{size:17,small:true});
     this.keys = this.input.keyboard.addKeys({ up: "W", down: "S", left: "A", right: "D", arrowUp: "UP", arrowDown: "DOWN", arrowLeft: "LEFT", arrowRight: "RIGHT", fire: "SPACE" });
     this.input.keyboard.on("keydown", (e) => {
       if (e.repeat && /^[1-5eE]$/.test(e.key)) return;
       if (/^[1-5]$/.test(e.key)) this.playCard(+e.key - 1);
+      if(e.key.toLowerCase()==="z")this.playCard(0);
+      if(e.key.toLowerCase()==="c")this.openCustom();
+      if(e.key==="Enter"&&this.customRoot)this.sendCustom();
       if (e.key.toLowerCase() === "e") this.castResolve();
       if (e.key === "Escape") {
         if (this.pausedDialog) {
@@ -93,21 +99,17 @@ class Combat extends Phaser.Scene {
     startFade(this);
     this.refreshHand();
     this.syncView();
-    if (!state.save.cardsTutorial) {
-      modal(this, { title: "A little card magic.", body: "Bring 12 cards, with up to 3 copies each. Play from your five-card hand using 1–5 or a click. Cards cost focus, then go to your discard pile. Focus returns over time, and your discard reshuffles when the deck runs out. Keep moving between spells!", yes: "Let’s begin", no: null, portrait: state.save.operator + "-portrait", onYes: () => {
-        state.save.cardsTutorial = true;
-        this.begin();
-      } });
-    } else this.begin();
+    this.begin();
   }
   begin() {
     state.save.stats.battles++;
     persist();
     this.battle.start();
+    drawCustom(this);
     audio.unlock();
     audio.configure(state.save.settings);
     audio.setActive(true);
-    announce(this.mission.name + ". Battle begins. Play cards with keys 1 to 5.");
+    announce(this.mission.name + ". Battle begins. Select chips in Custom, send with Enter, use the next chip with Z. Hold Space to charge the buster.");
   }
   touchControls() {
     const controls = [["↑", 92, 349, 0, -1], ["←", 48, 393, -1, 0], ["↓", 92, 437, 0, 1], ["→", 136, 393, 1, 0]];
@@ -125,19 +127,20 @@ class Combat extends Phaser.Scene {
       });
     }
     const fire = this.add.circle(1195, 408, 37, C.ink, 0.9).setStrokeStyle(2, C.gold).setInteractive();
-    label(this, 1195, 408, "WAND", 11, C.paper).setOrigin(0.5);
+    label(this, 1195, 408, "BUSTER", 11, C.paper).setOrigin(0.5);
     fire.on("pointerdown", () => {
       this.touch.fire = true;
-      this.battle.shoot();
+      
     });
     fire.on("pointerout", () => this.touch.fire = false);
   }
+  selectCustom(index){if(this.battle.cards.select(index))drawCustom(this);else this.notice("Chip codes do not match.");}
+  openCustom(){if(this.battle.openCustom()){drawCustom(this);audio.setActive(false);}else if(this.battle.phase!=="custom")this.notice("Custom Gauge is still charging.");}
+  sendCustom(){if(!this.battle.confirmCustom())return;this.customRoot?.destroy();this.customRoot=null;this.touch.fire=false;this.refreshHand();this.processEvents();audio.setActive(true);}
   playCard(index) {
-    if (this.battle.useCard(index)) {
-      audio.play("chip");
-      this.refreshHand();
-      this.processEvents();
-    } else if (this.battle.status === "running") this.notice(this.battle.cards.hand[index] ? "Not enough focus." : "Drawing a card…");
+    if(this.battle.phase==='custom'){this.selectCustom(index);return;}
+    if(this.battle.useCard(index)){audio.play('chip');this.refreshHand();this.processEvents();}
+    else if(this.battle.status==='running')this.notice(index?'Use chips in order with Z.':'No chips loaded. Fill the gauge, then press C.');
   }
   castResolve() {
     this.battle.overdrive();
@@ -167,24 +170,24 @@ class Combat extends Phaser.Scene {
     for (let i = 0; i < 5; i++) {
       const id = cards[i], x = 260 + i * 190, y = 602;
       if (!id) {
-        const back = this.add.image(x, y, "card-back").setDisplaySize(135, 181).setAlpha(0.45);
+        const back = this.add.rectangle(x,y,135,125,0x0b2134).setStrokeStyle(1,0x32617b).setAlpha(.6);
         this.handViews[i] = back;
         this.cardLayer.add(back);
-        this.cardLayer.add(label(this, x, y + 2, "Drawing…", 17, C.paper).setOrigin(0.5));
+        this.cardLayer.add(label(this, x, y + 2, "NO CHIP", 17, C.paper).setOrigin(0.5));
         continue;
       }
-      const view = cardView(this, id, x, y, 0.83, { catalog: CARDS, handKey: String(i + 1), onClick: () => this.playCard(i) });
+      const view = chipTile(this, id, x, y, 0.83, { onClick: () => this.playCard(i) });
       view.setAngle((i - 2) * 1.7);
       this.handViews[i] = view;
       this.cardLayer.add(view);
       view.on("pointerover", () => {
         this.tweens.add({ targets: view, y: 579, angle: 0, duration: 100 });
-        this.tipText.setText(CARDS[id].name + " · " + CARDS[id].desc + "  [" + (CARD_COST[id] ?? 1) + " focus]");
+        this.tipText.setText(CARDS[id].name + " · " + CARDS[id].desc + " · " + (i===0?"Z: USE NEXT":"QUEUED "+(i+1)));
         this.cardLayer.bringToTop(view);
       });
       view.on("pointerout", () => {
         this.tweens.add({ targets: view, y, angle: (i - 2) * 1.7, duration: 100 });
-        this.tipText.setText("1–5: play cards   ·   WASD: move   ·   Space: wand   ·   E: resolve");
+        this.tipText.setText("Z / 1: next chip   ·   WASD: move   ·   Hold / release Space: buster   ·   C: Custom");
       });
     }
   }
@@ -196,7 +199,7 @@ class Combat extends Phaser.Scene {
     const time = this.time.now / 1e3;
     for (let row = 0; row < 3; row++) for (let col = 0; col < 6; col++) {
       const p2 = pos(col, row), mine = col < 3 || col === 3 && b.p.grab > b.time, h = b.hazards.find((h2) => h2.x === col && h2.y === row), danger = b.attacks.some((a) => a.cells.some((cell) => cell.x === col && cell.y === row));
-      let fill = mine ? 7309152 : 8741213, edge = mine ? 10859907 : 13012605;
+      let fill = mine ? 0x246db6 : 0xb44859, edge = mine ? 0x78d9ff : 0xff94a6;
       if (h) {
         fill = h.kind === "fire" ? 11820863 : h.kind === "ice" ? 7904428 : 6721433;
         edge = h.kind === "fire" ? 15907693 : 12706274;
@@ -205,7 +208,7 @@ class Combat extends Phaser.Scene {
         fill = Math.sin(time * 18) > 0 ? 13203804 : 10832969;
         edge = 16768433;
       }
-      const pts = [new Phaser.Geom.Point(p2.x - 60, p2.y - 24), new Phaser.Geom.Point(p2.x + 66, p2.y - 24), new Phaser.Geom.Point(p2.x + 88, p2.y + 22), new Phaser.Geom.Point(p2.x - 38, p2.y + 22)];
+      const pts = [new Phaser.Geom.Point(p2.x - 77, p2.y - 33), new Phaser.Geom.Point(p2.x + 78, p2.y - 33), new Phaser.Geom.Point(p2.x + 110, p2.y + 33), new Phaser.Geom.Point(p2.x - 45, p2.y + 33)];
       this.board.fillStyle(2959408, 0.65);
       this.board.fillPoints(pts.map((q) => new Phaser.Geom.Point(q.x, q.y + 7)), true);
       this.board.fillStyle(fill, 0.9);
@@ -268,24 +271,22 @@ class Combat extends Phaser.Scene {
     const max = b.enemies.reduce((n, e) => n + e.max, 0), hp = b.enemies.reduce((n, e) => n + e.hp, 0);
     this.hpText.setText(b.p.hp + " / 300");
     this.enemyHp.setText(hp + " / " + max);
-    this.enemyName.setText(b.enemies.length === 1 ? b.enemies[0].name.toUpperCase() : b.enemies.filter((e) => e.hp > 0).length + " CREATURES");
+    this.enemyName.setText(b.enemies.length === 1 ? b.enemies[0].name.toUpperCase() : b.enemies.filter((e) => e.hp > 0).length + " VIRUSES");
     this.timeText.setText(String(Math.floor(b.time / 60)).padStart(2, "0") + ":" + String(Math.floor(b.time % 60)).padStart(2, "0") + (b.endless ? "  ·  WAVE " + b.wave : ""));
     this.healthGraphics.clear().fillStyle(5654591).fillRoundedRect(70, 113, 275, 6, 3).fillRoundedRect(934, 113, 275, 6, 3).fillStyle(C.mint).fillRoundedRect(70, 113, 275 * b.p.hp / 300, 6, 3).fillStyle(C.rose).fillRoundedRect(934, 113, 275 * hp / max, 6, 3);
     this.focusGraphics.clear();
-    for (let i = 0; i < 6; i++) {
-      this.focusGraphics.fillStyle(i < Math.floor(cards.energy) ? C.gold : 4800060, 0.95);
-      this.focusGraphics.fillCircle(555 + i * 34, 468, 10);
-      this.focusGraphics.lineStyle(1, C.gold, 0.6).strokeCircle(555 + i * 34, 468, 10);
-    }
-    this.focusText.setText("FOCUS " + Math.floor(cards.energy) + " / 6");
-    this.drawText.setText("DRAW\n" + cards.drawPile.length + " CARDS");
-    this.discardText.setText("DISCARD\n" + cards.discard.length + " CARDS");
+    const ready=b.customGauge>=b.customDuration;
+    this.focusGraphics.fillStyle(0x102839).fillRect(470,451,340,17).fillStyle(ready?0xffd66e:0x5ee0ed).fillRect(470,451,340*b.customGauge/b.customDuration,17);
+    this.focusText.setText(ready?"CUSTOM READY · PRESS C":"CUSTOM GAUGE · "+Math.floor(b.customGauge/b.customDuration*100)+"%");
+    if(b.busterCharge>0){this.aura.lineStyle(3,b.busterCharge>=.9?0xffd66e:0x66efff,.9);this.aura.strokeCircle(p.x+12,p.y-70,25+Math.sin(time*18)*4);}
+    this.drawText.setText("FOLDER\n" + cards.drawPile.length + " CARDS");
+    this.discardText.setText("SPENT\n" + cards.discard.length + " CARDS");
     this.resolveText.setText(OPERATORS[b.operator].special.toUpperCase() + "  " + Math.floor(b.p.charge) + "%");
     this.resolveBtn.setAlpha(b.p.charge >= 100 ? 1 : 0.55);
     if (cards.hand.join("|") !== this.handSignature) this.refreshHand();
     this.handViews.forEach((child, index) => {
       const id = cards.hand[index];
-      if (id) child.setAlpha(cards.energy >= (CARD_COST[id] ?? 1) ? 1 : 0.65);
+      if (id) child.setAlpha(index===0?1:.65);
     });
   }
   burst(x, y, color, count = 16) {

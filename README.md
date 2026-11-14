@@ -104,3 +104,16 @@ Running has no stamina cost, exhaustion, or recovery delay. The stamina HUD was 
 The overworld uses a cached textured ground layer with irregular road silhouettes, side trails, pond banks and material variation. Dense trees leave collision-tested corridors to every destination. New vegetation clusters, village fences and lamps, leaf drift, proximity labels, and a terrain-based minimap make the map easier to read. Old saved positions covered by the revised forest move to nearby clear ground.
 
 Validation includes unlimited sprint, safe saved positions, and a complete path from the starting village to every landmark.
+
+
+## NetBattle protocol (0.5.0)
+
+Solo battles now start in a paused Custom Screen. Choose up to five chips with matching names or matching codes; wildcard chips link with any code. Enter sends the loadout in selection order. Z or 1 executes the next loaded chip. No focus cost, automatic redraw, or discard reshuffle applies to solo NetBattles. Chips are spent once per battle. The compact folder remains 12 chips, max three copies; this is an original small-folder adaptation, not a full Battle Network rules replica.
+
+The Custom Gauge fills over eight seconds of active battle time. C or the on-screen Custom button returns to chip selection when full. Unselected chips remain available; the selection window refills from the remaining folder. Unused loaded chips are spent when a new loadout is sent. Three Cannon chips selected together become the original TRI CANNON Program Advance, consuming all three copies for a triple-power shot. Full Custom fills the gauge; Fast Custom advances it by four seconds. In the existing local duel mode those support chips retain their prior focus/redraw effects.
+
+Hold Space (or touch Buster) to charge, release to shoot. Tap shots deal 5 base damage; a fully charged shot deals 40. Movement stays real-time on the connected 6×3 field. E still triggers the character's existing Resolve ability.
+
+Exploration now defaults to a jack-in network realm with connected platforms, service terminals, mystery data and battle nodes. Walking into the void is blocked. J toggles jack-in/jack-out to the preserved forest world. The game uses original characters and generated network art. Local PvP retains the earlier focus-based rules; online matchmaking and live NEAR deployment remain unconfigured.
+
+Verification: 59 JavaScript tests, including chip compatibility, Custom time freezing, single-use conservation, Program Advances, buster charging and network node reachability; browser checked chip selection, execution, Custom Gauge refill and network exploration.

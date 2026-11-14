@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "artSource": "host_image",
+  "route": "image_gen built-in",
+  "asset": {
+    "path": "assets/network/battle-background.png",
+    "width": 1280,
+    "height": 720,
+    "opaque": true,
+    "logicalPixelSize": 2,
+    "sha256": "5a14c6bc01af9555fc23f658a5b4f0119939f200520d168499b2f1a3efb671cd"
+  },
+  "description": "Original navy cyber void with cyan edge circuits and distant upper data towers; quiet central/lower field for separately drawn board. No text, characters or existing IP."
+}

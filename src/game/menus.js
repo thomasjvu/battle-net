@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import{CHIP_CODES}from"../../dist/network-battle.js";
 import { state, audio, persist, announce, currentMission, operatorAvailable, saveBackup, importBackup, near, events, CARDS, OPERATORS, MISSIONS, specialDesc } from "./state.js";
 import { WORLDS, QUESTS, level, missionUnlocked, questProgress, claimQuest, trade, price, forge, reward, freshSave, equip, simulateMarket } from "../../dist/core.js";
 import { DECK_SIZE, MAX_COPIES, CARD_COST, deckCounts, reconcileDeck, validateDeck } from "../../dist/deck.js";
@@ -17,15 +18,15 @@ class Title extends Phaser.Scene {
   create() {
     background(this, { dim: 0.23 });
     this.add.rectangle(325, H / 2, 650, H, 2169385, 0.72);
-    label(this, 85, 95, "A TALE OF CARDS & COMPANIONS", 15, C.gold);
+    label(this, 85, 95, "NETBATTLE · CUSTOM · EXECUTE", 15, C.gold);
     text(this, 79, 143, "BATTLE", 103, C.paper, { fontStyle: "bold", stroke: "#2a2030", strokeThickness: 4 });
     text(this, 82, 248, "NET", 126, C.gold, { fontStyle: "bold", stroke: "#2a2030", strokeThickness: 4 });
-    text(this, 88, 405, "A wandering road. A deck of possibilities.\nSomeone worth fighting beside.", 23, C.paper, { lineSpacing: 8 });
+    text(this, 88, 405, "Jack in. Build your folder. Read the grid.\nSomeone worth fighting beside.", 23, C.paper, { lineSpacing: 8 });
     const portrait = this.add.image(990, 655, state.save.operator + "-portrait").setOrigin(0.5, 1).setDisplaySize(425, 531);
     this.tweens.add({ targets: portrait, y: 648, duration: 2600, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
     label(this, 1030, 650, OPERATORS[state.save.operator].name.toUpperCase(), 18, C.paper).setOrigin(0.5);
-    button(this, 252, 535, 330, 63, state.save.completed.length ? "Continue your tale" : "Begin your tale", () => next(this), { primary: true, size: 25 });
-    button(this, 252, 613, 330, 51, "Open the deck book", () => this.scene.start("Deck"), { size: 21 });
+    button(this, 252, 535, 330, 63, "JACK IN", () => next(this), { primary: true, size: 25 });
+    button(this, 252, 613, 330, 51, "Chip folder", () => this.scene.start("Deck"), { size: 21 });
     button(this, 535, 612, 170, 51, "Options", () => this.scene.start("Settings"), { size: 19 });
     systemButtons(this);
     label(this, 86, 682, "" + state.save.completed.length + " / 9 CHAPTERS  ·  LEVEL " + level(state.save) + "  ·  " + state.save.credits + " GOLD", 12, C.muted);
@@ -48,7 +49,7 @@ class Journey extends Phaser.Scene {
   draw() {
     this.children.removeAll(true);
     background(this, { dim: 0.27 });
-    heading(this, "The Chapter Atlas", "Your path through the Elderwood and beyond.", "Overworld");
+    heading(this, "NETWORK MAP", "Select a battle node or return to network exploration.", "Overworld");
     credits(this);
     for (let i = 0; i < 3; i++) button(this, 260 + i * 340, 130, 310, 44, WORLDS[i].name, () => {
       this.world = i;
@@ -82,7 +83,7 @@ class Journey extends Phaser.Scene {
         zone.on("pointerup", () => this.brief(m));
       } else label(this, x, y + 163, "Finish the previous chapter", 11, C.muted).setOrigin(0.5);
     }
-    const menu = [["Deck book", "Deck"], ["Merchant", "Merchant"], ["The forge", "Forge"], ["Companions", "Party"], ["Journal", "Journal"]];
+    const menu = [["Chip folder", "Deck"], ["Merchant", "Merchant"], ["The forge", "Forge"], ["Companions", "Party"], ["Journal", "Journal"]];
     menu.forEach(([title, key], i) => button(this, 174 + i * 232, 643, 212, 48, title, () => this.scene.start(key), { size: 20 }));
     button(this, 1130, 550, 180, 40, "Endless journey", () => this.brief({ id: "endless", name: "The Endless Road", sector: "∞", world: 2, brief: "How far will your story take you? Every cleared encounter restores 40 health. A fearsome rival awaits every fifth wave. Your completed waves earn gold when the journey ends.", speaker: state.save.operator, enemies: ["hex"], reward: 30, xp: 35, drop: "longsword" }, true), { size: 16, small: true });
   }
@@ -116,12 +117,12 @@ class Deck extends Phaser.Scene {
   draw() {
     this.children.removeAll(true);
     background(this, { dim: 0.55 });
-    heading(this, "The Deck Book", "12 cards. Up to 3 copies each. Every draw tells a different story.", "Overworld");
+    heading(this, "CHIP FOLDER", "12 chips. Choose matching codes in Custom, then send an ordered loadout.", "Overworld");
     credits(this);
     const owned = Object.keys(CARDS).filter((id) => this.filter === "all" || this.filter === "owned" && this.source.items[id] > 0 || CARDS[id].type === this.filter);
     const pages = Math.ceil(owned.length / 8);
     this.page = Math.max(0, Math.min(this.page, pages - 1));
-    const filters = [["All cards", "all"], ["Owned", "owned"], ["Spells", "attack"], ["Support", "support"], ["Equipment", "equipment"]];
+    const filters = [["All chips", "all"], ["Owned", "owned"], ["Attacks", "attack"], ["Support", "support"], ["Equipment", "equipment"]];
     filters.forEach(([name, id], i) => button(this, 113 + i * 163, 132, 151, 35, name, () => {
       this.filter = id;
       this.page = 0;
@@ -129,8 +130,8 @@ class Deck extends Phaser.Scene {
     }, { primary: this.filter === id, size: 15, small: true }));
     panel(this, 885, 115, 350, 535, { fill: 2367018 });
     const valid = validateDeck(this.source.deck, this.source.items, CARDS);
-    text(this, 912, 140, "Your traveling deck", 25, C.paper);
-    label(this, 912, 178, this.source.deck.length + " / 12 CARDS  ·  " + (valid ? "READY" : "INCOMPLETE"), 13, valid ? C.mint : C.rose);
+    text(this, 912, 140, "Equipped folder", 25, C.paper);
+    label(this, 912, 178, this.source.deck.length + " / 12 CHIPS  ·  " + (valid ? "READY" : "INCOMPLETE"), 13, valid ? C.mint : C.rose);
     const counts = deckCounts(this.source.deck);
     let row = 0;
     for (const [id, n] of Object.entries(counts)) {
@@ -144,13 +145,13 @@ class Deck extends Phaser.Scene {
       }, { small: true, size: 16 });
       row++;
     }
-    label(this, 912, 465, "Focus curve", 12, C.gold);
-    const curve = [1, 2, 3].map((cost) => this.source.deck.filter((id) => CARD_COST[id] === cost).length);
+    label(this, 912, 465, "Chip code mix", 12, C.gold);
+    const codes=["A","S","*"],curve=codes.map(code=>this.source.deck.filter(id=>CHIP_CODES[id]===code).length);
     const g = this.add.graphics();
     curve.forEach((n, i) => {
       g.fillStyle(C.mint, 0.7);
       g.fillRect(916 + i * 90, 525 - n * 4, 55, n * 4);
-      label(this, 943 + i * 90, 542, costName(i + 1) + " · " + n, 10, C.muted).setOrigin(0.5);
+      label(this, 943 + i * 90, 542, "CODE "+codes[i]+" · "+n, 10, C.muted).setOrigin(0.5);
     });
     button(this, 982, 605, 139, 36, "Auto-fill", () => {
       this.source.deck = reconcileDeck(this.source.deck, this.source.items, CARDS);
@@ -182,7 +183,7 @@ class Deck extends Phaser.Scene {
       this.page++;
       this.draw();
     }, { disabled: this.page >= pages - 1, small: true });
-    this.detailText = text(this, 57, 677, "32 cards to discover. Freeze into lightning, poison into patience, or build a fast focus engine.", 16, C.paper, { wordWrap: { width: 1160 } });
+    this.detailText = text(this, 57, 677, "Choose a code-focused folder. Wildcard chips link with any code. Solo battles use Custom Gauge, not focus.", 16, C.paper, { wordWrap: { width: 1160 } });
   }
   detail(message) {
     this.detailText?.setText(message);
