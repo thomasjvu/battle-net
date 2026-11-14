@@ -1,0 +1,68 @@
+{
+  "environment": [
+    [
+      "forest",
+      "Original warm storybook fantasy game background, wide 16:9 composition. A peaceful forest clearing at golden afternoon, soft mossy stone floor across broad central and lower area for tactical characters, ancient oak trees framing left and right, distant winding footpath and tiny cozy timber village in upper center, mint foliage, warm parchment sunlight, muted aubergine shadows, subtle antique gold flowers. Hand-painted anime RPG environment with crisp restrained pixel-art finish, rich but quiet. Camera slightly elevated side view, broad uncluttered playable space in central 70 percent. No characters, monsters, weapons, UI, typography, grid, cards, computers, circuits, metal machinery, neon or science fiction. Edge-to-edge landscape scene."
+    ],
+    [
+      "card-frame",
+      "A single original fantasy trading-card FRONT template, straight-on tall 2:3 portrait. Opaque ivory parchment card face, thin antique gold and aubergine ink botanical frame matching a cozy storybook adventure. Large empty warm cream illustration window in upper two thirds, small empty title cartouche across top, blank parchment rules area bottom third, tiny circular cost medallion upper left. No text, no numbers, no symbols inside text areas, no art in central window. Restrained ivy leaves and tiny coral flower details only at corners. Crisp pixel-game ornament, no circuits, neon, sci-fi or UI screenshot. Flat edge-to-edge card template, no perspective or shadow."
+    ]
+  ],
+  "masters": [
+    {
+      "id": "pulse",
+      "prompt": "Reimagine the attached SAME adult heroine Pulse as a warm storybook fantasy ADVENTURER, completely replace every sci-fi garment and weapon. Preserve adult face, short dark teal hair, green eyes and mint triangle hair clip. Wear a soft mint hooded traveling cape draped behind shoulders, cream linen blouse with high modest neckline, fitted brown leather vest, teal pleated tunic skirt over opaque charcoal leggings, brown leather knee boots, simple belt with leather pouch and brass buckle. Hold a short carved wooden focus wand with a mint leaf-shaped crystal at its tip pointing RIGHT, free hand on hip. No armor plates, guns, circuits, futuristic seams, tech gloves or synthetic bodysuit. Full body head to boots, upright grounded stance, same three-quarter right facing and mature anime proportions. Generous transparent margins, no background or glow. Crisp cel-shaded anime RPG illustration suitable for pixel reduction, flat shading, warm parchment/mint palette."
+    },
+    {
+      "id": "nova",
+      "prompt": "Reimagine the attached SAME adult heroine Nova as a warm storybook fantasy SWORDSWOMAN, completely replace every sci-fi garment and weapon. Preserve adult face, rose pink high ponytail, amber eyes, playful grin, gold star hair clip. Wear a coral cloth short adventurer jacket with rolled cuffs over a high-neck cream linen blouse, brown fitted leather waist cincher, plum divided skirt over opaque dark leggings, sturdy brown leather boots with simple brass buckles, satchel on belt. Hold an ordinary forged STEEL longsword with gold crossguard pointing diagonally downward LEFT; no energy blade or futuristic hilt. Free hand on hip. No armor plates, tech straps, neon, circuitry or synthetic bodysuit. Full body head to boots upright grounded stance, same three-quarter left facing mature anime proportions. Generous transparent margins, no background or glow. Crisp cel-shaded anime RPG illustration, flat shading and warm coral parchment palette."
+    },
+    {
+      "id": "echo",
+      "prompt": "Reimagine the attached SAME adult heroine Echo as a warm storybook fantasy WITCH SCHOLAR, completely replace every sci-fi garment and accessory. Preserve adult face, plum bob with violet streak, violet eyes, silver rectangular hairpin and sly calm smile. Wear a soft oversized violet hooded mantle with embroidered gold hem over a modest high-neck cream blouse and aubergine long tunic, brown leather belt with potion bottle, opaque plum leggings, brown lace-up ankle boots. Hold an old leather-bound spellbook with parchment pages in rear hand near hip; front hand gently raised casting a small gesture RIGHT. Hexagonal violet pendant can remain as simple amethyst jewelry. No data tablet, tech cuffs, armored panels, circuitry, neon or synthetic bodysuit. Full body head to boots, same right-facing three-quarter upright grounded stance and mature anime proportions. Generous transparent margins, no background or glow. Crisp cel-shaded anime RPG illustration flat shading warm violet parchment palette."
+    }
+  ],
+  "icons": [
+    {
+      "id": "cannon",
+      "prompt": "Original storybook fantasy RPG inventory illustration, single object centered on actual transparent background, generous margins, crisp dark aubergine contours, flat cel-shaded chunky shapes, warm parchment antique gold and natural material colors, readable at 64px, no text/UI/frame, NO science fiction, circuitry, neon, holograms or machinery. A small carved oak wand releasing a compact golden magical star-shaped arc bolt, sage green leaf wrapped around handle. Spell icon, not a gun."
+    },
+    {
+      "id": "longsword",
+      "prompt": "Original storybook fantasy RPG inventory illustration, single object centered on actual transparent background, generous margins, crisp dark aubergine contours, flat cel-shaded chunky shapes, warm parchment antique gold and natural material colors, readable at 64px, no text/UI/frame, NO science fiction, circuitry, neon, holograms or machinery. A traditional forged silver steel longsword with brown leather grip and simple antique gold crossguard, diagonally rising up right, complete blade."
+    },
+    {
+      "id": "gold-longsword",
+      "prompt": "Original storybook fantasy RPG inventory illustration, single object centered on actual transparent background, generous margins, crisp dark aubergine contours, flat cel-shaded chunky shapes, warm parchment antique gold and natural material colors, readable at 64px, no text/UI/frame, NO science fiction, circuitry, neon, holograms or machinery. A traditional ornate golden longsword with brown leather grip and leaf-engraved gold crossguard, diagonally rising up right. Same fantasy weapon style, cosmetic treasure."
+    },
+    {
+      "id": "thunder",
+      "prompt": "Original storybook fantasy RPG inventory illustration, single object centered on actual transparent background, generous margins, crisp dark aubergine contours, flat cel-shaded chunky shapes, warm parchment antique gold and natural material colors, readable at 64px, no text/UI/frame, NO science fiction, circuitry, neon, holograms or machinery. A warm golden jagged lightning bolt emerging from a tiny plum storm cloud, two tiny white sparks, fantasy weather spell."
+    },
+    {
+      "id": "recover",
+      "prompt": "Original storybook fantasy RPG inventory illustration, single object centered on actual transparent background, generous margins, crisp dark aubergine contours, flat cel-shaded chunky shapes, warm parchment antique gold and natural material colors, readable at 64px, no text/UI/frame, NO science fiction, circuitry, neon, holograms or machinery. A rounded green glass healing potion bottle with cork stopper, small tied mint herb sprig, pale healing liquid, no medical cross or technology."
+    },
+    {
+      "id": "barrier",
+      "prompt": "Original storybook fantasy RPG inventory illustration, single object centered on actual transparent background, generous margins, crisp dark aubergine contours, flat cel-shaded chunky shapes, warm parchment antique gold and natural material colors, readable at 64px, no text/UI/frame, NO science fiction, circuitry, neon, holograms or machinery. An old-fashioned kite shield of warm ivory painted wood edged in antique gold, central mint leaf crest, fantasy ward protection."
+    },
+    {
+      "id": "buster",
+      "prompt": "Original storybook fantasy RPG inventory illustration, single object centered on actual transparent background, generous margins, crisp dark aubergine contours, flat cel-shaded chunky shapes, warm parchment antique gold and natural material colors, readable at 64px, no text/UI/frame, NO science fiction, circuitry, neon, holograms or machinery. A short carved wooden focus wand with twisted oak handle and one mint leaf-shaped crystal at tip, diagonal up-right, leather wrap. No metal barrel."
+    },
+    {
+      "id": "armor",
+      "prompt": "Original storybook fantasy RPG inventory illustration, single object centered on actual transparent background, generous margins, crisp dark aubergine contours, flat cel-shaded chunky shapes, warm parchment antique gold and natural material colors, readable at 64px, no text/UI/frame, NO science fiction, circuitry, neon, holograms or machinery. A soft sage green hooded traveler's cloak clasped with a round gold leaf brooch, draped empty garment, cream embroidered hem, no armor plates."
+    },
+    {
+      "id": "thornling",
+      "prompt": "Original storybook fantasy RPG inventory illustration, single object centered on actual transparent background, generous margins, crisp dark aubergine contours, flat cel-shaded chunky shapes, warm parchment antique gold and natural material colors, readable at 64px, no text/UI/frame, NO science fiction, circuitry, neon, holograms or machinery. Single original forest monster battle sprite: a squat mischievous woodland thorn imp with russet mushroom-cap head, amber eyes, crooked woody branch arms, moss-green leafy body and two root feet. Faces LEFT in grounded ready stance, full body visible, warm organic fantasy creature, absolutely no robot/metal/hexagon armor. Crisp anime RPG cel-shaded style, no shadows."
+    },
+    {
+      "id": "briar-guardian",
+      "prompt": "Original storybook fantasy RPG inventory illustration, single object centered on actual transparent background, generous margins, crisp dark aubergine contours, flat cel-shaded chunky shapes, warm parchment antique gold and natural material colors, readable at 64px, no text/UI/frame, NO science fiction, circuitry, neon, holograms or machinery. Single original forest boss monster battle sprite: a broad stocky enchanted oak guardian, face carved naturally in old bark, amber eyes, leafy moss shoulders with small coral mushrooms, thick branch fists and root feet, ancient stone amulet. Faces LEFT grounded full body, organic woodland fantasy, no technology/armor plates/neon. Crisp anime RPG cel-shaded style, no shadows."
+    }
+  ]
+}

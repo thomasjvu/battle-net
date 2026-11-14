@@ -1,0 +1,403 @@
+{
+  "version": 1,
+  "artSource": "host_image",
+  "route": "image_gen built-in",
+  "palette": [
+    "#101814",
+    "#20232e",
+    "#34333e",
+    "#494552",
+    "#69606c",
+    "#a9a2b6",
+    "#e6e2ec",
+    "#123640",
+    "#155c62",
+    "#217d86",
+    "#34a9b3",
+    "#34cbd3",
+    "#7be5dc",
+    "#789b55",
+    "#b5ef71",
+    "#defbd0",
+    "#35223b",
+    "#4c2235",
+    "#73304e",
+    "#9c415c",
+    "#c25a78",
+    "#e77b9d",
+    "#ff91b4",
+    "#ffc0ce",
+    "#b93752",
+    "#d95165",
+    "#f16f74",
+    "#ffb184",
+    "#553b29",
+    "#8f5a2b",
+    "#b97b32",
+    "#e9b85b",
+    "#fff0b0",
+    "#291f35",
+    "#352745",
+    "#50345f",
+    "#714585",
+    "#9568d4",
+    "#b98ae6",
+    "#d4b2f5",
+    "#9c5e50",
+    "#c1846b",
+    "#e9a989",
+    "#ffd0ae",
+    "#ffe8ce",
+    "#f8f5e9",
+    "#1b594a",
+    "#52a888",
+    "#272c22",
+    "#384b38",
+    "#52644b",
+    "#728165",
+    "#92a47c",
+    "#b2c69a",
+    "#d5dfb5",
+    "#49362b",
+    "#68503b",
+    "#89684c",
+    "#aa8762",
+    "#c3a37a",
+    "#ddc59a",
+    "#f5e6bf",
+    "#fff5dc",
+    "#57472a",
+    "#7b6c31",
+    "#a09440",
+    "#c9bd66"
+  ],
+  "assets": [
+    {
+      "id": "characters/pulse-idle",
+      "path": "assets/fantasy/characters/pulse-idle.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "facing": "right",
+      "contentBounds": [
+        27,
+        8,
+        112,
+        120
+      ],
+      "sha256": "9cd9aeda4ed91401eefbb3ee0f7297b1113aafe0911e9da089a24fe92c977a8d"
+    },
+    {
+      "id": "characters/nova-idle",
+      "path": "assets/fantasy/characters/nova-idle.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "facing": "left",
+      "contentBounds": [
+        26,
+        8,
+        99,
+        120
+      ],
+      "sha256": "e1a62f4115a190638d8f30a9d93dd6f9891afa85161b6b22e9f329989e4254b9"
+    },
+    {
+      "id": "characters/echo-idle",
+      "path": "assets/fantasy/characters/echo-idle.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "facing": "right",
+      "contentBounds": [
+        35,
+        8,
+        102,
+        120
+      ],
+      "sha256": "e4da3475b4fb4a895319b8b2c2f90d8a80d554ea752d618aff963dd1c9efd6c0"
+    },
+    {
+      "id": "characters/pulse-portrait",
+      "path": "assets/fantasy/characters/pulse-portrait.png",
+      "width": 256,
+      "height": 320,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        12,
+        68,
+        244,
+        312
+      ],
+      "sha256": "2f6b9468bcdf97b7b33483d72cd2c3416e5c1f95092d36ff088d031c6618fc81"
+    },
+    {
+      "id": "characters/nova-portrait",
+      "path": "assets/fantasy/characters/nova-portrait.png",
+      "width": 256,
+      "height": 320,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        12,
+        90,
+        244,
+        312
+      ],
+      "sha256": "bf71c48d5b53410acb0d9b1b0ab9bd608708238fd5a5852f37f5b0f539010b05"
+    },
+    {
+      "id": "characters/pulse-attack",
+      "path": "assets/fantasy/characters/pulse-attack.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "facing": "right",
+      "contentBounds": [
+        20,
+        13,
+        123,
+        120
+      ],
+      "sha256": "f314202a98ba07683db25033819dcbdbbcc4f146ce7126619bc6f1ab6c3ad9d1"
+    },
+    {
+      "id": "cards/cannon",
+      "path": "assets/fantasy/cards/cannon.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        4,
+        16,
+        58,
+        49
+      ],
+      "sha256": "228adb52ed1927176728f77b04f594d07cf2afe8fc5793092182ccc46dab8bb5"
+    },
+    {
+      "id": "cards/longsword",
+      "path": "assets/fantasy/cards/longsword.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        4,
+        14,
+        59,
+        51
+      ],
+      "sha256": "7841d59d9256ec5449825651284d9cc7b0ac6d2ba66c4c0374ed0c0f0effa91f"
+    },
+    {
+      "id": "cards/gold-longsword",
+      "path": "assets/fantasy/cards/gold-longsword.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        4,
+        12,
+        60,
+        51
+      ],
+      "sha256": "b9521e9e7ab0a77acf59858b66ea46bf738cd74309787c6d68f3a393a3d477c4"
+    },
+    {
+      "id": "cards/thunder",
+      "path": "assets/fantasy/cards/thunder.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        12,
+        4,
+        52,
+        59
+      ],
+      "sha256": "e746e1baaf40c6d29683ff9b5579d0271655a2e2bf9ba427ab2e054d6f61f0e6"
+    },
+    {
+      "id": "cards/recover",
+      "path": "assets/fantasy/cards/recover.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        12,
+        4,
+        52,
+        60
+      ],
+      "sha256": "e953d326434e6f444e290eb5e80c9b9f5fe9d9d8dc79dda2f9ab34ec26f6b39c"
+    },
+    {
+      "id": "cards/barrier",
+      "path": "assets/fantasy/cards/barrier.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        14,
+        5,
+        50,
+        60
+      ],
+      "sha256": "3b02188f494adbb2ba4f224022080f23090bc7876af55fc51f3f7c41ca1b4e33"
+    },
+    {
+      "id": "equipment/buster",
+      "path": "assets/fantasy/equipment/buster.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        4,
+        10,
+        60,
+        53
+      ],
+      "sha256": "10e5f0970496ca020ba8bf6f13c0c153fe78f70beb0450927b8c5fa22a8aee33"
+    },
+    {
+      "id": "equipment/armor",
+      "path": "assets/fantasy/equipment/armor.png",
+      "width": 64,
+      "height": 64,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        9,
+        4,
+        55,
+        60
+      ],
+      "sha256": "d29aa634aad09d8a1f1a2948f67272a6d59e36e3c8c6434295ff8b589342a38f"
+    },
+    {
+      "id": "monsters/thornling",
+      "path": "assets/fantasy/monsters/thornling.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "facing": "left",
+      "contentBounds": [
+        6,
+        31,
+        117,
+        120
+      ],
+      "sha256": "03f1bd05911fe6147af2803886747e7601b1b57af54da21adc318eeaed1d7654"
+    },
+    {
+      "id": "monsters/briar-guardian",
+      "path": "assets/fantasy/monsters/briar-guardian.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "facing": "left",
+      "contentBounds": [
+        14,
+        35,
+        124,
+        120
+      ],
+      "sha256": "59f1175d84cadf7ae9b8942587a705c6d076053d197294999db0b3b43988c7e0"
+    },
+    {
+      "id": "characters/echo-portrait",
+      "path": "assets/fantasy/characters/echo-portrait.png",
+      "width": 256,
+      "height": 320,
+      "anchor": null,
+      "facing": null,
+      "contentBounds": [
+        12,
+        74,
+        244,
+        312
+      ],
+      "sha256": "4e1d869a939241502008d2407d427ea246f87b64c4021068a77f90304662c5f0"
+    },
+    {
+      "id": "characters/echo-attack",
+      "path": "assets/fantasy/characters/echo-attack.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "facing": "right",
+      "contentBounds": [
+        30,
+        8,
+        106,
+        120
+      ],
+      "sha256": "3487d5c0877a856807287d20719a347b07983b0ed62002e66b2a5bb25fa39f02"
+    },
+    {
+      "id": "characters/nova-attack",
+      "path": "assets/fantasy/characters/nova-attack.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "facing": "left",
+      "contentBounds": [
+        24,
+        9,
+        102,
+        120
+      ],
+      "sha256": "75a77e956186b24cecda3f6e288e059b533315b9c96206a89178f1b43df2cb9c"
+    },
+    {
+      "id": "monsters/thorn-queen",
+      "path": "assets/fantasy/monsters/thorn-queen.png",
+      "width": 128,
+      "height": 128,
+      "anchor": [
+        64,
+        120
+      ],
+      "facing": "left",
+      "contentBounds": [
+        25,
+        9,
+        100,
+        120
+      ],
+      "sha256": "7301678e28d0de85bbb74dd93d8402f6ffdfcf26300014f4c3dce655d46bbc0f"
+    }
+  ]
+}

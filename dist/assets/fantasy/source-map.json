@@ -1,0 +1,22 @@
+{
+  "characters/pulse-idle": "exec-9ff63e41-924c-4004-91ad-2b999d3bbf9c.png",
+  "characters/nova-idle": "exec-4ca66b51-c8ce-4d47-b120-af56c214a8e4.png",
+  "characters/echo-idle": "exec-9459e658-761b-4aaa-b353-25c9c945c0b4.png",
+  "characters/pulse-portrait": "exec-96632b95-285a-47b4-bb60-0023eb4ad103.png",
+  "characters/nova-portrait": "exec-8d1b77e4-5db7-4cf9-b700-62470d9ff1bc.png",
+  "characters/pulse-attack": "exec-9397fad2-1d99-4022-8354-f0a292403896.png",
+  "cards/cannon": "exec-1091e967-f7f7-4467-bc3d-70682bbb7da9.png",
+  "cards/longsword": "exec-4aa64895-03ac-490a-bc46-5cadadb46a49.png",
+  "cards/gold-longsword": "exec-50501a53-212b-43bb-b3c8-7f1d59e451f0.png",
+  "cards/thunder": "exec-a506fe08-5b05-4f24-9ab7-affd64cc151a.png",
+  "cards/recover": "exec-c2b95230-b96b-4576-8a6f-9a7671ec249c.png",
+  "cards/barrier": "exec-e3517b76-ff98-4516-93ec-01c21012e922.png",
+  "equipment/buster": "exec-2e91cd31-a8c3-4a8f-ad22-24b86a889704.png",
+  "equipment/armor": "exec-c2a86314-693a-4728-85ff-7e564a954ad0.png",
+  "monsters/thornling": "exec-167e44dd-7c16-40b6-b698-29887bcb9875.png",
+  "monsters/briar-guardian": "exec-be3c8df4-ae78-4098-a269-43ccbb782f2b.png",
+  "characters/echo-portrait": "exec-6a39df55-3c03-47c7-9cfe-b2952ab9146a.png",
+  "characters/echo-attack": "exec-f2177179-05a6-4d8d-a4ca-8404e064cb90.png",
+  "characters/nova-attack": "exec-c66c2254-5c03-42b5-a994-2018daf7bbe4.png",
+  "monsters/thorn-queen": "exec-d227caeb-96b3-47da-a9bd-940dbce8c3d0.png"
+}

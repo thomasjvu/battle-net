@@ -1,1 +1,29 @@
-{"name":"battle-net","version":"0.1.0","private":true,"type":"module","scripts":{"dev":"python3 -m http.server 4173 --directory dist","test":"node --test tests/*.test.js"}}
+{
+  "name": "battle-net",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 4173 --directory dist",
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.js",
+    "test:contract": "cargo test --manifest-path contract/Cargo.toml",
+    "build:contract": "cargo-near near build non-reproducible-wasm --manifest-path contract/Cargo.toml --out-dir contract/artifacts",
+    "test:integration": "node scripts/test-contract.mjs"
+  },
+  "dependencies": {
+    "@hot-labs/near-connect": "0.12.0",
+    "phaser": "3.90.0"
+  },
+  "devDependencies": {
+    "cargo-near": "^0.23.0",
+    "esbuild": "0.25.12",
+    "near-sandbox": "^0.3.5",
+    "near-workspaces": "^5.0.0"
+  },
+  "overrides": {
+    "tar": "7.5.23",
+    "axios": "1.21.1",
+    "@isaacs/brace-expansion": "5.0.1"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "runtimeFiles": 20,
+  "binaryAlpha": true,
+  "transparentMargins": true,
+  "warnings": [],
+  "limitations": [
+    "Single held idle and attack poses, no animation strips.",
+    "Reduced-palette pixel finish from generated cel artwork."
+  ]
+}

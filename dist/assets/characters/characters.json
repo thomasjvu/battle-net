@@ -1,0 +1,264 @@
+{
+  "version": 2,
+  "artSource": "host_image",
+  "route": "image_gen built-in",
+  "model": "not reported",
+  "palette": [
+    "#101814",
+    "#20232e",
+    "#34333e",
+    "#494552",
+    "#69606c",
+    "#a9a2b6",
+    "#e6e2ec",
+    "#123640",
+    "#155c62",
+    "#217d86",
+    "#34a9b3",
+    "#34cbd3",
+    "#7be5dc",
+    "#789b55",
+    "#b5ef71",
+    "#defbd0",
+    "#35223b",
+    "#4c2235",
+    "#73304e",
+    "#9c415c",
+    "#c25a78",
+    "#e77b9d",
+    "#ff91b4",
+    "#ffc0ce",
+    "#b93752",
+    "#d95165",
+    "#f16f74",
+    "#ffb184",
+    "#553b29",
+    "#8f5a2b",
+    "#b97b32",
+    "#e9b85b",
+    "#fff0b0",
+    "#291f35",
+    "#352745",
+    "#50345f",
+    "#714585",
+    "#9568d4",
+    "#b98ae6",
+    "#d4b2f5",
+    "#9c5e50",
+    "#c1846b",
+    "#e9a989",
+    "#ffd0ae",
+    "#ffe8ce",
+    "#f8f5e9",
+    "#1b594a",
+    "#52a888"
+  ],
+  "characters": [
+    {
+      "id": "pulse",
+      "name": "Pulse",
+      "age": 27,
+      "role": "Network operator",
+      "sprite": {
+        "path": "assets/characters/pulse-idle.png",
+        "width": 128,
+        "height": 128,
+        "contentBounds": [
+          43,
+          8,
+          105,
+          120
+        ],
+        "alphaValues": [
+          0,
+          255
+        ],
+        "sha256": "60ba2a675c0193b4bd392d610ed619c639d99462b1c0f383adbe273beb681e5e",
+        "anchor": [
+          64,
+          120
+        ],
+        "facing": "right",
+        "frames": 1
+      },
+      "portrait": {
+        "path": "assets/characters/pulse-portrait.png",
+        "width": 256,
+        "height": 320,
+        "contentBounds": [
+          16,
+          8,
+          240,
+          312
+        ],
+        "alphaValues": [
+          0,
+          255
+        ],
+        "sha256": "abcba20078b19d616232d80259dc9e77f137dcb15dc06d486178a8e5b05ee283"
+      },
+      "attack": {
+        "path": "assets/characters/pulse-attack.png",
+        "width": 128,
+        "height": 128,
+        "anchor": [
+          64,
+          120
+        ],
+        "facing": "right",
+        "frames": 1,
+        "contentBounds": [
+          30,
+          8,
+          116,
+          120
+        ],
+        "alphaValues": [
+          0,
+          255
+        ],
+        "sha256": "baf70e4315369e749e8a81b4df635ec84c35da2b4f2eb35e7869af2cbdcd3419",
+        "recommendedHoldMs": 160
+      }
+    },
+    {
+      "id": "nova",
+      "name": "Nova",
+      "age": 26,
+      "role": "Rival duelist",
+      "sprite": {
+        "path": "assets/characters/nova-idle.png",
+        "width": 128,
+        "height": 128,
+        "contentBounds": [
+          25,
+          8,
+          97,
+          120
+        ],
+        "alphaValues": [
+          0,
+          255
+        ],
+        "sha256": "2daedabfe9aaebcf03ed0d180efb21e0fa08340c9f33c4d484cf1cbed8ae015f",
+        "anchor": [
+          64,
+          120
+        ],
+        "facing": "left",
+        "frames": 1
+      },
+      "portrait": {
+        "path": "assets/characters/nova-portrait.png",
+        "width": 256,
+        "height": 320,
+        "contentBounds": [
+          12,
+          8,
+          242,
+          312
+        ],
+        "alphaValues": [
+          0,
+          255
+        ],
+        "sha256": "282103fae96570cc0392661ef2641d9111407bca4344fffd0b412e8d667a4829"
+      },
+      "attack": {
+        "path": "assets/characters/nova-attack.png",
+        "width": 128,
+        "height": 128,
+        "anchor": [
+          64,
+          120
+        ],
+        "facing": "left",
+        "frames": 1,
+        "contentBounds": [
+          12,
+          8,
+          103,
+          120
+        ],
+        "alphaValues": [
+          0,
+          255
+        ],
+        "sha256": "a968be3b0437f929d0c384bb7657cd8f1a056d8509b13902a57791d0c4f43359",
+        "recommendedHoldMs": 160
+      }
+    },
+    {
+      "id": "echo",
+      "name": "Echo",
+      "age": 29,
+      "role": "Signal hacker",
+      "sprite": {
+        "path": "assets/characters/echo-idle.png",
+        "width": 128,
+        "height": 128,
+        "contentBounds": [
+          42,
+          8,
+          104,
+          120
+        ],
+        "alphaValues": [
+          0,
+          255
+        ],
+        "sha256": "60fa269cfcceeedfb4b73b6749afc9dc8ba42af99a25ea7d927ce467fcbb71d5",
+        "anchor": [
+          64,
+          120
+        ],
+        "facing": "right",
+        "frames": 1
+      },
+      "portrait": {
+        "path": "assets/characters/echo-portrait.png",
+        "width": 256,
+        "height": 320,
+        "contentBounds": [
+          12,
+          8,
+          242,
+          312
+        ],
+        "alphaValues": [
+          0,
+          255
+        ],
+        "sha256": "5d56f1c8e707a1d4cda456c103fc39df2d30a5f4b9bfbe0abc8565228650095a"
+      },
+      "attack": {
+        "path": "assets/characters/echo-attack.png",
+        "width": 128,
+        "height": 128,
+        "anchor": [
+          64,
+          120
+        ],
+        "facing": "right",
+        "frames": 1,
+        "contentBounds": [
+          39,
+          8,
+          107,
+          120
+        ],
+        "alphaValues": [
+          0,
+          255
+        ],
+        "sha256": "06544a15fbd1df03d39d94ac1854ffcbe7b9fe994c067d0e136d9b76b47f1ccf",
+        "recommendedHoldMs": 160
+      }
+    }
+  ],
+  "limitations": [
+    "One idle and one attack held drawing per heroine; no animation strips.",
+    "Use a brief held attack pose and runtime FX; no limb interpolation is required.",
+    "Pixel finish uses palette-reduced generated artwork."
+  ]
+}

@@ -38,3 +38,66 @@ Art source: `host_image`, built-in `image_gen`; original designs generated speci
 Finishing: crop to generated alpha, area/Lanczos downsample, snap to one shared 22-color palette, threshold alpha to {0,255}, place on fixed canvas, produce integer nearest-neighbor enlarged copies. `assets/export_assets.py` reproduces these exports from the preserved originals, with project-local source fallback. This is generated illustration with a deliberate reduced pixel finish, not a recovered source pixel lattice.
 
 Validation: 10/10 native PNGs have correct dimensions, binary alpha, visible content, and transparent margins on all four edges. Reviewed the actual final contact sheet against charcoal and pale backgrounds. No runtime validation warnings. Source capability probe (`assets/doctor.json`) reported `skills.present` WARN: `~/.codex/skills: missing generate2dmap, codeart2d`; those routes are unused. Its missing optional API keys/resvg package do not affect built-in generation or finishing.
+
+## Adult anime heroine cast — current characters
+
+The new cast is stable for integration; the previous robot hero, virus and all chips remain unchanged. Every heroine is explicitly an adult (Pulse 27, Nova 26, Echo 29), designed originally for this game. Faces and eyes are visible; the canonical hairstyles, accessories and outfits are shared between combat sprites and referenced portraits.
+
+New asset root: `/Users/area/battle-net/battle-net/dist/assets/characters/`. Manifest: `characters.json` in that directory.
+
+| Character | Combat sprite | Size / foot anchor | Portrait | Size |
+|---|---|---|---|---|
+| Pulse | `assets/characters/pulse-idle.png` | 128×128 / [64,120], right | `assets/characters/pulse-portrait.png` | 256×320 |
+| Nova | `assets/characters/nova-idle.png` | 128×128 / [64,120], left | `assets/characters/nova-portrait.png` | 256×320 |
+| Echo | `assets/characters/echo-idle.png` | 128×128 / [64,120], right | `assets/characters/echo-portrait.png` | 256×320 |
+
+Each combat sprite also has a `-idle@4x.png` 512×512 nearest-neighbor copy. All three sprites share a fixed height and are registered to the boot midpoint rather than weapon/hair bounding-box center. Nova's saber extends down-left; keep the full 128px canvas when positioning. Draw with `ctx.drawImage(sprite, x - 64 * scale, y - 120 * scale, 128 * scale, 128 * scale)` and disable image smoothing. Portraits are 128×160 logical pixels enlarged 2× for a coherent crisp pixel finish; preserve their full 4:5 canvas with `object-fit: contain`.
+
+Pulse: short dark teal hair, mint triangle clip, cyan jacket and wrist pulse blaster. Nova: pink ponytail, gold star clip, coral battle jacket and saber; her portrait uses a tighter ponytail composition for facial readability. Echo: dark plum bob, violet streak, silver pin, violet tech jacket and data tablet. One held combat pose each, no animation strips; runtime bob/recoil and hit flash can add motion.
+
+Provenance: built-in `image_gen`, seven generations including a targeted Nova portrait composition edit; model/cost were not reported. Full generated artwork and the first Nova portrait are preserved in `characters/source/`. Exact master/portrait prompts are in `characters/prompts.json`; finishing code is `characters/export_characters.py`. Finishing uses generated alpha, Lanczos reduction, shared 48-color palette and binary alpha. All six native PNGs validate dimensions, binary alpha {0,255}, and transparent margins; no QA warnings. Final contact sheets: `characters/preview.png` (dark) and `characters/preview-light.png` (light). `characters/qa.json` records checks. Inspected actual exports at native size and enlarged scale. No application or hosting files were modified.
+
+## Drawn attack poses — current character extension
+
+All three heroines now have one distinct image-edited attack drawing in addition to the preserved idle and portrait. This supersedes the earlier idle-only limitation. Stable files:
+
+| Character | Attack path relative to dist | Canvas | Anchor | Facing |
+|---|---|---|---|---|
+| Pulse | `assets/characters/pulse-attack.png` | 128×128 | [64,120] | right |
+| Nova | `assets/characters/nova-attack.png` | 128×128 | [64,120] | left |
+| Echo | `assets/characters/echo-attack.png` | 128×128 | [64,120] | right |
+
+Each has a matching `-attack@4x.png` 512×512 copy. Use the exact same draw position/scale as idle. Suggested brief hold: 160ms for Pulse shots and Echo casts; 180–220ms for Nova saber/chip strikes. `characters.json` version 2 adds `attack` metadata for each heroine; original `sprite` and `portrait` records stay intact. These are held key poses, not animation strips. Pulse braces her extended blaster arm, Nova turns into a broad saber follow-through, Echo casts with both arms. Runtime projectile/slash/ring FX are separate.
+
+Sources are preserved at `characters/source/{pulse,nova,echo}-attack-master.png`; exact edit prompts at `characters/attack-prompts.json`. Route: built-in `image_gen` edit with canonical full-body original as explicit reference; no deterministic limb warps. Reproduce with `python3 dist/assets/characters/export_attacks.py`; for a full rebuild run `export_characters.py` first and `export_attacks.py` second.
+
+Validation: all three new files are 128×128 RGBA, binary alpha {0,255}, shared existing 48-color palette, transparent margins, fixed foot registration. Prior idle and portrait SHA-256 hashes are unchanged. Reviewed attacks beside idle, and on dark and pale grounds: `characters/attack-preview.png` and `characters/attack-preview-light.png`. No QA warnings. Main code and hosting remain untouched.
+
+## Card-battler direction
+
+Current user direction: less science fiction, cards instead of chips, deeper deckbuilding. New original generated card back: `assets/cards/card-back.png`, 1024×1536 opaque PNG (2:3), warm parchment/gold, aubergine ink, mint leaf wreath. Inspected generated output. Route: built-in image_gen. Display with 2:3 aspect ratio and contain. Use card titles, costs, types and descriptions as accessible HTML above/below artwork, not baked into images. Implementation chat has the deckbuilding request: collection/deck editor, deck constraints, draw/discard, combinations and reward choices. Existing character and chip assets preserved; this art handoff does not claim gameplay implementation is complete.
+
+## Full fantasy replacement — current art direction
+
+User explicitly requested less sci-fi across ALL art: characters, monsters, weapons/cards and layout. Use the new `assets/fantasy/` bundle throughout the game; earlier sci-fi assets are preserved as historical sources and should not remain as runtime fallbacks. Main implementation chat owns the Phaser layout/theme conversion.
+
+Manifest: `/Users/area/battle-net/battle-net/dist/assets/fantasy/manifest.json`. Native runtime paths relative to dist:
+
+- `assets/fantasy/characters/{pulse,nova,echo}-idle.png`: 128×128, [64,120] foot anchor; Pulse/Echo right, Nova left.
+- `assets/fantasy/characters/{pulse,nova,echo}-attack.png`: 128×128, [64,120], matching facing. Held magic/sword key poses; Nova's overhead sword uses additional silhouette height and therefore her body is smaller in this pose. Prefer a short impact hold with slash FX rather than a long idle/attack crossfade.
+- `assets/fantasy/characters/{pulse,nova,echo}-portrait.png`: 256×320; 128×160 logical pixel finish enlarged 2×.
+- `assets/fantasy/cards/{cannon,longsword,gold-longsword,thunder,recover,barrier}.png`: 64×64. IDs remain compatible. Display names: Arc Bolt, Longsword, Gold Longsword, Thunder, Recover, Barrier.
+- `assets/fantasy/equipment/buster.png`: 64×64 carved wood Focus Wand.
+- `assets/fantasy/equipment/armor.png`: 64×64 embroidered Traveler's Cloak.
+- `assets/fantasy/monsters/thornling.png` and `briar-guardian.png`: 128×128, [64,120], left-facing. Organic mushroom/branch imp and ancient oak guardian; render guardian larger for boss encounters.
+- `assets/environment/forest-clearing.png`: 1672×941 opaque landscape, approximately 16:9. Original hand-painted storybook forest/village clearing with broad playable center, no UI/grid/text.
+- `assets/cards/card-front.png`: 1024×1536 opaque parchment/gold botanical frame, no text. Title zone approx x=.18–.83/y=.04–.10; cost medallion center [.09,.065]; art zone x=.08–.92/y=.14–.62; rules zone x=.10–.90/y=.70–.92. These are relative layout guides, not strict masks.
+- `assets/cards/card-back.png`: 1024×1536 opaque matching warm card back.
+
+Cast: Pulse wears a mint traveling cape, cream linen and leather vest with wooden leaf-crystal wand. Nova has coral cloth jacket, cream blouse, plum skirt and traditional steel sword. Echo wears violet embroidered robes, carries leather spellbook, and casts by hand. All remain explicitly adult with canonical hair and facial identities. No tech outfits, robots, blasters, data tablets, neon card art or circuit motifs in this new bundle.
+
+QA: all 19 native transparent sprites/icons validate dimensions, binary alpha {0,255} and clear margins. One warm shared 67-color palette. Actual exports inspected on parchment in `assets/fantasy/preview.png`. Generated sources under `assets/fantasy/source/`, complete prompts `assets/fantasy/prompts.json`, reproducible finishing `assets/fantasy/export_fantasy.py`, checks `assets/fantasy/qa.json`. Generated through built-in image_gen; model/cost not reported. Foreground art uses reduced-palette pixel finish; environment remains painted. No app code or hosting files changed here. Layout changes are being integrated separately by the main chat.
+
+### Distinct final boss: Thorn Queen
+
+Stable final sprite: `assets/fantasy/monsters/thorn-queen.png`, 128×128 RGBA, left-facing, anchor [64,120]. An original adult regal forest witch with rose/thorn crown, long dark aubergine hair, plum/moss cloth robes and crooked rosebud staff; distinct from Echo. Add this path for the final boss instead of using a heroine sprite. Same existing fantasy palette and pixel finish. Source: `assets/fantasy/source/monsters-thorn-queen.png`; prompt: `assets/fantasy/thorn-queen-prompt.txt`. Built-in image_gen. Inspected actual native sprite. Native validation passes binary alpha, dimensions and transparent margins. Manifest and QA now cover 20 runtime PNGs. All fantasy outputs are stable for final packaging.

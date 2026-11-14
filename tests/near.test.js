@@ -1,0 +1,4 @@
+import{test}from'node:test';import assert from'node:assert/strict';import{parseNear,formatNear,isTestnetAccount,ITEM_IDS}from'../dist/near.js';import{CHIPS}from'../dist/core.js';
+test('NEAR amounts retain 24 decimal places with no float conversion',()=>{assert.equal(parseNear('1.000000000000000000000001'),'1000000000000000000000001');assert.equal(parseNear('0.005'),'5000000000000000000000');assert.equal(formatNear(parseNear('12.125')),'12.125');for(const n of ['-1','1e6','NaN','01','0.1234567890123456789012345','<script>'])assert.throws(()=>parseNear(n))});
+test('account guard excludes mainnet names and malformed names',()=>{assert.ok(isTestnetAccount('battle-net.testnet'));assert.ok(isTestnetAccount('a'.repeat(64)));for(const id of ['phantasy.near','a..testnet','foo.testnet.evil','<svg>',''])assert.equal(isTestnetAccount(id),false)});
+test('contract catalog uses exactly the frontend token order',()=>{assert.deepEqual(ITEM_IDS,Object.keys(CHIPS))});

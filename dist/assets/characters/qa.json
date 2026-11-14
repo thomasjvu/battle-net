@@ -1,0 +1,18 @@
+{
+  "runtimeFiles": 9,
+  "binaryAlpha": true,
+  "transparentMargins": true,
+  "commonSpriteAnchor": [
+    64,
+    120
+  ],
+  "paletteColors": 48,
+  "warnings": [],
+  "review": "Reviewed exported portraits and combat sprites for identity, silhouette, and alpha on dark and light backgrounds.",
+  "attackFiles": 3,
+  "idlePortraitHashesUnchanged": true,
+  "attackSharedFootAnchor": [
+    64,
+    120
+  ]
+}
